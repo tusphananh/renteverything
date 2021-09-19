@@ -5,10 +5,10 @@ services:
     image: dpage/pgadmin4
     container_name: "pgadmin4"
     environment:
-      PGADMIN_DEFAULT_EMAIL: "test@test.com" # Must be an email for login
-      PGADMIN_DEFAULT_PASSWORD: "test123"
+      PGADMIN_DEFAULT_EMAIL: "test@test.online" # Must be an email for login
+      PGADMIN_DEFAULT_PASSWORD: "test@2021#"
     ports:
-      - "4444:80"
+      - "6000:80"
 
   postgres:
     container_name: "postgres"

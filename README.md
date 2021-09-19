@@ -1,7 +1,7 @@
-# fullstack
+# Rent Everything
 
 ## The purpose of this project
-> Create a fullstack template with the most popular technologies in 2021
+> Help people
 #
 ## Technologies
 > What I am using in this fullstack template

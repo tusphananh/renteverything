@@ -1,20 +1,23 @@
-import Item from "../entities/Item";
+import { ItemResponse, ItemsResponse } from "../types/ItemResponse";
 import { Resolver, Arg, Mutation, Query } from "type-graphql";
+import Item from "../entities/Item";
 
 @Resolver()
 export class ItemResolver {
   /**
    * Add Items to the database by the user
+   * @param {number} userId
    */
 
-  @Mutation(() => Item, { nullable: true })
+  @Mutation(() => ItemResponse, { nullable: true })
   async addItem(
     @Arg("name") name: string,
     @Arg("description") description: string,
     @Arg("price") price: number,
-    @Arg("imageUrl") imageUrl: string,
+    @Arg("imageUrl", { nullable: true }) imageUrl: string,
+    @Arg("quantity", { nullable: true, defaultValue: 1 }) quantity: number,
     @Arg("userId") userId: number
-  ): Promise<Item | null> {
+  ): Promise<ItemResponse | null> {
     try {
       const item = await Item.create({
         name,
@@ -22,29 +25,89 @@ export class ItemResolver {
         price,
         imageUrl,
         userId,
+        quantity
       }).save();
-      return item;
+
+      const rs = {
+        code: 200,
+        message: "Item added",
+        success: true,
+        data: item,
+      }
+
+      return rs;
+
     } catch (error) {
       console.log(error);
-      return null;
+      const rs = {
+        code: 500,
+        message: "Internal Server Error",
+        success: false,
+      }
+
+      return rs;
     }
   }
 
   /**
    * Get all items from the database
-   * @param userId
+   * @param {number} userId
    */
 
-  @Query(() => [Item])
-  async getItems(@Arg("userId") userId: number): Promise<Item[]> {
+  @Query(() => ItemsResponse, { nullable: true })
+  async getItems(@Arg("userId") userId: number): Promise<ItemsResponse | null> {
     try {
       const items = await Item.find({
         userId,
       });
-      return items;
+
+      const rs = {
+        code: 200,
+        message: "Items found",
+        success: true,
+        data: items,
+      }
+    
+      return rs;
+
     } catch (error) {
       console.log(error);
-      return [];
+      const rs = {
+        code: 500,
+        message: "Internal Server Error",
+        success: false,
+      }
+
+      return rs;
+    }
+  }
+
+  /**
+   * Get 1 item from the database by id
+   * @param id
+   */
+
+  @Query(() => ItemResponse, { nullable: true })
+  async getItem(@Arg("id") id: number): Promise<ItemResponse | null> {
+    try {
+      const item = await Item.findOne(id);
+      const rs = {
+        code: 200,
+        message: "Item foundr",
+        success: true,
+        data: item,
+      }
+
+      return rs;
+    } catch (error) {
+      console.log(error);
+      const rs = {
+        code: 500,
+        message: "Internal Server Error",
+        success: false,
+      }
+
+      return rs;
     }
   }
 }

@@ -12,8 +12,8 @@ export function Response<TData>(TDataClass: ClassType<TData>) {
     success: boolean;
     @Field({ nullable: true })
     message?: string;
-    @Field(() => TDataClass, { nullable: true })
-    data?: TData;
+    @Field(() => TDataClass || [TDataClass], { nullable: true })
+    data?: TData | TData[] ;
   }
   return ResponseClass;
 }

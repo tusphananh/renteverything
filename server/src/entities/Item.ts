@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, Float, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @ObjectType()
@@ -16,16 +16,17 @@ export default class Item extends BaseEntity {
   @Column()
   description!: string;
 
-  @Field()
-  @Column()
+  @Field(() => Float)
+  @Column({type: "float" })
   price!: number;
 
-  @Field()
-  @Column()
+  // imageUrl is nullable
+  @Field() 
+  @Column({ nullable: true })
   imageUrl!: string;
-  
+
   @Field()
-  @Column()
+  @Column({ nullable: false, default: 1, type: "int" })
   quantity!: number;
 
   @Field()
