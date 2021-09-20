@@ -8,7 +8,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: "test@test.online" # Must be an email for login
       PGADMIN_DEFAULT_PASSWORD: "test@2021#"
     ports:
-      - "6000:80"
+      - "127.0.0.1:6000:80"
 
   postgres:
     container_name: "postgres"
@@ -19,7 +19,7 @@ services:
       POSTGRES_PASSWORD: "test123"
       POSTGRES_DB: "fullstack"
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data/
 
@@ -28,7 +28,7 @@ services:
     image: "redis"
     restart: always
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
     volumes:
       - ./redis.conf:/usr/local/etc/redis/redis.conf
       - "redisdata:/data"
