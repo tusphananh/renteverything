@@ -1,0 +1,13 @@
+mutation Register($firstName: String!, $lastName: String!, $phone: String!, $password: String! ) {
+	register(firstName: $firstName, lastName: $lastName, phone: $phone, password: $password) {
+		code
+		success
+		message
+		errors {
+            ...ErrosResponseFragment
+        }
+        data {
+            ...UserResponseFragment
+        }
+	}
+}

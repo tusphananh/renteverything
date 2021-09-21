@@ -1,6 +1,7 @@
 // MutationResponse abstract class
 
 import { ClassType, Field, ObjectType } from "type-graphql";
+import { ErrorResponse } from "./ErrorResponse";
 
 export function Response<TData>(TDataClass: ClassType<TData>) {
   // `isAbstract` decorator option is mandatory to prevent registering in schema
@@ -12,8 +13,10 @@ export function Response<TData>(TDataClass: ClassType<TData>) {
     success: boolean;
     @Field({ nullable: true })
     message?: string;
+    @Field(() => [ErrorResponse], { nullable: true })
+    errors?: ErrorResponse[];
     @Field(() => TDataClass || [TDataClass], { nullable: true })
-    data?: TData | TData[] ;
+    data?: TData | TData[];
   }
   return ResponseClass;
 }

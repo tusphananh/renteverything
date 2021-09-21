@@ -22,12 +22,12 @@ export default class Item extends BaseEntity {
 
   // imageUrl is nullable
   @Field() 
-  @Column({ nullable: true })
-  imageUrl!: string;
+  @Column({ nullable: true ,default: "" ,type: "text" })
+  imageUrl?: string;
 
   @Field()
   @Column({ nullable: false, default: 1, type: "int" })
-  quantity!: number;
+  quantity?: number;
 
   @Field()
   @Column()

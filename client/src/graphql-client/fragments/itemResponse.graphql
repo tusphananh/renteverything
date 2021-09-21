@@ -1,0 +1,9 @@
+fragment ItemResponseFragment on Item {
+    id
+    name
+    description
+    price
+    imageUrl
+    quantity
+    userId
+}

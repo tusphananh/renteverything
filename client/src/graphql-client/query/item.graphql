@@ -1,0 +1,13 @@
+query getItemsByName($name: String!) {
+  getItemsByName(name: $name) {
+    code
+    success
+    message
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ItemResponseFragment
+    }
+  }
+}

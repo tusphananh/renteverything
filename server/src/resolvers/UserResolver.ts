@@ -2,7 +2,7 @@ import User from "../entities/User";
 import { Resolver, Arg, Mutation, Query, Ctx } from "type-graphql";
 import argon2 from "argon2";
 import { UserResponse } from "../types/UserResponse";
-import { isPhoneNumber } from "../utils/PhoneValidator";
+import { isLoginFormValid, isRegisterFormValid } from "../utils/inputValidator";
 import { Context } from "../types/Context";
 import { SESSION_COOKIE_NAME } from "../constants/CookieConstants";
 
@@ -21,11 +21,13 @@ export class UserResolver {
     @Ctx() { req }: Context
   ): Promise<UserResponse | null> {
     try {
-      if (!isPhoneNumber(phone)) {
+      const registerError = isRegisterFormValid(phone, password, firstName, lastName);
+      if (registerError.length > 0) {
         return {
           code: 400,
           success: false,
-          message: "Invalid phone number",
+          message: "Invalid Register Form",
+          errors: registerError,
         };
       }
 
@@ -78,11 +80,13 @@ export class UserResolver {
     @Ctx() { req }: Context
   ): Promise<UserResponse | null> {
     try {
-      if (!isPhoneNumber(phone)) {
+      const loginError = isLoginFormValid(phone, password);
+      if (loginError.length > 0) {
         return {
           code: 400,
           success: false,
-          message: "Invalid phone number form",
+          message: "Invalid Login form",
+          errors: loginError,
         };
       }
 

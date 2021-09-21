@@ -1,0 +1,6 @@
+fragment UserResponseFragment on User{
+    id
+    firstName
+    lastName
+    phone
+}

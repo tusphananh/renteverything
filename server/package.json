@@ -9,7 +9,7 @@
 				"build": "rimraf ./build && tsc",
 				"start": "npm run build && node build/index.js",
 				"pm2": "pm2 start build/index.js --name server -o ./logs/pm2/access.log -e ./logs/pm2/error.log --log-date-format '%Y-%m-%d %H:%M:%S' --merge-logs",
-				"production": "npm run build && npm run pm2"
+				"production": "rimraf ./logs && npm run build && npm run pm2"
 		},
 		"keywords": [],
 		"author": "",
