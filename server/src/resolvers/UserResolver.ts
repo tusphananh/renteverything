@@ -19,7 +19,7 @@ export class UserResolver {
     @Arg("firstName") firstName: string,
     @Arg("lastName") lastName: string,
     @Ctx() { req }: Context
-  ): Promise<UserResponse | null> {
+  ): Promise<UserResponse> {
     try {
       const registerError = isRegisterFormValid(phone, password, firstName, lastName);
       if (registerError.length > 0) {
@@ -65,7 +65,11 @@ export class UserResolver {
       return rs;
     } catch (error) {
       console.log(error);
-      return null;
+      return {
+        code: 500,
+        success: false,
+        message: "Internal Error",
+      };
     }
   }
 
@@ -78,7 +82,7 @@ export class UserResolver {
     @Arg("phone") phone: string,
     @Arg("password") password: string,
     @Ctx() { req }: Context
-  ): Promise<UserResponse | null> {
+  ): Promise<UserResponse> {
     try {
       const loginError = isLoginFormValid(phone, password);
       if (loginError.length > 0) {
@@ -122,7 +126,11 @@ export class UserResolver {
       return rs;
     } catch (error) {
       console.log(error);
-      return null;
+      return {
+        code: 500,
+        success: false,
+        message: "Internal Error",
+      };
     }
   }
 
@@ -130,7 +138,7 @@ export class UserResolver {
    * Logout for user by Query
    */
   @Query(() => UserResponse, { nullable: true })
-  async logout(@Ctx() { req, res }: Context): Promise<UserResponse | null> {
+  async logout(@Ctx() { req, res }: Context): Promise<UserResponse> {
     try {
       // Delete session
       res.clearCookie(SESSION_COOKIE_NAME);
@@ -154,7 +162,7 @@ export class UserResolver {
     } catch (error) {
       console.log(error);
       return {
-        code: 400,
+        code: 500,
         success: false,
         message: "Internal Error",
       };

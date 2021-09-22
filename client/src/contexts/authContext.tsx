@@ -1,8 +1,20 @@
-import { useReducer, createContext, Dispatch, ReactNode } from "react";
+import {
+  useReducer,
+  createContext,
+  Dispatch,
+  ReactNode,
+  useContext,
+} from "react";
+import {
+  requestLogin,
+  loginFailure,
+  loginSuccess,
+} from "../actions/authAction";
 import { AuthAction, AuthState } from "../constants/AuthConstant";
+import { useLoginQuery } from "../graphql-generated/graphql";
 import AuthReducer from "../reducers/authReducer";
 
-interface AuthContextProps {
+interface Props {
   children: ReactNode;
 }
 
@@ -15,19 +27,42 @@ const initialState: AuthState = {
 };
 
 export const AuthContext = createContext<{
-  state: AuthState;
-  dispatch: Dispatch<AuthAction>;
+  authState: AuthState;
+  authDispatch: Dispatch<AuthAction>;
+  authLogin: (phone: string, password: string) => Promise<void>;
 }>({
-  state: initialState,
-  dispatch: () => undefined,
+  authState: initialState,
+  authDispatch: () => undefined,
+  authLogin: async () => {},
 });
 
-export const AuthProvider = ({ children }: AuthContextProps) => {
-  const [state, dispatch] = useReducer(AuthReducer, initialState);
+export const AuthProvider = ({ children }: Props) => {
+  const [authState, authDispatch] = useReducer(AuthReducer, initialState);
 
-  const authValues = {state, dispatch};
-  
+  const authLogin = async (phone: string, password: string) => {
+    authDispatch(requestLogin());
+    const { data } = useLoginQuery({ variables: { phone, password } });
+    console.log(data);
+    const response = data?.login;
+
+    if (response?.success) {
+      if (response.success) {
+        authDispatch(loginSuccess(response));
+        console.log("login success");
+      } else {
+        authDispatch(loginFailure(response));
+        console.log("login faile");
+      }
+    }
+  };
+
+  const authValues = { authState, authDispatch, authLogin };
+
   return (
     <AuthContext.Provider value={authValues}>{children}</AuthContext.Provider>
   );
 };
+
+export function useAuth() {
+  return useContext(AuthContext);
+}

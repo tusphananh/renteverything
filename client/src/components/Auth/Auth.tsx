@@ -1,26 +1,22 @@
-import React, { useContext, useEffect } from "react";
-import { AuthContext } from "../../contexts/authContext";
+import React, { useEffect } from "react";
 import Dashboard from "../Dashboard/Dashboard";
 import { useRouter } from "next/router";
+import { useAuth } from "../../contexts/authContext";
 
 function Auth() {
-  const { state } = useContext(AuthContext);
+  const { authState } = useAuth();
   const router = useRouter();
   const toLogin = () => {
     router.push("/login");
   };
 
   useEffect(() => {
-    if (!state.isAuthenticated) {
+    if (!authState.isAuthenticated) {
       toLogin();
     }
-  }, [state]);
+  }, [authState]);
 
-  return (
-    <>
-      {state.isAuthenticated && <Dashboard />}
-    </>
-  );
+  return <>{authState.isAuthenticated && <Dashboard />}</>;
 }
 
 export default Auth;

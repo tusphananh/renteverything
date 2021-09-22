@@ -1,8 +1,12 @@
 import Head from "next/head";
-import Auth from "../components/Auth/Auth";
-import { AuthProvider } from "../contexts/authContext";
+// import Auth from "../components/Auth/Auth";
+import { useGetItemsByNameQuery } from "../graphql-generated/graphql";
 
 const Home = () => {
+  const onLogin = async () => {
+    const { data } = useGetItemsByNameQuery({ variables: { name: "apple" } });
+    console.log(data);
+  };
   return (
     <>
       <Head>
@@ -11,10 +15,16 @@ const Home = () => {
           name="description"
           content="Rent Everything is an application that helps you find and rent everything around you."
         />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AuthProvider>
-        <Auth></Auth>
-      </AuthProvider>
+      <button
+        onClick={() => {
+          onLogin();
+        }}
+      >
+        Login
+      </button>
+      {/* <Auth></Auth> */}
     </>
   );
 };

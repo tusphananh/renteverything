@@ -1,6 +1,8 @@
-fragment UserResponseFragment on User{
-    id
-    firstName
-    lastName
-    phone
+fragment UserResponseFragment on User {
+  id
+  firstName
+  lastName
+  phone
+  createdAt
+  updatedAt
 }

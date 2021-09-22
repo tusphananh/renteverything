@@ -1,23 +1,23 @@
 import { AuthAction, AuthType } from "../constants/AuthConstant";
-import { ErrorResponse, User } from "../graphql-generated/graphql";
+import { UserResponse } from "../graphql-generated/graphql";
 
 export const requestLogin = (): AuthAction => ({
     type: AuthType.AUTH_LOGIN_REQUESTS,
 });
 
-export const loginSuccess = (message: string, user: User): AuthAction => ({
+export const loginSuccess = (response?: UserResponse): AuthAction => ({
     type: AuthType.AUTH_LOGIN_SUCCESS,
     payload: {
-        user: user,
-        message: message,
+        user: response?.data,
+        message: response?.message,
     },
 });
 
-export const loginFailure = (message: string, errors: ErrorResponse[]): AuthAction => ({
+export const loginFailure = (response: UserResponse): AuthAction => ({
     type: AuthType.AUTH_LOGIN_FAILURE,
     payload: {
-        message: message,
-        errors: errors,
+        message: response.message,
+        errors: response.errors,
     },
 });
 
@@ -25,18 +25,18 @@ export const requestRegister = (): AuthAction => ({
     type: AuthType.AUTH_REGISTER_REQUESTS,
 });
 
-export const registerSuccess = (message: string, user: User): AuthAction => ({
+export const registerSuccess = (response: UserResponse): AuthAction => ({
     type: AuthType.AUTH_REGISTER_SUCCESS,
     payload: {
-        user: user,
-        message: message,
+        user: response.data,
+        message: response.message,
     },
 });
 
-export const registerFailure = (message: string, errors: ErrorResponse[]): AuthAction => ({
+export const registerFailure = (response: UserResponse): AuthAction => ({
     type: AuthType.AUTH_REGISTER_FAILURE,
     payload: {
-        message: message,
-        errors: errors,
+        message: response.message,
+        errors: response.errors,
     },
 });

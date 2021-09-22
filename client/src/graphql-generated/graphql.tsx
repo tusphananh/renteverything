@@ -133,7 +133,7 @@ export type ErrosResponseFragmentFragment = { __typename?: 'ErrorResponse', fiel
 
 export type ItemResponseFragmentFragment = { __typename?: 'Item', id: string, name: string, description: string, price: number, imageUrl: string, quantity: number, userId: number };
 
-export type UserResponseFragmentFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string };
+export type UserResponseFragmentFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, createdAt: any, updatedAt: any };
 
 export type RegisterMutationVariables = Exact<{
   firstName: Scalars['String'];
@@ -143,7 +143,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, message?: Maybe<string>, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }> }> };
+export type RegisterMutation = { __typename?: 'Mutation', register?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, message?: Maybe<string>, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, createdAt: any, updatedAt: any }> }> };
 
 export type GetItemsByNameQueryVariables = Exact<{
   name: Scalars['String'];
@@ -158,7 +158,7 @@ export type LoginQueryVariables = Exact<{
 }>;
 
 
-export type LoginQuery = { __typename?: 'Query', login?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, message?: Maybe<string>, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }> }> };
+export type LoginQuery = { __typename?: 'Query', login?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, message?: Maybe<string>, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, createdAt: any, updatedAt: any }> }> };
 
 export const ErrosResponseFragmentFragmentDoc = gql`
     fragment ErrosResponseFragment on ErrorResponse {
@@ -183,6 +183,8 @@ export const UserResponseFragmentFragmentDoc = gql`
   firstName
   lastName
   phone
+  createdAt
+  updatedAt
 }
     `;
 export const RegisterDocument = gql`
