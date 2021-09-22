@@ -1,0 +1,6 @@
+%Y-%30-%3 %2:%9:%S: 
+%Y-%30-%3 %2:%9:%S: > client@0.1.0 start /home/ubuntu/renteverything/client
+%Y-%30-%3 %2:%9:%S: > next start
+%Y-%30-%3 %2:%9:%S: 
+%Y-%30-%3 %2:%9:%S: ready - started server on 0.0.0.0:3000, url: http://localhost:3000
+%Y-%30-%3 %2:%9:%S: info  - Loaded env from /home/ubuntu/renteverything/client/.env

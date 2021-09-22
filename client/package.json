@@ -7,7 +7,9 @@
     "build": "rimraf build && next build",
     "start": "next start",
     "lint": "next lint",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "codegen": "graphql-codegen --config codegen.yml",
+    "pm2": "pm2 start npm --name next/app -o ./logs/pm2/access.log -e ./logs/pm2/error.log --log-date-format '%Y-%m-%d %H:%M:%S' --merge-logs -- start",
+    "production": "rimraf ./logs && npm run build && npm run pm2"
   },
   "dependencies": {
     "@apollo/client": "^3.4.13",
@@ -22,7 +24,9 @@
     "@graphql-codegen/typescript": "^2.2.2",
     "@graphql-codegen/typescript-operations": "2.1.4",
     "@graphql-codegen/typescript-react-apollo": "3.1.4",
+    "@types/node": "^16.9.4",
     "@types/react": "17.0.21",
+    "@types/react-dom": "^17.0.9",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "rimraf": "^3.0.2",
