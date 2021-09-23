@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, FC } from "react";
 import Dashboard from "../Dashboard/Dashboard";
 import { useRouter } from "next/router";
 import { useAuth } from "../../contexts/authContext";
 
-function Auth() {
+const Auth: FC = () => {
   const { authState } = useAuth();
   const router = useRouter();
   const toLogin = () => {
@@ -17,6 +17,6 @@ function Auth() {
   }, [authState]);
 
   return <>{authState.isAuthenticated && <Dashboard />}</>;
-}
+};
 
 export default Auth;

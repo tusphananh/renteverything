@@ -5,11 +5,11 @@ export const requestLogin = (): AuthAction => ({
     type: AuthType.AUTH_LOGIN_REQUESTS,
 });
 
-export const loginSuccess = (response?: UserResponse): AuthAction => ({
+export const loginSuccess = (response: UserResponse): AuthAction => ({
     type: AuthType.AUTH_LOGIN_SUCCESS,
     payload: {
-        user: response?.data,
-        message: response?.message,
+        user: response.data,
+        message: response.message,
     },
 });
 

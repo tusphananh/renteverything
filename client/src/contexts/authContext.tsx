@@ -1,22 +1,12 @@
-import {
-  useReducer,
-  createContext,
-  Dispatch,
-  ReactNode,
-  useContext,
-} from "react";
+import { useReducer, createContext, Dispatch, useContext, FC } from "react";
 import {
   requestLogin,
   loginFailure,
   loginSuccess,
 } from "../actions/authAction";
 import { AuthAction, AuthState } from "../constants/AuthConstant";
-import { useLoginQuery } from "../graphql-generated/graphql";
+import { useLoginLazyQuery } from "../graphql-generated/graphql";
 import AuthReducer from "../reducers/authReducer";
-
-interface Props {
-  children: ReactNode;
-}
 
 const initialState: AuthState = {
   isAuthenticated: false,
@@ -36,24 +26,24 @@ export const AuthContext = createContext<{
   authLogin: async () => {},
 });
 
-export const AuthProvider = ({ children }: Props) => {
+export const AuthProvider: FC = ({ children }) => {
   const [authState, authDispatch] = useReducer(AuthReducer, initialState);
+
+  const [loginLazyQuery] = useLoginLazyQuery({
+    onCompleted: (data) => {
+      if (data.login) {
+        if (data.login.success) {
+          authDispatch(loginSuccess(data.login));
+        } else {
+          authDispatch(loginFailure(data.login));
+        }
+      }
+    },
+  });
 
   const authLogin = async (phone: string, password: string) => {
     authDispatch(requestLogin());
-    const { data } = useLoginQuery({ variables: { phone, password } });
-    console.log(data);
-    const response = data?.login;
-
-    if (response?.success) {
-      if (response.success) {
-        authDispatch(loginSuccess(response));
-        console.log("login success");
-      } else {
-        authDispatch(loginFailure(response));
-        console.log("login faile");
-      }
-    }
+    loginLazyQuery({ variables: { phone, password } });
   };
 
   const authValues = { authState, authDispatch, authLogin };

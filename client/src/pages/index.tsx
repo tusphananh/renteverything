@@ -1,12 +1,7 @@
 import Head from "next/head";
-// import Auth from "../components/Auth/Auth";
-import { useGetItemsByNameQuery } from "../graphql-generated/graphql";
-
-const Home = () => {
-  const onLogin = async () => {
-    const { data } = useGetItemsByNameQuery({ variables: { name: "apple" } });
-    console.log(data);
-  };
+import Auth from "../components/Auth/Auth";
+import { FC } from "react";
+const Home: FC = () => {
   return (
     <>
       <Head>
@@ -17,14 +12,8 @@ const Home = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <button
-        onClick={() => {
-          onLogin();
-        }}
-      >
-        Login
-      </button>
-      {/* <Auth></Auth> */}
+
+      <Auth></Auth>
     </>
   );
 };

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, FC } from "react";
 import { useAuth } from "../../contexts/authContext";
 import { useRouter } from "next/router";
-import { useGetItemsByNameQuery } from "../../graphql-generated/graphql";
-const Login = () => {
+const Login: FC = () => {
   const route = useRouter();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -13,14 +12,13 @@ const Login = () => {
   }, [authState.isAuthenticated, route]);
 
   const onLogin = async () => {
-    const { data } = useGetItemsByNameQuery({ variables: { name: "apple" } });
-    console.log(data);
     await authLogin(phone, password);
   };
 
   return (
     <div>
       <h1>Login</h1>
+      <h6>{authState.message}</h6>
       <input
         type="text"
         placeholder="Phone"
