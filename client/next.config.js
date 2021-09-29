@@ -17,6 +17,6 @@ module.exports = {
   distDir: "./build",
   pagesDir: "./src/pages",
   env: {
-    GRAPHQL_HOST: "http://localhost:5000/graphql",
+    GRAPHQL_HOST: "https://api.renteverything.online",
   },
 };
