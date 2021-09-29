@@ -13,12 +13,14 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.13",
+    "@zeit/next-sass": "^1.0.1",
     "deepmerge": "^4.2.2",
     "graphql": "^15.6.0",
     "lodash": "^4.17.21",
     "next": "11.1.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "sass": "^1.42.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.2.0",

@@ -23,6 +23,15 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data/
 
+  redis-insight:
+    container_name: "redis-insight"
+    image: redislabs/redisinsight:latest
+    restart: always
+    ports:
+      - "127.0.0.1:6001:8001"
+    networks:
+      - redis-network
+      
   redis:
     container_name: "redis"
     image: "redis"
@@ -32,7 +41,13 @@ services:
     volumes:
       - ./redis.conf:/usr/local/etc/redis/redis.conf
       - "redisdata:/data"
+    networks:
+      - redis-network
 
 volumes:
   pgdata:
   redisdata:
+
+networks:
+  redis-network:
+    driver: bridge

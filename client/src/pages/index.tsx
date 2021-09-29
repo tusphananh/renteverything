@@ -10,7 +10,7 @@ const Home: FC = () => {
           name="description"
           content="Rent Everything is an application that helps you find and rent everything around you."
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.ico" />
       </Head>
 
       <Auth></Auth>

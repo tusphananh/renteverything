@@ -1,4 +1,3 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { AuthProvider } from "../contexts/authContext";
 import { ApolloProvider } from "@apollo/client";
