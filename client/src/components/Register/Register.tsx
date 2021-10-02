@@ -3,246 +3,241 @@ import React, { FC, useEffect } from "react";
 import { useAuth } from "../../contexts/authContext";
 import styles from "../../styles/Register.module.scss";
 import Logo from "../../assets/icons/logo-light.svg";
+import NextBtn from "../../assets/icons/next-btn.svg";
+import StartBtn from "../../assets/icons/start-btn.svg";
 import Image from "next/image";
-import ArrowToRight from "../../assets/icons/arrow-to-right.svg";
 import {
   RegisterStates,
   registerAnimationVariantsName,
 } from "../../constants/RegisterConstants";
 import {
+  isFirstNameValid,
+  isLastNameValid,
   isPasswordValid,
   isPhoneNumberValid,
 } from "../../utils/inputValidator";
-import { motion, useAnimation } from "framer-motion";
-import { registerAnimationVariants } from "../../animations/RegisterAnimations";
+import {
+  RegisterErrorAnimation,
+  RegisterInputAnimation,
+  RegisterNavBarAnimation,
+  RegisterTextAnimation,
+  RegisterInformationAnimation,
+} from "../../animations/RegisterAnimations";
 
 interface error {
-  bool: boolean;
+  isError: boolean;
   message: string;
 }
-
-const Login: FC = () => {
+const initialError: error = {
+  isError: false,
+  message: "",
+};
+const Register: FC = () => {
   const route = useRouter();
   const { authState } = useAuth();
   const [password, setPassword] = React.useState("");
-  const [error, setError] = React.useState<error>({
-    bool: false,
-    message: "",
-  });
+  const [rePassword, setRePassword] = React.useState("");
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [error, setError] = React.useState<error>(initialError);
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [registerState, setregisterStates] = React.useState<RegisterStates>(
     RegisterStates.PHONE_STATE
   );
-  const errorAnimCtrls = useAnimation();
-  const navPhoneStateAnimCtrls = useAnimation();
-  const navPassStateAnimCtrls = useAnimation();
-  const textPhoneStateAnimCtrls = useAnimation();
-  const textPassStateAnimCtrls = useAnimation();
-  const inputPhoneStateAnimCtrls = useAnimation();
-  const inputPassStateAnimCtrls = useAnimation();
-
-  const toPhoneState = () => {
-    navPhoneStateAnimCtrls.start(registerAnimationVariantsName.NAV_BAR_VISIBLE);
-    navPassStateAnimCtrls.start(registerAnimationVariantsName.NAV_BAR_HIDDEN);
-    textPassStateAnimCtrls.start(registerAnimationVariantsName.TEXT_HIDDEN);
-    textPhoneStateAnimCtrls.start(registerAnimationVariantsName.TEXT_VISIBLE);
-    inputPassStateAnimCtrls.start(registerAnimationVariantsName.INPUT_HIDDEN);
-    inputPhoneStateAnimCtrls.start(registerAnimationVariantsName.INPUT_VISIBLE);
-  };
-
-  const toPassState = () => {
-    navPhoneStateAnimCtrls.start(registerAnimationVariantsName.NAV_BAR_HIDDEN);
-    navPassStateAnimCtrls.start(registerAnimationVariantsName.NAV_BAR_VISIBLE);
-    textPassStateAnimCtrls.start(registerAnimationVariantsName.TEXT_VISIBLE);
-    textPhoneStateAnimCtrls.start(registerAnimationVariantsName.TEXT_HIDDEN);
-    inputPassStateAnimCtrls.start(registerAnimationVariantsName.INPUT_VISIBLE);
-    inputPhoneStateAnimCtrls.start(registerAnimationVariantsName.INPUT_HIDDEN);
-  };
-
-  const showError = () => {
-    errorAnimCtrls.start(registerAnimationVariantsName.ERROR_VISIBLE);
-  };
-
-  const hideError = () => {
-    errorAnimCtrls.start(registerAnimationVariantsName.ERROR_HIDDEN);
-  };
-
-  const shakeError = () => {
-    errorAnimCtrls.start(registerAnimationVariantsName.SHAKE);
-  };
 
   const back = () => {
     setregisterStates(RegisterStates.PHONE_STATE);
+    setError(initialError);
   };
 
   const register = async () => {
-    if (isPasswordValid(password)) {
+    if (!isLastNameValid(lastName) || !isFirstNameValid(firstName)) {
       setError({
-        bool: false,
-        message: "",
+        isError: true,
+        message: "Name must be at least 2 character except number",
+      });
+    } else if (!isPasswordValid(password)) {
+      setError({
+        isError: true,
+        message:
+          "Password must be at least 8 character, 1 number, 1 uppercase and 1 lowercase",
+      });
+    } else if (password !== rePassword) {
+      setError({
+        isError: true,
+        message: "Password and re-password must be same",
       });
     } else {
-      setError({
-        bool: true,
-        message:
-          "Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character",
-      });
-      showError();
-      shakeError();
+      setError(initialError);
     }
   };
   const next = () => {
     if (isPhoneNumberValid(phoneNumber)) {
-      setError({
-        bool: false,
-        message: "",
-      });
+      setError(initialError);
       setregisterStates(RegisterStates.INFORMATION_STATE);
-      hideError();
     } else {
       setError({
-        bool: true,
-        message: "Please enter a valid phone number",
+        isError: true,
+        message: "Please input valid phone number",
       });
-      showError();
-      shakeError();
     }
   };
-
-  useEffect(() => {
-    if (registerState === RegisterStates.PHONE_STATE) {
-      toPhoneState();
-      if (error.bool) {
-        hideError();
-      }
-    } else {
-      toPassState();
-      if (error.bool) {
-        hideError();
-      }
-    }
-  }, [registerState]);
 
   useEffect(() => {
     authState.isAuthenticated && route.push("/");
   }, [authState.isAuthenticated]);
 
   return (
-    <>
-      <div className={styles["body"]}>
-        <div className={styles["body__blur"]}>
-          <Image src={Logo} alt="" className={styles["logo"]} />
-          <motion.div
-            initial={registerAnimationVariantsName.VISIBLE}
-            animate={textPhoneStateAnimCtrls}
-            variants={registerAnimationVariants}
-            className={styles["welcome__container"]}
-          >
-            Welcome !
-            <p>
-              Register to start <span>RentEverything</span>
-            </p>
-          </motion.div>
-          <motion.div
-            initial={registerAnimationVariantsName.HIDDEN}
-            animate={textPassStateAnimCtrls}
-            variants={registerAnimationVariants}
-            className={styles["welcome__container"]}
-          >
-            <p>We need your password to start</p>
-          </motion.div>
-          <div className={styles["horizontal-line"]}></div>
-          <div className={styles["input__container"]}>
-            <motion.input
-              initial={registerAnimationVariantsName.INPUT_VISIBLE}
-              animate={inputPhoneStateAnimCtrls}
-              variants={registerAnimationVariants}
+    <div className={styles["body"]}>
+      <div className={styles["body__blur"]}>
+        <Image src={Logo} alt="" className={styles["logo"]} />
+        <RegisterTextAnimation
+          isVisible={registerState === RegisterStates.PHONE_STATE}
+          className={styles["welcome__container"]}
+        >
+          Welcome !
+          <p>
+            Register to start <span>RentEverything</span>
+          </p>
+        </RegisterTextAnimation>
+        <RegisterTextAnimation
+          initial={registerAnimationVariantsName.TEXT_HIDDEN}
+          isVisible={registerState === RegisterStates.INFORMATION_STATE}
+          className={styles["welcome__container"]}
+        >
+          <p>We need your password to start</p>
+        </RegisterTextAnimation>
+        <div className={styles["horizontal-line"]}></div>
+        <div className={styles["input__container"]}>
+          <div className={styles["input__container--phone"]}>
+            <RegisterInputAnimation
+              isVisible={registerState === RegisterStates.PHONE_STATE}
               type="text"
               placeholder="Phone"
               className={styles["input"]}
               onChange={(event) => {
                 setPhoneNumber(event.target.value);
+                setError(initialError);
               }}
-            ></motion.input>
-            <motion.input
-              initial={registerAnimationVariantsName.INPUT_HIDDEN}
-              animate={inputPassStateAnimCtrls}
-              variants={registerAnimationVariants}
-              type="text"
+            ></RegisterInputAnimation>
+          </div>
+          <RegisterInformationAnimation
+            initial={registerAnimationVariantsName.INFORMATION_HIDDEN}
+            isVisible={registerState === RegisterStates.INFORMATION_STATE}
+            className={styles["input__container--information"]}
+          >
+            <div className={styles["input-name__container"]}>
+              <RegisterInputAnimation
+                isVisible={registerState === RegisterStates.INFORMATION_STATE}
+                type="text"
+                placeholder="First Name"
+                className={styles["input-name"]}
+                onChange={(event) => {
+                  setFirstName(event.target.value);
+                  setError(initialError);
+                }}
+              ></RegisterInputAnimation>
+              <div className={styles["vertical-line"]}></div>
+              <RegisterInputAnimation
+                isVisible={registerState === RegisterStates.INFORMATION_STATE}
+                type="text"
+                placeholder="Last Name"
+                className={styles["input-name"]}
+                onChange={(event) => {
+                  setLastName(event.target.value);
+                  setError(initialError);
+                }}
+              ></RegisterInputAnimation>
+            </div>
+
+            <RegisterInputAnimation
+              isVisible={registerState === RegisterStates.INFORMATION_STATE}
+              type="password"
               placeholder="Password"
               className={styles["input"]}
               onChange={(event) => {
                 setPassword(event.target.value);
+                setError(initialError);
               }}
-            ></motion.input>
-          </div>
-          <motion.div
-            initial={registerAnimationVariantsName.ERROR_HIDDEN}
-            animate={errorAnimCtrls}
-            variants={registerAnimationVariants}
-            className={styles["error"]}
+            ></RegisterInputAnimation>
+
+            <RegisterInputAnimation
+              isVisible={registerState === RegisterStates.INFORMATION_STATE}
+              type="password"
+              placeholder="Re-Enter Password"
+              className={styles["input"]}
+              onChange={(event) => {
+                setRePassword(event.target.value);
+                setError(initialError);
+              }}
+            ></RegisterInputAnimation>
+          </RegisterInformationAnimation>
+        </div>
+        <RegisterErrorAnimation
+          initial={registerAnimationVariantsName.ERROR_HIDDEN}
+          isVisible={error.isError}
+          className={styles["error"]}
+        >
+          {error.message}
+        </RegisterErrorAnimation>
+        <div className={styles["link"]}>
+          <a href="/login">
+            Already have an account ? <span>Login now</span>
+          </a>
+        </div>
+        <div className={styles["bottom-nav-bar__container"]}>
+          <RegisterNavBarAnimation
+            isVisible={registerState === RegisterStates.PHONE_STATE}
+            className={styles["bottom-nav-bar"]}
           >
-            {error.message}
-          </motion.div>
-          <div className={styles["link"]}>
-            <a href="/register">
-              Don’t have an account ? <span>Register now</span>
-            </a>
-            <a href="/forgot-password">Forgot your password ?</a>
-          </div>
-          <div className={styles["bottom-nav-bar"]}>
-            <motion.div
-              initial={registerAnimationVariantsName.NAV_BAR_VISIBLE}
-              animate={navPhoneStateAnimCtrls}
-              variants={registerAnimationVariants}
-              className={styles["bottom-nav-bar__container"]}
+            <button
+              className={styles["bottom-nav-bar__next-btn"]}
+              onClick={() => {
+                next();
+              }}
             >
-              <button
-                className={styles["confirm-btn"]}
-                onClick={() => {
-                  next();
-                }}
-              >
-                <p>Next</p>
-                <Image
-                  src={ArrowToRight}
-                  alt="logo"
-                  layout="fixed"
-                  width="20px"
-                  height="20px"
-                  color="white"
-                />
-              </button>
-            </motion.div>
-            <motion.div
-              initial={registerAnimationVariantsName.NAV_BAR_HIDDEN}
-              animate={navPassStateAnimCtrls}
-              variants={registerAnimationVariants}
-              className={styles["bottom-nav-bar__container"]}
+              <Image
+                src={NextBtn}
+                alt="next-btn"
+                layout="fixed"
+                width="130px"
+                height="55px"
+              />
+            </button>
+          </RegisterNavBarAnimation>
+          <RegisterNavBarAnimation
+            initial={registerAnimationVariantsName.NAV_BAR_HIDDEN}
+            isVisible={registerState === RegisterStates.INFORMATION_STATE}
+            className={styles["bottom-nav-bar"]}
+          >
+            <button
+              className={styles["bottom-nav-bar__back-btn"]}
+              onClick={() => {
+                back();
+              }}
             >
-              <button
-                className={styles["bottom-nav-bar__back-btn"]}
-                onClick={() => {
-                  back();
-                }}
-              >
-                Go back
-              </button>
-              <div className={styles["verticle-line"]}> </div>
-              <button
-                className={styles["confirm-btn"]}
-                onClick={() => {
-                  register();
-                }}
-              >
-                Start
-              </button>
-            </motion.div>
-          </div>
+              Go back
+            </button>
+            <div className={styles["vertical-line"]}> </div>
+            <button
+              className={styles["bottom-nav-bar__register-btn"]}
+              onClick={() => {
+                register();
+              }}
+            >
+              <Image
+                src={StartBtn}
+                alt="start-btn"
+                layout="fixed"
+                width="130px"
+                height="55px"
+              />
+            </button>
+          </RegisterNavBarAnimation>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default Login;
+export default Register;

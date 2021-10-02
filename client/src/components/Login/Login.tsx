@@ -13,115 +13,60 @@ import {
   isPasswordValid,
   isPhoneNumberValid,
 } from "../../utils/inputValidator";
-import { motion, useAnimation } from "framer-motion";
-import { loginAnimationVariants } from "../../animations/LoginAnimations";
+import {
+  LoginErrorAnimation,
+  LoginInputAnimation,
+  LoginNavBarAnimation,
+  LoginTextAnimation,
+} from "../../animations/LoginAnimations";
 
 interface error {
-  bool: boolean;
+  isError: boolean;
   message: string;
 }
+
+const initialErrors: error = {
+  isError: false,
+  message: "",
+};
 
 const Login: FC = () => {
   const route = useRouter();
   const { authState } = useAuth();
   const [password, setPassword] = React.useState("");
-  const [error, setError] = React.useState<error>({
-    bool: false,
-    message: "",
-  });
+  const [error, setError] = React.useState<error>(initialErrors);
   const [phoneNumber, setPhoneNumber] = React.useState("");
-  const [loginState, setLoginStates] = React.useState<LoginStates>(
+  const [LoginState, setLoginStates] = React.useState<LoginStates>(
     LoginStates.PHONE_STATE
   );
-  const errorAnimCtrls = useAnimation();
-  const navPhoneStateAnimCtrls = useAnimation();
-  const navPassStateAnimCtrls = useAnimation();
-  const textPhoneStateAnimCtrls = useAnimation();
-  const textPassStateAnimCtrls = useAnimation();
-  const inputPhoneStateAnimCtrls = useAnimation();
-  const inputPassStateAnimCtrls = useAnimation();
-
-  const toPhoneState = () => {
-    navPhoneStateAnimCtrls.start(loginAnimationVariantsName.NAV_BAR_VISIBLE);
-    navPassStateAnimCtrls.start(loginAnimationVariantsName.NAV_BAR_HIDDEN);
-    textPassStateAnimCtrls.start(loginAnimationVariantsName.TEXT_HIDDEN);
-    textPhoneStateAnimCtrls.start(loginAnimationVariantsName.TEXT_VISIBLE);
-    inputPassStateAnimCtrls.start(loginAnimationVariantsName.INPUT_HIDDEN);
-    inputPhoneStateAnimCtrls.start(loginAnimationVariantsName.INPUT_VISIBLE);
-  };
-
-  const toPassState = () => {
-    navPhoneStateAnimCtrls.start(loginAnimationVariantsName.NAV_BAR_HIDDEN);
-    navPassStateAnimCtrls.start(loginAnimationVariantsName.NAV_BAR_VISIBLE);
-    textPassStateAnimCtrls.start(loginAnimationVariantsName.TEXT_VISIBLE);
-    textPhoneStateAnimCtrls.start(loginAnimationVariantsName.TEXT_HIDDEN);
-    inputPassStateAnimCtrls.start(loginAnimationVariantsName.INPUT_VISIBLE);
-    inputPhoneStateAnimCtrls.start(loginAnimationVariantsName.INPUT_HIDDEN);
-  };
-
-  const showError = () => {
-    errorAnimCtrls.start(loginAnimationVariantsName.ERROR_VISIBLE);
-  };
-
-  const hideError = () => {
-    errorAnimCtrls.start(loginAnimationVariantsName.ERROR_HIDDEN);
-  };
-
-  const shakeError = () => {
-    errorAnimCtrls.start(loginAnimationVariantsName.SHAKE);
-  };
 
   const back = () => {
     setLoginStates(LoginStates.PHONE_STATE);
+    setError(initialErrors);
   };
 
-  const login = async () => {
+  const Login = async () => {
     if (isPasswordValid(password)) {
-      setError({
-        bool: false,
-        message: "",
-      });
+      setError(initialErrors);
     } else {
       setError({
-        bool: true,
+        isError: true,
         message:
           "Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character",
       });
-      showError();
-      shakeError();
     }
   };
   const next = () => {
     if (isPhoneNumberValid(phoneNumber)) {
-      setError({
-        bool: false,
-        message: "",
-      });
+      setError(initialErrors);
       setLoginStates(LoginStates.PASSWORD_STATE);
-      hideError();
     } else {
       setError({
-        bool: true,
+        isError: true,
         message: "Please enter a valid phone number",
       });
-      showError();
-      shakeError();
     }
   };
-
-  useEffect(() => {
-    if (loginState === LoginStates.PHONE_STATE) {
-      toPhoneState();
-      if (error.bool) {
-        hideError();
-      }
-    } else {
-      toPassState();
-      if (error.bool) {
-        hideError();
-      }
-    }
-  }, [loginState]);
 
   useEffect(() => {
     authState.isAuthenticated && route.push("/");
@@ -132,58 +77,53 @@ const Login: FC = () => {
       <div className={styles["body"]}>
         <div className={styles["body__blur"]}>
           <Image src={Logo} alt="" className={styles["logo"]} />
-          <motion.div
-            initial={loginAnimationVariantsName.VISIBLE}
-            animate={textPhoneStateAnimCtrls}
-            variants={loginAnimationVariants}
+          <LoginTextAnimation
+            isVisible={LoginState === LoginStates.PHONE_STATE}
             className={styles["welcome__container"]}
           >
             Welcome !
             <p>
               Login to start <span>RentEverything</span>
             </p>
-          </motion.div>
-          <motion.div
-            initial={loginAnimationVariantsName.HIDDEN}
-            animate={textPassStateAnimCtrls}
-            variants={loginAnimationVariants}
+          </LoginTextAnimation>
+          <LoginTextAnimation
+            initial={loginAnimationVariantsName.TEXT_HIDDEN}
+            isVisible={LoginState === LoginStates.PASSWORD_STATE}
             className={styles["welcome__container"]}
           >
             <p>We need your password to start</p>
-          </motion.div>
+          </LoginTextAnimation>
           <div className={styles["horizontal-line"]}></div>
           <div className={styles["input__container"]}>
-            <motion.input
-              initial={loginAnimationVariantsName.INPUT_VISIBLE}
-              animate={inputPhoneStateAnimCtrls}
-              variants={loginAnimationVariants}
+            <LoginInputAnimation
+              isVisible={LoginState === LoginStates.PHONE_STATE}
               type="text"
               placeholder="Phone"
               className={styles["input"]}
               onChange={(event) => {
                 setPhoneNumber(event.target.value);
+                setError(initialErrors);
               }}
-            ></motion.input>
-            <motion.input
+            ></LoginInputAnimation>
+            <LoginInputAnimation
+              isVisible={LoginState === LoginStates.PASSWORD_STATE}
               initial={loginAnimationVariantsName.INPUT_HIDDEN}
-              animate={inputPassStateAnimCtrls}
-              variants={loginAnimationVariants}
-              type="text"
+              type="password"
               placeholder="Password"
               className={styles["input"]}
               onChange={(event) => {
                 setPassword(event.target.value);
+                setError(initialErrors);
               }}
-            ></motion.input>
+            ></LoginInputAnimation>
           </div>
-          <motion.div
+          <LoginErrorAnimation
             initial={loginAnimationVariantsName.ERROR_HIDDEN}
-            animate={errorAnimCtrls}
-            variants={loginAnimationVariants}
+            isVisible={error.isError}
             className={styles["error"]}
           >
             {error.message}
-          </motion.div>
+          </LoginErrorAnimation>
           <div className={styles["link"]}>
             <a href="/register">
               Don’t have an account ? <span>Register now</span>
@@ -191,10 +131,8 @@ const Login: FC = () => {
             <a href="/forgot-password">Forgot your password ?</a>
           </div>
           <div className={styles["bottom-nav-bar"]}>
-            <motion.div
-              initial={loginAnimationVariantsName.NAV_BAR_VISIBLE}
-              animate={navPhoneStateAnimCtrls}
-              variants={loginAnimationVariants}
+            <LoginNavBarAnimation
+              isVisible={LoginState === LoginStates.PHONE_STATE}
               className={styles["bottom-nav-bar__container"]}
             >
               <button
@@ -213,11 +151,10 @@ const Login: FC = () => {
                   color="white"
                 />
               </button>
-            </motion.div>
-            <motion.div
+            </LoginNavBarAnimation>
+            <LoginNavBarAnimation
               initial={loginAnimationVariantsName.NAV_BAR_HIDDEN}
-              animate={navPassStateAnimCtrls}
-              variants={loginAnimationVariants}
+              isVisible={LoginState === LoginStates.PASSWORD_STATE}
               className={styles["bottom-nav-bar__container"]}
             >
               <button
@@ -232,12 +169,12 @@ const Login: FC = () => {
               <button
                 className={styles["confirm-btn"]}
                 onClick={() => {
-                  login();
+                  Login();
                 }}
               >
                 Start
               </button>
-            </motion.div>
+            </LoginNavBarAnimation>
           </div>
         </div>
       </div>
