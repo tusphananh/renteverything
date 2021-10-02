@@ -1,12 +1,12 @@
-export enum LoginStates {
+export enum RegisterStates {
   PHONE_STATE,
-  PASSWORD_STATE,
+  INFORMATION_STATE,
 }
 
 /**
  * Export object of string for  Animation Name by Typescript
  */
-export const loginAnimationVariantsName = {
+export const registerAnimationVariantsName = {
   VISIBLE: "VISIBLE",
   HIDDEN: "HIDDEN",
   INPUT_VISIBLE: "INPUT_VISIBLE",

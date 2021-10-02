@@ -9,6 +9,7 @@ export const isPhoneNumberValid = (phone: string): boolean => {
 
 /**
  * Checks password strength.
+ * Minimum eight characters, at least one upper case English letter, one lower case English letter, one number and one special character
  */
 
 export const isPasswordValid = (password: string): boolean => {

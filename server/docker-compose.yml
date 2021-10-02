@@ -9,6 +9,8 @@ services:
       PGADMIN_DEFAULT_PASSWORD: "test@2021#"
     ports:
       - "127.0.0.1:6000:80"
+    networks:
+      - postgres-network
 
   postgres:
     container_name: "postgres"
@@ -22,6 +24,8 @@ services:
       - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data/
+    networks:
+      - postgres-network
 
   redis-insight:
     container_name: "redis-insight"
@@ -31,7 +35,7 @@ services:
       - "127.0.0.1:6001:8001"
     networks:
       - redis-network
-      
+
   redis:
     container_name: "redis"
     image: "redis"
@@ -50,4 +54,6 @@ volumes:
 
 networks:
   redis-network:
+    driver: bridge
+  postgres-network:
     driver: bridge

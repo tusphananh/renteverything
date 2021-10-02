@@ -1,22 +1,18 @@
-import Head from "next/head";
-import Auth from "../components/Auth/Auth";
-import { FC } from "react";
+import React, { FC } from "react";
 
-const Home: FC = () => {
+const ForgotPasswordPage: FC = () => {
   return (
     <>
-      <Head>
-        <title>Rent Everything</title>
+      <head>
+        <title>ForgotPasswordPage</title>
         <meta
           name="description"
           content="Rent Everything is an application that helps you find and rent everything around you."
         />
         <link rel="icon" href="/logo.ico" />
-      </Head>
-
-      <Auth></Auth>
+      </head>
     </>
   );
 };
 
-export default Home;
+export default ForgotPasswordPage;
