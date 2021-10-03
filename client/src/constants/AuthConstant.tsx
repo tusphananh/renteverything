@@ -16,7 +16,7 @@ export interface AuthState {
   isFetching?: boolean;
   isAuthenticated?: boolean;
   message?: string | null;
-  errors: ErrorResponse[] | [];
+  errors?: ErrorResponse[] | [];
   user?: User | null;
 }
 

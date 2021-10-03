@@ -9,7 +9,6 @@ export const loginSuccess = (response: UserResponse): AuthAction => ({
     type: AuthType.AUTH_LOGIN_SUCCESS,
     payload: {
         user: response.data,
-
     },
 });
 

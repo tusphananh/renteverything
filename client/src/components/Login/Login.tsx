@@ -47,7 +47,7 @@ const Login: FC = () => {
 
   const login = async () => {
     if (isPasswordValid(password)) {
-      if (authState.errors?.length > 0) {
+      if (authState.errors && authState.errors.length > 0) {
         console.log(authState.errors);
         setError({
           isError: true,
@@ -82,7 +82,11 @@ const Login: FC = () => {
       route.push("/");
     }
 
-    if (!authState.isAuthenticated && authState.errors?.length > 0) {
+    if (
+      !authState.isAuthenticated &&
+      authState.errors &&
+      authState.errors.length > 0
+    ) {
       setError({
         isError: true,
         message: authState.errors![0].message,

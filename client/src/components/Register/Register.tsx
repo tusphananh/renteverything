@@ -85,7 +85,11 @@ const Register: FC = () => {
   };
 
   useEffect(() => {
-    if (!authState.isAuthenticated && authState.errors?.length > 0) {
+    if (
+      !authState.isAuthenticated &&
+      authState.errors &&
+      authState.errors.length > 0
+    ) {
       setError({
         isError: true,
         message: authState.errors![0].message,
