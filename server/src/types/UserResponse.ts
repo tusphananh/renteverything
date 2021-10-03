@@ -1,13 +1,15 @@
 // Class UserMutationResponse implements MutationResponse
 
 import User from "../entities/User";
-import { ObjectType } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 import { Response } from "./Response";
+import { ErrorResponse } from "./ErrorResponse";
 
 @ObjectType()
 export class UserResponse extends Response(User) {
   code: number;
   success: boolean;
-  message: string;
+  @Field(() => [ErrorResponse], { nullable: true, defaultValue: [] })
+  errors?: ErrorResponse[] | [];
   data?: User;
 }

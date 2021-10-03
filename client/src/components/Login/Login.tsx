@@ -32,7 +32,7 @@ const initialErrors: error = {
 
 const Login: FC = () => {
   const route = useRouter();
-  const { authState } = useAuth();
+  const { authState, authLogin } = useAuth();
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState<error>(initialErrors);
   const [phoneNumber, setPhoneNumber] = React.useState("");
@@ -45,9 +45,17 @@ const Login: FC = () => {
     setError(initialErrors);
   };
 
-  const Login = async () => {
+  const login = async () => {
     if (isPasswordValid(password)) {
-      setError(initialErrors);
+      if (authState.errors?.length > 0) {
+        console.log(authState.errors);
+        setError({
+          isError: true,
+          message: authState.errors![0].message,
+        });
+      } else setError(initialErrors);
+
+      await authLogin(phoneNumber, password);
     } else {
       setError({
         isError: true,
@@ -69,13 +77,23 @@ const Login: FC = () => {
   };
 
   useEffect(() => {
-    authState.isAuthenticated && route.push("/");
-  }, [authState.isAuthenticated]);
+    if (authState.isAuthenticated) {
+      setError(initialErrors);
+      route.push("/");
+    }
+
+    if (!authState.isAuthenticated && authState.errors?.length > 0) {
+      setError({
+        isError: true,
+        message: authState.errors![0].message,
+      });
+    }
+  }, [authState]);
 
   return (
     <>
-      <div className={styles["body"]}>
-        <div className={styles["body__blur"]}>
+      <div className={styles["container"]}>
+        <div className={styles["container__blur"]}>
           <Image src={Logo} alt="" className={styles["logo"]} />
           <LoginTextAnimation
             isVisible={LoginState === LoginStates.PHONE_STATE}
@@ -141,15 +159,21 @@ const Login: FC = () => {
                   next();
                 }}
               >
-                <p>Next</p>
-                <Image
-                  src={ArrowToRight}
-                  alt="logo"
-                  layout="fixed"
-                  width="20px"
-                  height="20px"
-                  color="white"
-                />
+                {authState.isFetching ? (
+                  <Loading />
+                ) : (
+                  <>
+                    <p>Next</p>
+                    <Image
+                      src={ArrowToRight}
+                      alt="logo"
+                      layout="fixed"
+                      width="20px"
+                      height="20px"
+                      color="white"
+                    />
+                  </>
+                )}
               </button>
             </LoginNavBarAnimation>
             <LoginNavBarAnimation
@@ -169,10 +193,11 @@ const Login: FC = () => {
               <button
                 className={styles["confirm-btn"]}
                 onClick={() => {
-                  Login();
+                  login();
                 }}
               >
-                Start
+                {}
+                {authState.isFetching ? <Loading /> : <p>Start</p>}
               </button>
             </LoginNavBarAnimation>
           </div>
@@ -183,3 +208,24 @@ const Login: FC = () => {
 };
 
 export default Login;
+
+const Loading: FC = () => {
+  return (
+    <div className={styles["loading"]}>
+      <div className={styles["lds-spinner"]}>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  );
+};

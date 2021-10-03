@@ -9,15 +9,14 @@ export const loginSuccess = (response: UserResponse): AuthAction => ({
     type: AuthType.AUTH_LOGIN_SUCCESS,
     payload: {
         user: response.data,
-        message: response.message,
+
     },
 });
 
 export const loginFailure = (response: UserResponse): AuthAction => ({
     type: AuthType.AUTH_LOGIN_FAILURE,
     payload: {
-        message: response.message,
-        errors: response.errors,
+        errors: response.errors || [],
     },
 });
 
@@ -29,14 +28,13 @@ export const registerSuccess = (response: UserResponse): AuthAction => ({
     type: AuthType.AUTH_REGISTER_SUCCESS,
     payload: {
         user: response.data,
-        message: response.message,
+
     },
 });
 
 export const registerFailure = (response: UserResponse): AuthAction => ({
     type: AuthType.AUTH_REGISTER_FAILURE,
     payload: {
-        message: response.message,
-        errors: response.errors,
+        errors: response.errors || [],
     },
 });

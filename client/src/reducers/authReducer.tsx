@@ -14,40 +14,33 @@ export const AuthReducer = (
         ...state,
         isFetching: true,
         isAuthenticated: false,
-        message: "New Request",
-        errors: payload?.errors,
       };
     case AuthType.AUTH_LOGIN_SUCCESS:
       return {
         ...state,
         isFetching: false,
         isAuthenticated: true,
-        errors: payload?.errors,
-        message: payload?.message,
         user: payload?.user,
+        errors: [],
       };
     case AuthType.AUTH_LOGIN_FAILURE:
       return {
         ...state,
         isFetching: false,
         isAuthenticated: false,
-        errors: payload?.errors,
-        message: payload?.message,
+        errors: payload?.errors!,
       };
     case AuthType.AUTH_REGISTER_REQUESTS:
       return {
         ...state,
         isFetching: true,
         isAuthenticated: false,
-        message: "New Request",
-        errors: payload?.errors,
       };
     case AuthType.AUTH_REGISTER_SUCCESS:
       return {
         ...state,
         isFetching: false,
         isAuthenticated: true,
-        message: payload?.message,
         errors: [],
         user: payload?.user,
       };
@@ -56,24 +49,21 @@ export const AuthReducer = (
         ...state,
         isFetching: false,
         isAuthenticated: false,
-        message: payload?.message,
-        errors: payload?.errors,
+
+        errors: payload?.errors!,
       };
     case AuthType.AUTH_LOGOUT_REQUESTS:
       return {
         ...state,
         isFetching: true,
         isAuthenticated: true,
-        message: "New Request",
-        errors: payload?.errors,
       };
     case AuthType.AUTH_LOGOUT_SUCCESS:
       return {
         ...state,
         isFetching: false,
         isAuthenticated: false,
-        message: payload?.message,
-        errors: payload?.errors,
+        errors: [],
         user: null,
       };
     case AuthType.AUTH_LOGOUT_FAILURE:
@@ -81,8 +71,7 @@ export const AuthReducer = (
         ...state,
         isFetching: false,
         isAuthenticated: true,
-        message: payload?.message,
-        errors: payload?.errors,
+        errors: payload?.errors!,
       };
     default:
       return state;

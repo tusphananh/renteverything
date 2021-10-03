@@ -5,7 +5,12 @@ import { UserResponse } from "../types/UserResponse";
 import { isLoginFormValid, isRegisterFormValid } from "../utils/inputValidator";
 import { Context } from "../types/Context";
 import { SESSION_COOKIE_NAME } from "../constants/CookieConstants";
+import { ErrorResponse } from "../types/ErrorResponse";
 
+const serverErrors: ErrorResponse = {
+  field: "server",
+  message: "Server error",
+};
 @Resolver()
 export class UserResolver {
   /**
@@ -21,12 +26,11 @@ export class UserResolver {
     @Ctx() { req }: Context
   ): Promise<UserResponse> {
     try {
-      const registerError = isRegisterFormValid(phone, password, firstName, lastName);
+      let registerError = isRegisterFormValid(phone, password, firstName, lastName);
       if (registerError.length > 0) {
         return {
           code: 400,
           success: false,
-          message: "Invalid Register Form",
           errors: registerError,
         };
       }
@@ -34,10 +38,14 @@ export class UserResolver {
       // Check existing user then create new user
       const user = await User.findOne({ phone: phone });
       if (user) {
+        registerError = [{
+          field: "phone",
+          message: "Phone number already exists",
+        }]
         const rs = {
           code: 400,
           success: false,
-          message: "Phone already exists",
+          errors: registerError,
         };
 
         return rs;
@@ -55,7 +63,6 @@ export class UserResolver {
       const rs = {
         code: 200,
         success: true,
-        message: "Successfully",
         data: newUser,
       };
 
@@ -65,10 +72,11 @@ export class UserResolver {
       return rs;
     } catch (error) {
       console.log(error);
+
       return {
         code: 500,
         success: false,
-        message: "Internal Error",
+        errors: [serverErrors],
       };
     }
   }
@@ -84,31 +92,38 @@ export class UserResolver {
     @Ctx() { req }: Context
   ): Promise<UserResponse> {
     try {
-      const loginError = isLoginFormValid(phone, password);
+      let loginError = isLoginFormValid(phone, password);
       if (loginError.length > 0) {
         return {
           code: 400,
           success: false,
-          message: "Invalid Login form",
           errors: loginError,
         };
       }
 
       const user = await User.findOne({ phone: phone });
       if (!user) {
+        loginError = [{
+          field: "phone",
+          message: "Wrong phone number or password",
+        }]
         return {
           code: 400,
           success: false,
-          message: "Phone number not found",
+          errors: loginError,
         };
       }
 
       const isValid = await argon2.verify(user.password, password);
       if (!isValid) {
+        loginError = [{
+          field: "phone",
+          message: "Wrong phone number or password",
+        }]
         return {
           code: 400,
           success: false,
-          message: "Wrong password",
+          errors: loginError,
         };
       }
 
@@ -116,7 +131,6 @@ export class UserResolver {
       const rs = {
         code: 200,
         success: true,
-        message: "Successfully",
         data: user,
       };
 
@@ -126,10 +140,13 @@ export class UserResolver {
       return rs;
     } catch (error) {
       console.log(error);
+
       return {
+
         code: 500,
         success: false,
-        message: "Internal Error",
+        errors: [serverErrors],
+
       };
     }
   }
@@ -148,7 +165,7 @@ export class UserResolver {
           return {
             code: 400,
             success: false,
-            message: "Internal Error",
+            errors: [serverErrors],
           };
         }
         return;
@@ -157,14 +174,15 @@ export class UserResolver {
       return {
         code: 200,
         success: true,
-        message: "Successfully Logout",
+
       };
     } catch (error) {
+
       console.log(error);
       return {
         code: 500,
         success: false,
-        message: "Internal Error",
+        errors: [serverErrors],
       };
     }
   }

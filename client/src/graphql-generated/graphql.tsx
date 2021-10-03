@@ -38,7 +38,6 @@ export type ItemResponse = {
   code: Scalars['Float'];
   data?: Maybe<Item>;
   errors?: Maybe<Array<ErrorResponse>>;
-  message?: Maybe<Scalars['String']>;
   success: Scalars['Boolean'];
 };
 
@@ -47,7 +46,6 @@ export type ItemsResponse = {
   code: Scalars['Float'];
   data: Array<Item>;
   errors?: Maybe<Array<ErrorResponse>>;
-  message?: Maybe<Scalars['String']>;
   success: Scalars['Boolean'];
 };
 
@@ -125,7 +123,6 @@ export type UserResponse = {
   code: Scalars['Float'];
   data?: Maybe<User>;
   errors?: Maybe<Array<ErrorResponse>>;
-  message?: Maybe<Scalars['String']>;
   success: Scalars['Boolean'];
 };
 
@@ -143,14 +140,14 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, message?: Maybe<string>, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, createdAt: any, updatedAt: any }> }> };
+export type RegisterMutation = { __typename?: 'Mutation', register?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, createdAt: any, updatedAt: any }> }> };
 
 export type GetItemsByNameQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
 
 
-export type GetItemsByNameQuery = { __typename?: 'Query', getItemsByName?: Maybe<{ __typename?: 'ItemsResponse', code: number, success: boolean, message?: Maybe<string>, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, imageUrl: string, quantity: number, userId: number }> }> };
+export type GetItemsByNameQuery = { __typename?: 'Query', getItemsByName?: Maybe<{ __typename?: 'ItemsResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, imageUrl: string, quantity: number, userId: number }> }> };
 
 export type LoginQueryVariables = Exact<{
   phone: Scalars['String'];
@@ -158,7 +155,7 @@ export type LoginQueryVariables = Exact<{
 }>;
 
 
-export type LoginQuery = { __typename?: 'Query', login?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, message?: Maybe<string>, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, createdAt: any, updatedAt: any }> }> };
+export type LoginQuery = { __typename?: 'Query', login?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, createdAt: any, updatedAt: any }> }> };
 
 export const ErrosResponseFragmentFragmentDoc = gql`
     fragment ErrosResponseFragment on ErrorResponse {
@@ -197,7 +194,6 @@ export const RegisterDocument = gql`
   ) {
     code
     success
-    message
     errors {
       ...ErrosResponseFragment
     }
@@ -242,7 +238,6 @@ export const GetItemsByNameDocument = gql`
   getItemsByName(name: $name) {
     code
     success
-    message
     errors {
       ...ErrosResponseFragment
     }
@@ -286,7 +281,6 @@ export const LoginDocument = gql`
   login(phone: $phone, password: $password) {
     code
     success
-    message
     errors {
       ...ErrosResponseFragment
     }

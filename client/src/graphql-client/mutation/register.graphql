@@ -2,7 +2,6 @@ mutation Register($firstName: String!, $lastName: String!, $phone: String!, $pas
 	register(firstName: $firstName, lastName: $lastName, phone: $phone, password: $password) {
 		code
 		success
-		message
 		errors {
             ...ErrosResponseFragment
         }

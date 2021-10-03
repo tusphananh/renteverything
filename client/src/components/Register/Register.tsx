@@ -34,7 +34,7 @@ const initialError: error = {
 };
 const Register: FC = () => {
   const route = useRouter();
-  const { authState } = useAuth();
+  const { authState, authRegsiter } = useAuth();
   const [password, setPassword] = React.useState("");
   const [rePassword, setRePassword] = React.useState("");
   const [firstName, setFirstName] = React.useState("");
@@ -69,6 +69,7 @@ const Register: FC = () => {
       });
     } else {
       setError(initialError);
+      authRegsiter(phoneNumber, firstName, lastName, password);
     }
   };
   const next = () => {
@@ -84,8 +85,16 @@ const Register: FC = () => {
   };
 
   useEffect(() => {
-    authState.isAuthenticated && route.push("/");
-  }, [authState.isAuthenticated]);
+    if (!authState.isAuthenticated && authState.errors?.length > 0) {
+      setError({
+        isError: true,
+        message: authState.errors![0].message,
+      });
+    } else if (authState.isAuthenticated) {
+      setError(initialError);
+      route.push("/");
+    }
+  }, [authState]);
 
   return (
     <div className={styles["body"]}>

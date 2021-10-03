@@ -11,10 +11,8 @@ export function Response<TData>(TDataClass: ClassType<TData>) {
     code: number;
     @Field()
     success: boolean;
-    @Field({ nullable: true })
-    message?: string;
-    @Field(() => [ErrorResponse], { nullable: true })
-    errors?: ErrorResponse[];
+    @Field(() => [ErrorResponse], { nullable: true, defaultValue: [] })
+    errors?: ErrorResponse[] | [];
     @Field(() => TDataClass || [TDataClass], { nullable: true })
     data?: TData | TData[];
   }

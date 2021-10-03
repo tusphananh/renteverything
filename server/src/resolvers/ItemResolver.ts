@@ -4,7 +4,12 @@ import Item from "../entities/Item";
 import { Context } from "../types/Context";
 import { checkAuth } from "../middlewares/checkAuth";
 import { Like } from "typeorm";
+import { ErrorResponse } from "../types/ErrorResponse";
 
+const serverErrors: ErrorResponse = {
+  field: "server",
+  message: "Server error",
+};
 @Resolver()
 export class ItemResolver {
   /**
@@ -36,7 +41,6 @@ export class ItemResolver {
 
       const rs = {
         code: 200,
-        message: "Item added",
         success: true,
         data: item,
       }
@@ -47,8 +51,8 @@ export class ItemResolver {
       console.log(error);
       const rs = {
         code: 500,
-        message: "Internal Server Error",
         success: false,
+        errors: [serverErrors]
       }
 
       return rs;
@@ -73,7 +77,6 @@ export class ItemResolver {
 
       const rs = {
         code: 200,
-        message: "Items found",
         success: true,
         data: items,
       }
@@ -82,10 +85,10 @@ export class ItemResolver {
 
     } catch (error) {
       console.log(error);
-      const rs = {
+      const rs: ItemsResponse = {
         code: 500,
-        message: "Internal Server Error",
         success: false,
+        errors: [serverErrors]
       }
 
       return rs;
@@ -101,22 +104,23 @@ export class ItemResolver {
   async getItemsByName(@Arg("name") name: string): Promise<ItemsResponse | null> {
     try {
       const item = await Item.find({
-        name : Like(`%${name}%`)
+        name: Like(`%${name}%`)
       });
 
       if (!item) {
         const rs = {
           code: 404,
-          message: "Item Not Found",
           success: false,
-         
+          errors: [{
+            field: "name",
+            message: "Item not found"
+          }]
         }
 
         return rs;
       }
       const rs = {
         code: 200,
-        message: "Item found",
         success: true,
         data: item,
       }
@@ -126,8 +130,8 @@ export class ItemResolver {
       console.log(error);
       const rs = {
         code: 500,
-        message: "Internal Server Error",
         success: false,
+        errors: [serverErrors]
       }
 
       return rs;
@@ -161,8 +165,8 @@ export class ItemResolver {
       if (!item) {
         const rs = {
           code: 404,
-          message: "Item Not Found",
           success: false,
+          errors: [serverErrors]
         }
         return rs;
       }
@@ -177,7 +181,6 @@ export class ItemResolver {
 
       const rs = {
         code: 200,
-        message: "Item updated",
         success: true,
         data: item,
       }
@@ -190,8 +193,8 @@ export class ItemResolver {
       console.log(error);
       const rs = {
         code: 500,
-        message: "Internal Server Error",
         success: false,
+        errors: [serverErrors]
       }
 
       return rs;
@@ -219,8 +222,11 @@ export class ItemResolver {
       if (!item) {
         const rs = {
           code: 404,
-          message: "Item Not Found",
           success: false,
+          errors: [{
+            field: "id",
+            message: "Item not found"
+          }]
         }
         return rs;
       }
@@ -229,7 +235,6 @@ export class ItemResolver {
 
       const rs = {
         code: 200,
-        message: "Item deleted",
         success: true,
         data: item,
       }
@@ -240,8 +245,8 @@ export class ItemResolver {
       console.log(error);
       const rs = {
         code: 500,
-        message: "Internal Server Error",
         success: false,
+        errors: [serverErrors]
       }
 
       return rs;

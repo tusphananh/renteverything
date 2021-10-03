@@ -7,8 +7,8 @@ const LoginPage: FC = () => {
       <Head>
         <title>Login</title>
         <meta
-          name="description"
-          content="Rent Everything is an application that helps you find and rent everything around you."
+          name="login"
+          content="width=device-width, initial-scale=1.0"
         />
         <link rel="icon" href="/logo.ico" />
       </Head>
