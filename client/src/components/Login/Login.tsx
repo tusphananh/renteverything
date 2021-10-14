@@ -1,9 +1,8 @@
 import { useRouter } from "next/router";
 import React, { FC, useEffect } from "react";
-import { useAuth } from "../../contexts/authContext";
+import { useAuthContext } from "../../contexts/authContext";
 import styles from "../../styles/Login.module.scss";
 import Logo from "../../assets/icons/logo-light.svg";
-import Image from "next/image";
 import ArrowToRight from "../../assets/icons/arrow-to-right.svg";
 import {
   LoginStates,
@@ -32,7 +31,7 @@ const initialErrors: error = {
 
 const Login: FC = () => {
   const route = useRouter();
-  const { authState, authLogin } = useAuth();
+  const { authState, authLogin } = useAuthContext();
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState<error>(initialErrors);
   const [phoneNumber, setPhoneNumber] = React.useState("");
@@ -98,7 +97,7 @@ const Login: FC = () => {
     <>
       <div className={styles["container"]}>
         <div className={styles["container__blur"]}>
-          <Image src={Logo} alt="" className={styles["logo"]} />
+          <Logo alt="" className={styles["logo"]} />
           <LoginTextAnimation
             isVisible={LoginState === LoginStates.PHONE_STATE}
             className={styles["welcome__container"]}
@@ -168,13 +167,11 @@ const Login: FC = () => {
                 ) : (
                   <>
                     <p>Next</p>
-                    <Image
-                      src={ArrowToRight}
+                    <ArrowToRight
                       alt="logo"
-                      layout="fixed"
                       width="20px"
                       height="20px"
-                      color="white"
+                      fill="white"
                     />
                   </>
                 )}

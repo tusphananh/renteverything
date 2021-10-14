@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const path = require("path");
 const withSass = require("@zeit/next-sass");
+
 module.exports = withSass({
   /* bydefault config  option Read For More Optios
 here https://github.com/vercel/next-plugins/tree/master/packages/next-sass*/
@@ -17,6 +18,9 @@ module.exports = {
   distDir: "./build",
   pagesDir: "./src/pages",
   env: {
-    GRAPHQL_HOST: "http://localhost:5000/graphql",
+    GRAPHQL_HOST: "http://localhost:5001/graphql",
+  },
+  images: {
+    domains: ["avatars.dicebear.com"],
   },
 };

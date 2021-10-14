@@ -56,7 +56,7 @@ const main = async () => {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(
-      `Server is on http://localhost:${PORT} and graphql at http://localhost:${PORT}/graphql`
+      `Server is on http://localhost:${PORT} and graphql at http://localhost:${PORT}/graphql and front-end : ${process.env.FRONTEND_URL}`
     );
   });
 };

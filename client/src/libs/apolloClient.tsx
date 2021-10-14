@@ -22,7 +22,6 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
       headers: {
         ...init.headers,
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true",
         // here we pass the cookie along for each request
         Cookie: headers?.cookie ?? "",
       },
@@ -32,7 +31,7 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
   const httpLink = new HttpLink({
     // uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
     uri: process.env.GRAPHQL_HOST,
-    credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+    credentials: "include", // Additional fetch() options like `credentials` or `headers`
     fetch: enhancedFetch,
   });
 

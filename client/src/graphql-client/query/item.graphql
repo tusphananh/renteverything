@@ -10,3 +10,16 @@ query getItemsByName($name: String!) {
     }
   }
 }
+
+query getItems(){
+  getItems {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ItemResponseFragment
+    }
+  }
+}

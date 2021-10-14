@@ -1,0 +1,227 @@
+@import "./colors";
+@import "./fonts";
+@import "./layout";
+
+
+$board-width: 50%;
+$board-height: 'fit-content';
+
+.container {
+    @extend .flex-center-column;
+    @extend .background-image;
+    width: 100%;
+    height: 100%;
+
+    * {
+        font-family: $open-san-font;
+    }
+}
+
+.header {
+    // border: red solid 1px;
+    @extend .flex-center-row;
+    width: 80%;
+    height: 10%;
+    margin-top: 20px;
+    justify-content: space-between;
+
+    .header__avatar {
+        @extend .flex-center-row;
+        width: 50px;
+        height: 50px;
+        border: 0.5px solid #EDEDED;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 20px -10px rgba(0, 0, 0, 0.25);
+        border-radius: 50px;
+        background-color: white;
+        overflow: hidden;
+    }
+
+    .header__name {
+        font-weight: $font-weight-semi-bold;
+        font-size: $font-size-6;
+        color: $grey-color-50;
+    }
+
+    .header__noti {
+        width: 42px;
+        height: 42px;
+    }
+}
+
+.main {
+    @extend .flex-center-row;
+    width: 80%;
+    height: 80%;
+    margin: 10px;
+}
+
+.navbar {
+    @extend .grey-glassmorphism-2;
+    @extend .flex-center-column;
+    border: rgba(50, 50, 50, 0.25) solid 0.5px;
+    width: 20%;
+    height: 100%;
+
+    .item-logo {
+        @extend .flex-center-row;
+        width: 42px;
+        height: 42px;
+        transform: scale(1.1);
+
+        * {
+            transition: 0.2s;
+            fill: $grey-color-100;
+            margin: auto;
+
+        }
+    }
+
+    .item-name {
+        transition: 0.4s;
+        font-size: $font-size-3;
+        font-weight: $font-weight-regular;
+        width: fit-content;
+        color: $grey-color-50;
+        margin: auto;
+    }
+
+    .navbar__item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 80%;
+        border: none;
+        background-color: transparent;
+        margin: 30px;
+    }
+
+    .navbar__item--inactive {
+        @extend .navbar__item;
+
+        &:hover {
+
+            .navbar-item-logo {
+                * {
+                    fill: $primary-color;
+
+                }
+            }
+
+
+            .navbar-item-name {
+                color: $primary-color;
+            }
+        }
+
+        .navbar-item-logo {
+            @extend .item-logo;
+        }
+
+        .navbar-item-name {
+            @extend .item-name;
+        }
+
+
+    }
+
+    .navbar__item--active {
+        @extend .navbar__item;
+
+        .navbar-item-name {
+            @extend .item-name;
+            color: $primary-color;
+        }
+
+        .navbar-item-logo {
+            @extend .item-logo;
+
+            * {
+                fill: $primary-color;
+
+            }
+        }
+    }
+
+    .navbar__item-logout {
+        @extend .navbar__item;
+        margin-top: auto;
+
+        &:hover {
+            filter: brightness(1.1);
+        }
+
+        .navbar-item-logo {
+            @extend .item-logo;
+
+            * {
+                fill: $red-color-500;
+            }
+        }
+
+        .navbar-item-name {
+            @extend .item-name;
+            color: $red-color-500;
+        }
+    }
+}
+
+.dashboard {
+    width: 80%;
+    height: 100%;
+    margin-left: 20px
+}
+
+.board {
+    @extend .white-glassmorphism;
+
+    .sub-board {
+        .sub-board-header {
+            .header__name {}
+
+            .header__description {}
+        }
+
+        .sub-board__time {}
+
+        .sub-board__item--success {
+            @extend .sub-board__time;
+            color: $primary-color;
+        }
+
+        .sub-board__item--fail {
+            @extend .sub-board__time;
+            color: $red-color-500;
+        }
+
+        .sub-board__item--processing {
+            @extend .sub-board__time;
+            color: $orange-color-500;
+        }
+
+        .sub-board__item--none {
+            @extend .sub-board__time;
+            color: $grey-color-500
+        }
+    }
+
+    .board__header {
+        .title {
+            .title__icon {}
+
+            .title__name {}
+        }
+
+        .show-more {
+            .show-more__name {}
+
+            .show-more__icon {}
+        }
+    }
+}
+
+
+
+
+
+// Language: scss

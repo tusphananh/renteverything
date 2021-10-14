@@ -1,11 +1,12 @@
 import User from "../entities/User";
-import { Resolver, Arg, Mutation, Query, Ctx } from "type-graphql";
+import { Resolver, Arg, Mutation, Query, Ctx, UseMiddleware } from "type-graphql";
 import argon2 from "argon2";
 import { UserResponse } from "../types/UserResponse";
 import { isLoginFormValid, isRegisterFormValid } from "../utils/inputValidator";
 import { Context } from "../types/Context";
 import { SESSION_COOKIE_NAME } from "../constants/CookieConstants";
 import { ErrorResponse } from "../types/ErrorResponse";
+import { checkAuth } from "../middlewares/checkAuth";
 
 const serverErrors: ErrorResponse = {
   field: "server",
@@ -187,5 +188,74 @@ export class UserResolver {
     }
   }
 
+  /**
+ * Refresh user session
+ */
+  @Query(() => UserResponse, { nullable: true })
+  @UseMiddleware(checkAuth)
+  async refreshSession(@Ctx() { req }: Context): Promise<UserResponse> {
+    try {
+      const user = await User.findOne({ id: req.session.userId });
+      if (!user) {
+        const errors: ErrorResponse[] = [{
+          field: "session",
+          message: "Session expired",
+        }]
+        return {
+          code: 400,
+          success: false,
+          errors: errors,
+        };
+      }
+      req.session.touch();
+      return {
+        code: 200,
+        success: true,
+        data: user,
+      }
+    } catch (error) {
+      console.log(error);
+      return {
+        code: 500,
+        success: false,
+        errors: [serverErrors],
+      };
+    }
+  }
 
+  /**
+   * Check user already have session
+   */
+  @Query(() => UserResponse, { nullable: true })
+  @UseMiddleware(checkAuth)
+  async checkSession(@Ctx() { req }: Context): Promise<UserResponse> {
+    try {
+      const user = await User.findOne({ id: req.session.userId });
+      if (!user) {
+        const errors: ErrorResponse[] = [{
+          field: "session",
+          message: "Session expired",
+        }]
+        return {
+          code: 400,
+          success: false,
+          errors: errors,
+        };
+      }
+
+      return {
+        code: 200,
+        success: true,
+        data: user,
+      }
+    } catch (error) {
+      console.log(error);
+      return {
+        code: 500,
+        success: false,
+        errors: [serverErrors],
+      };
+    }
+  }
 }
+

@@ -1,16 +1,27 @@
-import { useReducer, createContext, Dispatch, useContext, FC } from "react";
+import {
+  useReducer,
+  createContext,
+  Dispatch,
+  useContext,
+  FC,
+  useEffect,
+} from "react";
 import {
   requestLogin,
   loginFailure,
   loginSuccess,
   registerSuccess,
   registerFailure,
-  requestRegister
-} from "../actions/authAction";
+  requestRegister,
+  requestCheckSession,
+  checkSessionSuccess,
+  checkSessionFailure,
+} from "../actions/authActions";
 import { AuthAction, AuthState } from "../constants/AuthConstant";
 import {
   useLoginLazyQuery,
   useRegisterMutation,
+  useCheckSessionQuery,
 } from "../graphql-generated/graphql";
 import AuthReducer from "../reducers/authReducer";
 
@@ -18,7 +29,7 @@ const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
   errors: [],
-  isFetching: false,
+  isFetching: true,
 };
 
 export const AuthContext = createContext<{
@@ -40,7 +51,7 @@ export const AuthContext = createContext<{
 
 export const AuthProvider: FC = ({ children }) => {
   const [authState, authDispatch] = useReducer(AuthReducer, initialState);
-
+  const checkSessionQuery = useCheckSessionQuery();
   const [loginLazyQuery] = useLoginLazyQuery({
     onCompleted: (data) => {
       if (data.login) {
@@ -82,6 +93,22 @@ export const AuthProvider: FC = ({ children }) => {
     });
   };
 
+  /**
+   * Check user have session or not
+   */
+
+  useEffect(() => {
+    authDispatch(requestCheckSession());
+    const response = checkSessionQuery.data?.checkSession;
+    console.log(checkSessionQuery);
+    if (response?.success) {
+      authDispatch(checkSessionSuccess(response));
+    } else {
+      authDispatch(checkSessionFailure());
+      console.log("check session error");
+    }
+  }, [checkSessionQuery.data?.checkSession]);
+
   const authLogin = async (phone: string, password: string) => {
     authDispatch(requestLogin());
     loginLazyQuery({ variables: { phone, password } });
@@ -94,6 +121,6 @@ export const AuthProvider: FC = ({ children }) => {
   );
 };
 
-export function useAuth() {
+export function useAuthContext() {
   return useContext(AuthContext);
 }

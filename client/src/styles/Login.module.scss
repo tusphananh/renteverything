@@ -1,30 +1,13 @@
 @import "./colors";
 @import "./fonts";
+@import "./layout";
 
 $btn-width: 130px;
 $btn-height: 52px;
 
-.flex-center-column {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.flex-center-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-}
-
-
 .container {
     @extend .flex-center-column;
-    background-image: url(../assets/images/rent-everything.jpg);
-    background-size: 105%;
-    background-position-x: -50px;
-    background-position-y: -50px;
+    @extend .background-image;
     width: 100vw;
     height: 100vh;
     padding: 0;
@@ -32,30 +15,21 @@ $btn-height: 52px;
     color: white;
 
     * {
-        font-family: $lato-font;
+        font-family: $font;
     }
 
     span {
-        font-weight: $lato-regular-weight;
+        font-weight: $font-weight-regular;
     }
 
     a {
-        font-weight: $lato-light-weight;
+        font-weight: $font-weight-light;
         font-size: $font-size-1;
         margin: 0;
         color: white;
         text-decoration: none;
         margin: 8px;
     }
-}
-
-.container__blur {
-    @extend .flex-center-column;
-    backdrop-filter: blur(20px) saturate(200%);
-    -webkit-backdrop-filter: blur(20px) saturate(200%);
-    background-color: rgba(29, 29, 29, 0.7);
-    width: 100%;
-    height: 100%;
 }
 
 .welcome__container {
@@ -66,7 +40,7 @@ $btn-height: 52px;
     height: 100px;
 
     p {
-        font-weight: $lato-thin-weight;
+        font-weight: $font-weight-thin;
         font-size: $font-size-3;
         margin-top: 16px;
         margin-bottom: 0px;
@@ -92,9 +66,9 @@ $btn-height: 52px;
 }
 
 .input {
+    @extend .grey-glassmorphism;
     width: 300px;
     height: 52px;
-    background: $radial-glass-grey-background;
     border-style: none;
     border: 0.5px solid $glass-grey-20;
     border-radius: 5px;
@@ -175,7 +149,7 @@ $btn-height: 52px;
 }
 
 .bottom-nav-bar__back-btn {
-    font-weight: $lato-light-weight;
+    font-weight: $font-weight-light;
     background: transparent;
     border: none;
     font-size: $font-size-3;

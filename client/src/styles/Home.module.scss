@@ -1,0 +1,78 @@
+@import "./colors";
+@import "./fonts";
+@import "./layout";
+
+$item-height: 54px;
+
+.main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+}
+
+.board {
+    @extend .flex-center-column;
+    @extend .grey-glassmorphism-2;
+    width: 49.5%;
+    height: fit-content;
+    position: relative;
+    overflow: hidden;
+}
+
+.board__header {
+    width: 100%;
+    display: flex;
+    height: $item-height;
+    border-bottom: 1px solid $glass-white-10;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.board-header__title {
+    @extend .flex-center-row;
+    margin-left: 20px;
+}
+
+.board-header-title__icon {
+    transform: scale(1.3);
+    margin-right: 10px;
+
+    * {
+        fill: $primary-color;
+    }
+}
+
+.board-header-title__text {
+    font-size: $font-size-2;
+    color: $primary-color;
+}
+
+.board-header__more {
+    @extend .flex-center-row;
+    font-size: $font-size-1;
+    margin-right: 20px;
+}
+
+.board-header-more__text {
+    color: $primary-color;
+}
+
+.board__item {}
+
+.board-description {}
+
+.board-description__title {}
+
+.board-description__text {}
+
+.board__right {}
+
+.board__right--success {}
+
+.board__right--failure {}
+
+.board__right--pending {}
+
+.board-right__text {}

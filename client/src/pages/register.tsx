@@ -6,13 +6,12 @@ function RegisterPage() {
     <>
       <Head>
         <title>Register</title>
-        <meta
-          name="register"
-          content="width=device-width, initial-scale=1.0"
-        />
+        <meta name="register" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/logo.ico" />
       </Head>
-      <Register />
+      <body>
+        <Register />
+      </body>
     </>
   );
 }

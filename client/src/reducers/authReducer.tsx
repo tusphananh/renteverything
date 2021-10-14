@@ -73,6 +73,48 @@ export const AuthReducer = (
         isAuthenticated: true,
         errors: payload?.errors!,
       };
+    case AuthType.AUTH_CHECK_SESSION_REQUESTS:
+      return {
+        ...state,
+        isFetching: true,
+      };
+    case AuthType.AUTH_CHECK_SESSION_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        isAuthenticated: true,
+        user: payload?.user,
+        errors: [],
+      };
+    case AuthType.AUTH_CHECK_SESSION_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        isAuthenticated: false,
+        errors: payload?.errors!,
+      };
+    case AuthType.AUTH_REFESH_SESSION_REQUESTS:
+      return {
+        ...state,
+        isFetching: true,
+      };
+
+    case AuthType.AUTH_REFESH_SESSION_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        isAuthenticated: true,
+        user: payload?.user,
+        errors: [],
+      };
+    case AuthType.AUTH_REFESH_SESSION_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        isAuthenticated: false,
+        errors: payload?.errors!,
+      };
+
     default:
       return state;
   }

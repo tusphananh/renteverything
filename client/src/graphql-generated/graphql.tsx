@@ -91,10 +91,12 @@ export type MutationUpdateItemArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  checkSession?: Maybe<UserResponse>;
   getItems?: Maybe<ItemsResponse>;
   getItemsByName?: Maybe<ItemsResponse>;
   login?: Maybe<UserResponse>;
   logout?: Maybe<UserResponse>;
+  refreshSession?: Maybe<UserResponse>;
 };
 
 
@@ -142,13 +144,6 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, createdAt: any, updatedAt: any }> }> };
 
-export type GetItemsByNameQueryVariables = Exact<{
-  name: Scalars['String'];
-}>;
-
-
-export type GetItemsByNameQuery = { __typename?: 'Query', getItemsByName?: Maybe<{ __typename?: 'ItemsResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, imageUrl: string, quantity: number, userId: number }> }> };
-
 export type LoginQueryVariables = Exact<{
   phone: Scalars['String'];
   password: Scalars['String'];
@@ -156,6 +151,16 @@ export type LoginQueryVariables = Exact<{
 
 
 export type LoginQuery = { __typename?: 'Query', login?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, createdAt: any, updatedAt: any }> }> };
+
+export type CheckSessionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CheckSessionQuery = { __typename?: 'Query', checkSession?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, createdAt: any, updatedAt: any }> }> };
+
+export type RefreshSessionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RefreshSessionQuery = { __typename?: 'Query', refreshSession?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, createdAt: any, updatedAt: any }> }> };
 
 export const ErrosResponseFragmentFragmentDoc = gql`
     fragment ErrosResponseFragment on ErrorResponse {
@@ -233,49 +238,6 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
-export const GetItemsByNameDocument = gql`
-    query getItemsByName($name: String!) {
-  getItemsByName(name: $name) {
-    code
-    success
-    errors {
-      ...ErrosResponseFragment
-    }
-    data {
-      ...ItemResponseFragment
-    }
-  }
-}
-    ${ErrosResponseFragmentFragmentDoc}
-${ItemResponseFragmentFragmentDoc}`;
-
-/**
- * __useGetItemsByNameQuery__
- *
- * To run a query within a React component, call `useGetItemsByNameQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetItemsByNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetItemsByNameQuery({
- *   variables: {
- *      name: // value for 'name'
- *   },
- * });
- */
-export function useGetItemsByNameQuery(baseOptions: Apollo.QueryHookOptions<GetItemsByNameQuery, GetItemsByNameQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetItemsByNameQuery, GetItemsByNameQueryVariables>(GetItemsByNameDocument, options);
-      }
-export function useGetItemsByNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetItemsByNameQuery, GetItemsByNameQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetItemsByNameQuery, GetItemsByNameQueryVariables>(GetItemsByNameDocument, options);
-        }
-export type GetItemsByNameQueryHookResult = ReturnType<typeof useGetItemsByNameQuery>;
-export type GetItemsByNameLazyQueryHookResult = ReturnType<typeof useGetItemsByNameLazyQuery>;
-export type GetItemsByNameQueryResult = Apollo.QueryResult<GetItemsByNameQuery, GetItemsByNameQueryVariables>;
 export const LoginDocument = gql`
     query Login($phone: String!, $password: String!) {
   login(phone: $phone, password: $password) {
@@ -320,3 +282,87 @@ export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Logi
 export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
 export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
 export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
+export const CheckSessionDocument = gql`
+    query CheckSession {
+  checkSession {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
+    }
+  }
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${UserResponseFragmentFragmentDoc}`;
+
+/**
+ * __useCheckSessionQuery__
+ *
+ * To run a query within a React component, call `useCheckSessionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckSessionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckSessionQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCheckSessionQuery(baseOptions?: Apollo.QueryHookOptions<CheckSessionQuery, CheckSessionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckSessionQuery, CheckSessionQueryVariables>(CheckSessionDocument, options);
+      }
+export function useCheckSessionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckSessionQuery, CheckSessionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckSessionQuery, CheckSessionQueryVariables>(CheckSessionDocument, options);
+        }
+export type CheckSessionQueryHookResult = ReturnType<typeof useCheckSessionQuery>;
+export type CheckSessionLazyQueryHookResult = ReturnType<typeof useCheckSessionLazyQuery>;
+export type CheckSessionQueryResult = Apollo.QueryResult<CheckSessionQuery, CheckSessionQueryVariables>;
+export const RefreshSessionDocument = gql`
+    query RefreshSession {
+  refreshSession {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
+    }
+  }
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${UserResponseFragmentFragmentDoc}`;
+
+/**
+ * __useRefreshSessionQuery__
+ *
+ * To run a query within a React component, call `useRefreshSessionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRefreshSessionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useRefreshSessionQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRefreshSessionQuery(baseOptions?: Apollo.QueryHookOptions<RefreshSessionQuery, RefreshSessionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RefreshSessionQuery, RefreshSessionQueryVariables>(RefreshSessionDocument, options);
+      }
+export function useRefreshSessionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RefreshSessionQuery, RefreshSessionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RefreshSessionQuery, RefreshSessionQueryVariables>(RefreshSessionDocument, options);
+        }
+export type RefreshSessionQueryHookResult = ReturnType<typeof useRefreshSessionQuery>;
+export type RefreshSessionLazyQueryHookResult = ReturnType<typeof useRefreshSessionLazyQuery>;
+export type RefreshSessionQueryResult = Apollo.QueryResult<RefreshSessionQuery, RefreshSessionQueryVariables>;

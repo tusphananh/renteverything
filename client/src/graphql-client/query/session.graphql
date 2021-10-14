@@ -1,0 +1,25 @@
+query CheckSession {
+  checkSession {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
+    }
+  }
+}
+
+query RefreshSession {
+  refreshSession {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
+    }
+  }
+}
