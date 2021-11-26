@@ -31,8 +31,8 @@ $orange-color-400: #FFB74D;
 $orange-color-500: #FFA726;
 
 
-$glass-grey-30: rgba(255, 255, 255, 0.3);
-$glass-grey-20: rgba(255, 255, 255, 0.2);
+$glass-white-30: rgba(255, 255, 255, 0.3);
+$glass-white-20: rgba(255, 255, 255, 0.2);
 $glass-white-10: rgba(255, 255, 255, 0.1);
 
 .grey-glassmorphism {
@@ -73,3 +73,4 @@ $glass-white-10: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     border: solid 1px $glass-white-10;
 }
+

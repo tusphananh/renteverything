@@ -214,10 +214,119 @@
     display: none;
 }
 
-.attribute-controller {}
+.search-controller-container {
+    @extend .flex-center-column;
+    @extend .grey-glassmorphism-3;
+    padding: 20px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 344px;
+    height: fit-content;
+    z-index: 2;
+}
 
-.attribute-controller__zoom-container {}
+.search-controller__input-container {
+    @extend .flex-center-column;
+    position: relative;
+    width: 100%;
+    height: 42px;
+    margin: 0;
+    padding: 0;
+}
 
-.attribute-controller__location-container {}
+.search-controller-input__placeholder {
+    position: absolute;
+    @extend .center;
+    @extend .flex-center-row;
 
-.attribute-controller__btn {}
+    font-size: $font-size-2;
+    font-weight: $font-weight-semi-bold;
+    color: $glass-white-30;
+}
+
+
+.search-controller-input__input {
+    @extend .center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    background: rgba(50, 50, 50, 1);
+    opacity: 0.5;
+    border: none;
+    text-align: center;
+    outline: none;
+    color: $glass-white-30;
+    font-size: $font-size-2;
+    font-weight: $font-weight-semi-bold;
+}
+
+.search-controller-input__icon {
+    margin-right: 5px;
+    transform: scale(1);
+
+    * {
+        fill: $glass-white-30;
+    }
+}
+
+.search-controller__slider-container {
+    @extend .flex-center-row;
+    color: $primary-color;
+    font-size: $font-size-2;
+    width: 100%;
+    height: fit-content;
+
+}
+
+
+.search-controller__slider {
+    @extend .flex-center-row;
+    -webkit-appearance: none;
+    width: 50%;
+    height: 5px;
+    background: $glass-white-10;
+    outline: none;
+    opacity: 0.7;
+    border-radius: 5px;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.search-controller__slider:hover {
+    opacity: 1;
+}
+
+.search-controller__slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: $primary-color;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.search-controller__slider::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    background: $primary-color;
+    cursor: pointer;
+}
+
+
+.search-controller__search-btn {
+
+    color: $glass-white-20;
+    transition: .2s;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: $font-size-3;
+    font-weight: $font-weight-semi-bold;
+
+    &:hover {
+        color: $glass-white-30;
+    }
+}
