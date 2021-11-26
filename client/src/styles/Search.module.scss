@@ -1,0 +1,223 @@
+@import "./colors";
+@import "./fonts";
+@import "./layout";
+
+
+.container {
+    @extend .grey-glassmorphism-3;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    color: white;
+    overflow: hidden;
+    border-radius: 10px;
+    position: relative;
+
+    * {
+        font-family: $lato-font;
+    }
+
+    span {
+        font-weight: $font-weight-regular;
+    }
+
+    a {
+        font-weight: $font-weight-light;
+        font-size: $font-size-1;
+        margin: 0;
+        color: white;
+        text-decoration: none;
+        margin: 8px;
+    }
+}
+
+.map-container--actived {
+    @extend .flex-center-column;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    outline: none;
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+.map-container--disabled {
+    @extend .flex-center-column;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    outline: none;
+    transform: scale(1.1);
+    z-index: 1;
+
+    * {
+        pointer-events: none;
+    }
+}
+
+@keyframes scan {
+    from {
+        width: 20px;
+        height: 20px;
+    }
+
+    to {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes slow-blink {
+    0% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0.1;
+    }
+}
+
+.skeleton-loading {
+    @extend .flex-center-column;
+    @extend .grey-glassmorphism-2;
+    background: linear-gradient(-45deg, #0e0d0d5e, #35353565, #0e0d0d5e, #35353565);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    text-align: center;
+
+    p {
+        font-size: $font-size-1;
+        font-weight: $font-weight-medium;
+        color: $grey-color-300;
+        animation: slow-blink 1s infinite;
+        animation-fill-mode: forwards;
+        animation-direction: alternate-reverse;
+    }
+}
+
+.map__marker--green {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 0;
+
+    .map-marker__point {
+        position: absolute;
+        background-color: $primary-color;
+        background-size: cover;
+        margin: auto;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+    .map-marker__outter {
+        position: absolute;
+        border: 1px solid $primary-color;
+        background-color: $primary-color-50;
+        background-size: cover;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        animation: scan 0.5s infinite;
+        animation-fill-mode: forwards;
+        animation-direction: alternate-reverse;
+
+    }
+}
+
+.map__marker--red {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 0;
+
+    .map-marker__point {
+        position: absolute;
+        background-color: $red-color-500;
+        background-size: cover;
+        margin: auto;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+    .map-marker__outter {
+        position: absolute;
+        border: 1px solid $red-color-500;
+        background-color: $red-color-500-50;
+        background-size: cover;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        animation: scan 0.5s infinite;
+        animation-fill-mode: forwards;
+        animation-direction: alternate-reverse;
+    }
+}
+
+.hide {
+    @extend .container;
+    display: none;
+}
+
+.attribute-controller {}
+
+.attribute-controller__zoom-container {}
+
+.attribute-controller__location-container {}
+
+.attribute-controller__btn {}

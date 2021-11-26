@@ -2,7 +2,7 @@
 @import "./fonts";
 @import "./layout";
 
-$item-height: 54px;
+$item-height: 60px;
 
 .main {
     display: flex;
@@ -10,12 +10,13 @@ $item-height: 54px;
     align-items: flex-start;
     width: 100%;
     height: 100%;
+    position: relative;
 }
 
 .board {
     @extend .flex-center-column;
     @extend .grey-glassmorphism-2;
-    width: 49.5%;
+    width: 49%;
     height: fit-content;
     position: relative;
     overflow: hidden;
@@ -25,7 +26,6 @@ $item-height: 54px;
     width: 100%;
     display: flex;
     height: $item-height;
-    border-bottom: 1px solid $glass-white-10;
     align-items: center;
     justify-content: space-between;
 }
@@ -59,20 +59,80 @@ $item-height: 54px;
     color: $primary-color;
 }
 
-.board__item {}
+.board__item {
+    @extend .flex-center-row;
+    width: 100%;
+    height: $item-height;
+    border-top: 1px solid $glass-white-10;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    margin: 0;
+}
 
-.board-description {}
+.board-description {
+    @extend .flex-center-column;
+    margin-left: 20px;
+}
 
-.board-description__title {}
+.board-description__title {
+    font-size: $font-size-1;
+    color: $grey-color-300;
+    font-weight: $font-weight-semi-bold;
+    margin-right: auto;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
 
-.board-description__text {}
+.board-description__text {
+    font-size: $font-size-1;
+    color: $grey-color-500;
+    margin-right: auto;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    font-weight: $font-weight-regular;
+}
 
-.board__right {}
+.board__right {
+    @extend .flex-center-column;
+    align-items: flex-end;
+    width: 20%;
+    height: 100%;
+    margin-left: auto;
 
-.board__right--success {}
+    * {
+        color: $grey-color-500;
+    }
+}
 
-.board__right--failure {}
+.board__right--success {
+    @extend .board__right;
 
-.board__right--pending {}
+    * {
+        color: $primary-color;
+    }
+}
 
-.board-right__text {}
+.board__right--failure {
+    @extend .board__right;
+
+    * {
+        color: $red-color-500;
+    }
+}
+
+
+.board__right--pending {
+    @extend .board__right;
+
+    * {
+        color: $orange-color-400;
+    }
+}
+
+.board-right__text {
+    font-size: $font-size-1;
+    font-weight: $font-weight-regular;
+    margin-right: 20px;
+    text-align: right;
+}

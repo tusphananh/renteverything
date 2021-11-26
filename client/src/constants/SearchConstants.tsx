@@ -1,4 +1,5 @@
 import { Item, User } from "../graphql-generated/graphql";
+import { Position } from "./DashBoardConstants";
 
 export enum SearchConstants {
   RESULT_FETCH_MORE_SUCCESS = "RESULT_FETCH_MORE_SUCCESS",
@@ -10,9 +11,11 @@ export enum SearchConstants {
   SEARCH_FETCH_FAILURE = "SEARCH_FAILURE",
   SEARCH_FETCH_MORE_SUCCESS = "SEARCH_FETCH_MORE_SUCCESS",
   SEARCH_FETCH_MORE_FAILURE = "SEARCH_FETCH_MORE_FAILURE",
+  SET_CURRENT_POSITION = "SET_CURRENT_POSITION",
 }
 
 export interface Search {
+  id: string;
   name: string;
   description: string;
   renterPosition: {
@@ -20,6 +23,7 @@ export interface Search {
     lng: number;
   };
   renter: User;
+  distance: number;
 }
 
 export interface SearchResult {
@@ -44,9 +48,20 @@ export interface SearchState {
   isFetching?: boolean;
   isSearching?: boolean;
   error?: string | null;
+  curPos: Position | undefined | null;
 }
 
 export interface SearchAction {
   type: SearchConstants;
   payload?: SearchState;
+}
+
+export enum searchAnimationVariantsName {
+  HIDDEN = "HIDDEN",
+  VISIBLE = "VISIBLE",
+}
+
+export enum MarkerType {
+  GREEN = "GREEN",
+  RED = "RED",
 }

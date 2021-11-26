@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { User } from "../../graphql-generated/graphql";
 import styles from "../../styles/Dashboard.module.scss";
 import NotiIcon from "../../assets/icons/noti.svg";
@@ -12,6 +12,11 @@ import Image from "next/image";
 import { TabName } from "../../constants/DashBoardConstants";
 import Home from "./Home";
 import { useSearchContext } from "../../contexts/searchContext";
+import { useActivitiesContext } from "../../contexts/activitiesContext";
+import Search from "./Search";
+import Message from "./Message";
+import Activities from "./ Activities";
+import Items from "./ Items";
 const user: User = {
   id: "1",
   lastName: "Tu",
@@ -24,6 +29,34 @@ const user: User = {
 function Dashboard() {
   const [activeTabName, setTabName] = React.useState<TabName>(TabName.HOME);
   const { searchState } = useSearchContext();
+  const { activitiesState } = useActivitiesContext();
+  const [mainBoard, setMainBoard] = React.useState<JSX.Element>();
+  const [boards] = React.useState({
+    home: (
+      <Home
+        key={TabName.HOME}
+        searchs={searchState.searchs}
+        activities={activitiesState.activities}
+      />
+    ),
+    message: <Message key={TabName.MESSAGES} />,
+    activities: <Activities key={TabName.ACTIVITIES} />,
+    items: <Items key={TabName.ITEMS} />,
+  });
+  useEffect(() => {
+    if (activeTabName === TabName.HOME) {
+      setMainBoard(boards.home);
+    } else if (activeTabName === TabName.MESSAGES) {
+      setMainBoard(boards.message);
+    } else if (activeTabName === TabName.ACTIVITIES) {
+      setMainBoard(boards.activities);
+    } else if (activeTabName === TabName.ITEMS) {
+      setMainBoard(boards.items);
+    } else {
+      setMainBoard(<></>);
+    }
+  }, [activeTabName, searchState, activitiesState]);
+
   return (
     <div className={styles["container"]}>
       <div className={styles["header"]}>
@@ -54,6 +87,14 @@ function Dashboard() {
           </NavbarItem>
           <NavbarItem
             activeTabName={activeTabName}
+            tabName={TabName.ACTIVITIES}
+            name="Activities"
+            onClick={() => setTabName(TabName.ACTIVITIES)}
+          >
+            <CalenderIcon alt="Activities" />
+          </NavbarItem>
+          <NavbarItem
+            activeTabName={activeTabName}
             tabName={TabName.SEARCH}
             name="Search"
             onClick={() => setTabName(TabName.SEARCH)}
@@ -76,14 +117,6 @@ function Dashboard() {
           >
             <ItemsIcon alt="Items" />
           </NavbarItem>
-          <NavbarItem
-            activeTabName={activeTabName}
-            tabName={TabName.ACTIVITIES}
-            name="Activities"
-            onClick={() => setTabName(TabName.ACTIVITIES)}
-          >
-            <CalenderIcon alt="Activities" />
-          </NavbarItem>
 
           <button className={styles["navbar__item-logout"]}>
             <div className={styles["navbar-item-logo"]}>
@@ -93,7 +126,8 @@ function Dashboard() {
           </button>
         </div>
         <div className={styles["dashboard"]}>
-          <Home searchs={searchState.searchs}></Home>
+          {mainBoard}
+          <Search isVisible={activeTabName === TabName.SEARCH} />
         </div>
       </div>
     </div>

@@ -19,6 +19,8 @@ module.exports = {
   pagesDir: "./src/pages",
   env: {
     GRAPHQL_HOST: "http://localhost:5001/graphql",
+    MAPBOX_TOKEN:
+      "pk.eyJ1IjoidHVzcGhhbmFuaCIsImEiOiJja244eDFyMGkwM3R5MnVvbzI1eWZsYzNuIn0.jm4MGKDtKDMBpLz8IUXyAA",
   },
   images: {
     domains: ["avatars.dicebear.com"],

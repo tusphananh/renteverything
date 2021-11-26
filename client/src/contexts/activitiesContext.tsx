@@ -1,12 +1,13 @@
 import React from "react";
 import {
-  ActivitiesState,
   ActivitiesAction,
+  ActivitiesState,
 } from "../constants/ActivitiesConstants";
+import { activities } from "../constants/ExampleConstants";
 import activitiesReducer from "../reducers/activitiesReducer";
 
 const initialState: ActivitiesState = {
-  activities: [],
+  activities: activities,
   isFetching: false,
   error: null,
 };
@@ -34,3 +35,5 @@ export const ActivitiesProvider: React.FC = ({ children }) => {
     </ActivitiesContext.Provider>
   );
 };
+
+export const useActivitiesContext = () => React.useContext(ActivitiesContext);

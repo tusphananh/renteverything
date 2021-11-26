@@ -7,6 +7,7 @@ import {
 } from "../../constants/ActivitiesConstants";
 import StreetViewIcon from "../../assets/icons/street-view.svg";
 import RecentLogo from "../../assets/icons/recent.svg";
+
 const Home: React.FC<{
   searchs?: Search[];
   activities?: Activity[];
@@ -28,14 +29,17 @@ const RecentBoard: React.FC<{
       {/* Title Here */}
       <BoardHeader title={"Recent"} Icon={Icon} />
       {/* Render Items Here */}
+      {/* {console.log(activities)} */}
       {activities &&
         activities.length > 0 &&
         activities.map((activity: Activity) => {
           return (
             <BoardItem
-              name={activity.name}
-              description={activity.description}
+              key={activity.id}
+              name={activity.item.name}
+              description={activity.item.description}
               rightText={activity.startDate}
+              status={activity.status}
             />
           );
         })}
@@ -55,12 +59,12 @@ const NearByBoard: React.FC<{
       {searchs &&
         searchs.length > 0 &&
         searchs.map((search: Search) => {
-          const distance = "";
           return (
             <BoardItem
+              key={search.id}
               name={search.name}
               description={search.description}
-              rightText={distance}
+              rightText={(search.distance / 1000).toFixed(2) + " km"}
             />
           );
         })}
@@ -77,11 +81,13 @@ const BoardItem: React.FC<{
   const [statusStyle] = React.useState([styles["board__right"]]);
   useEffect(() => {
     if (status === ActivitiesStatus.SUCCESS) {
-      statusStyle.push(styles["board-right--success"]);
+      statusStyle.push(styles["board__right--success"]);
     } else if (status === ActivitiesStatus.FAILURE) {
-      statusStyle.push(styles["board-right--failure"]);
+      statusStyle.push(styles["board__right--failure"]);
     } else if (status === ActivitiesStatus.PENDING) {
-      statusStyle.push(styles["board-right--pending"]);
+      statusStyle.push(styles["board__right--pending"]);
+    } else {
+      statusStyle.push(styles["board__right"]);
     }
   }, []);
   return (

@@ -27,9 +27,7 @@ export interface ActivitiesAction {
 }
 
 export interface Activity {
-  id: number;
-  name: string;
-  description: string;
+  id: string;
   startDate: string;
   endDate: string;
   providerLocation: {
