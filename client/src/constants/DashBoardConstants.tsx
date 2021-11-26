@@ -5,3 +5,8 @@ export enum TabName {
   ACTIVITIES = "Activities",
   SEARCH = "Search",
 }
+
+export interface Position {
+  lng: number;
+  lat: number;
+}

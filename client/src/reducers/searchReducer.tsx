@@ -63,6 +63,11 @@ const searchReducer = (
         ...state,
         results: [],
       };
+    case SearchConstants.SET_CURRENT_POSITION:
+      return {
+        ...state,
+        curPos: action.payload?.curPos!,
+      };
 
     default:
       return state;

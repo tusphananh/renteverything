@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { SkeletonAnimation } from "../../animations/SearchAnimations";
-import { Position } from "../../constants/DashBoardConstants";
 import { MarkerType } from "../../constants/SearchConstants";
 import { useSearchContext } from "../../contexts/searchContext";
 import { addMarker, getMap } from "../../libs/mapbox";

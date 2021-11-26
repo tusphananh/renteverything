@@ -39,6 +39,7 @@ export const SearchProvider: React.FC = ({ children }) => {
             lng: position.coords.longitude,
           })
         );
+        console.log(position.coords);
       });
     };
     setCurPos();
