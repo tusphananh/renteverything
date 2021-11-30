@@ -1,6 +1,6 @@
 import React from "react";
 
-function Activities(props) {
+function Activities() {
   return <div></div>;
 }
 
