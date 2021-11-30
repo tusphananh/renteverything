@@ -1,6 +1,6 @@
 import React from 'react';
 
-function  Items(props) {
+function  Items() {
     return (
         <div>
             
