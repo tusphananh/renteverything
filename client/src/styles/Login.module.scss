@@ -5,7 +5,7 @@
 $btn-width: 130px;
 $btn-height: 52px;
 
-.container {
+.container__blur {
     @extend .flex-center-column;
     @extend .background-image;
     width: 100vw;
@@ -15,7 +15,7 @@ $btn-height: 52px;
     color: white;
 
     * {
-        font-family: $font;
+        font-family: $lato-font;
     }
 
     span {

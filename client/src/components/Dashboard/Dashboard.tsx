@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { User } from "../../graphql-generated/graphql";
-import styles from "../../styles/Dashboard.module.scss";
-import NotiIcon from "../../assets/icons/noti.svg";
-import HomeIcon from "../../assets/icons/home.svg";
-import SearchIcon from "../../assets/icons/signal-stream.svg";
-import MessageIcon from "../../assets/icons/messages.svg";
+import Image from "next/image";
+import React, { useEffect } from "react";
 import CalenderIcon from "../../assets/icons/calender.svg";
+import HomeIcon from "../../assets/icons/home.svg";
 import ItemsIcon from "../../assets/icons/items.svg";
 import LogoutIcon from "../../assets/icons/logout.svg";
-import Image from "next/image";
+import MessageIcon from "../../assets/icons/messages.svg";
+import NotiIcon from "../../assets/icons/noti.svg";
+import SearchIcon from "../../assets/icons/signal-stream.svg";
 import { TabName } from "../../constants/DashBoardConstants";
-import Home from "./Home";
-import { useSearchContext } from "../../contexts/searchContext";
 import { useActivitiesContext } from "../../contexts/activitiesContext";
-import Search from "./Search";
-import Message from "./Message";
+import { useSearchContext } from "../../contexts/searchContext";
+import { User } from "../../graphql-generated/graphql";
+import styles from "../../styles/DashBoard.module.scss";
 import Activities from "./ Activities";
 import Items from "./ Items";
+import Home from "./Home";
+import Message from "./Message";
+import Search from "./Search";
 const user: User = {
   id: "1",
   lastName: "Tu",
