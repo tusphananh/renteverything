@@ -216,7 +216,7 @@
 
 .search-controller-container {
     @extend .flex-center-column;
-    @extend .grey-glassmorphism-3;
+    @extend .grey-glassmorphism-4;
     padding: 20px;
     position: absolute;
     top: 20px;
@@ -226,7 +226,13 @@
     z-index: 2;
 }
 
-.search-controller__input-container {
+.search-panel {
+    @extend .flex-center-column;
+    width: 100%;
+    height: fit-content;
+}
+
+.search-panel__input-container {
     @extend .flex-center-column;
     position: relative;
     width: 100%;
@@ -235,7 +241,7 @@
     padding: 0;
 }
 
-.search-controller-input__placeholder {
+.search-panel-input__placeholder {
     position: absolute;
     @extend .center;
     @extend .flex-center-row;
@@ -246,7 +252,7 @@
 }
 
 
-.search-controller-input__input {
+.search-panel-input__input {
     @extend .center;
     position: absolute;
     width: 100%;
@@ -257,12 +263,12 @@
     border: none;
     text-align: center;
     outline: none;
-    color: $glass-white-30;
+    color: $grey-color-100;
     font-size: $font-size-2;
     font-weight: $font-weight-semi-bold;
 }
 
-.search-controller-input__icon {
+.search-panel-input__icon {
     margin-right: 5px;
     transform: scale(1);
 
@@ -271,7 +277,7 @@
     }
 }
 
-.search-controller__slider-container {
+.search-panel__slider-container {
     @extend .flex-center-row;
     color: $primary-color;
     font-size: $font-size-2;
@@ -281,24 +287,26 @@
 }
 
 
-.search-controller__slider {
+.search-panel__slider {
     @extend .flex-center-row;
     -webkit-appearance: none;
     width: 50%;
     height: 5px;
-    background: $glass-white-10;
+    // background: $glass-white-10;
     outline: none;
     opacity: 0.7;
     border-radius: 5px;
     -webkit-transition: .2s;
     transition: opacity .2s;
+    background: $glass-white-30;
+
 }
 
-.search-controller__slider:hover {
+.search-panel__slider:hover {
     opacity: 1;
 }
 
-.search-controller__slider::-webkit-slider-thumb {
+.search-panel__slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 15px;
@@ -308,15 +316,14 @@
     cursor: pointer;
 }
 
-.search-controller__slider::-moz-range-thumb {
+.search-panel__slider::-moz-range-thumb {
     width: 10px;
     height: 10px;
     background: $primary-color;
     cursor: pointer;
 }
 
-
-.search-controller__search-btn {
+.search-panel__search-btn {
 
     color: $glass-white-20;
     transition: .2s;
@@ -325,8 +332,10 @@
     border: none;
     font-size: $font-size-3;
     font-weight: $font-weight-semi-bold;
+    padding: 0;
+    margin: 0;
 
     &:hover {
-        color: $glass-white-30;
+        color: $grey-color-300;
     }
 }

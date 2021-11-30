@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
-import { SkeletonAnimation } from "../../animations/SearchAnimations";
+import {
+  ResultsPanelAnimation,
+  SearchPanelAnimation,
+  SkeletonAnimation,
+} from "../../animations/SearchAnimations";
 import { MarkerType } from "../../constants/SearchConstants";
 import { useSearchContext } from "../../contexts/searchContext";
 import { addMarker, getMap } from "../../libs/mapbox";
 import styles from "../../styles/Search.module.scss";
 import SearchIcon from "../../assets/icons/search.svg";
+import { searchCancel, searchRequest } from "../../actions/searchActions";
 /**
  * Search component here
  */
@@ -64,51 +69,108 @@ const Search: React.FC<{
  */
 
 const SearchController: React.FC<{}> = ({}) => {
+  const { searchState } = useSearchContext();
+  return (
+    <div className={styles["search-controller-container"]}>
+      <SearchPanel isVisible={!searchState.isSearching}></SearchPanel>
+      <ResultsPanel isVisible={searchState.isSearching!}></ResultsPanel>
+    </div>
+  );
+};
+
+/**
+ * Search Label component here
+ */
+
+const SearchPanel: React.FC<{
+  isVisible: boolean;
+}> = (props) => {
   const [inputIsFocused, setInputIsFocused] = React.useState<boolean>(false);
   const [inputValue, setInputValue] = React.useState<string>("");
   const [inputRadius, setInputRadius] = React.useState<number>(1);
+  const { searchDispatch } = useSearchContext();
+  const search = () => {
+    searchDispatch(searchRequest());
+  };
   return (
-    <div className={styles["search-controller-container"]}>
-      <div className={styles["search-controller__input-container"]}>
+    <SearchPanelAnimation
+      className={styles["search-panel"]}
+      isVisible={props.isVisible}
+    >
+      <div className={styles["search-panel__input-container"]}>
         {/* If input is not focused and input value is not empty, then show the placeholder */}
         <div
           className={
             !inputIsFocused && inputValue === ""
-              ? styles["search-controller-input__placeholder"]
-              : styles["hide"] +
-                " " +
-                styles["search-controller-input__placeholder"]
+              ? styles["search-panel-input__placeholder"]
+              : styles["hide"] + " " + styles["search-panel-input__placeholder"]
           }
         >
-          <SearchIcon className={styles["search-controller-input__icon"]} />
+          <SearchIcon className={styles["search-panel-input__icon"]} />
           Input your item
         </div>
         <input
-          className={styles["search-controller-input__input"]}
+          className={styles["search-panel-input__input"]}
           onFocus={() => setInputIsFocused(true)}
           onBlur={() => setInputIsFocused(false)}
           onChange={(e) => setInputValue(e.target.value)}
         />
       </div>
-      <div className={styles["search-controller__slider-container"]}>
+      <div className={styles["search-panel__slider-container"]}>
         <p>Radius:</p>
         <p> &nbsp; {inputRadius} km &nbsp;</p>
         <input
           type="range"
           min="1"
-          max="50"
+          max="30"
           value={inputRadius}
-          className={styles["search-controller__slider"]}
+          className={styles["search-panel__slider"]}
           onChange={(e) => {
             setInputRadius(Number(e.target.value));
+            /**
+             * Fill the color fo the left side of the slider
+             */
+            const changeLower = `linear-gradient(to right, #34AE73 0%, #34AE73 ${
+              (parseInt(e.target.value) * 100) / 30
+            }%, rgba(255, 255, 255, 0.3) ${
+              (parseInt(e.target.value) * 100) / 30
+            }%, rgba(255, 255, 255, 0.3) 100%)`;
+            e.target.style.background = changeLower;
+            console.log(changeLower);
           }}
         ></input>
       </div>
 
-      <button className={styles["search-controller__search-btn"]}>
+      <button
+        className={styles["search-panel__search-btn"]}
+        onClick={() => {
+          search();
+        }}
+      >
         Search
       </button>
-    </div>
+    </SearchPanelAnimation>
+  );
+};
+
+/**
+ * Result component here
+ */
+const ResultsPanel: React.FC<{
+  isVisible: boolean;
+}> = ({ isVisible }) => {
+  const { searchDispatch } = useSearchContext();
+  const back = () => {
+    searchDispatch(searchCancel());
+  };
+  return (
+    <ResultsPanelAnimation
+      className={styles["results-panel"]}
+      isVisible={isVisible}
+    >
+      <p>Results</p>
+      <button onClick={() => back()}>Back</button>
+    </ResultsPanelAnimation>
   );
 };
 

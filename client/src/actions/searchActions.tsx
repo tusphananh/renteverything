@@ -7,3 +7,11 @@ export const setCurrentPosition = (position: Position): SearchAction => ({
     curPos: position,
   },
 });
+
+export const searchRequest = (): SearchAction => ({
+  type: SearchConstants.SEARCH_REQUEST,
+});
+
+export const searchCancel = (): SearchAction => ({
+  type: SearchConstants.SEARCH_CANCEL,
+});

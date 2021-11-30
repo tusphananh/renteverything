@@ -9,58 +9,34 @@ const searchReducer = (
   action: SearchAction
 ): SearchState => {
   switch (action.type) {
-    case SearchConstants.SEARCH_FETCH_REQUEST:
+    case SearchConstants.SEARCH_REQUEST:
       return {
         ...state,
         isFetching: true,
+        isSearching: true,
       };
-    case SearchConstants.SEARCH_FETCH_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        searchs: action.payload?.searchs,
-        error: null,
-      };
-    case SearchConstants.SEARCH_FETCH_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-        error: action.payload?.error,
-      };
-    case SearchConstants.SEARCH_FETCH_MORE_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        searchs: [...state.searchs!, ...action.payload?.searchs!],
-        error: null,
-      };
-    case SearchConstants.SEARCH_FETCH_MORE_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-        error: action.payload?.error,
-      };
-    case SearchConstants.RESULT_FETCH_MORE_REQUEST:
-      return {
-        ...state,
-        isFetching: true,
-      };
-    case SearchConstants.RESULT_FETCH_MORE_SUCCESS:
+    case SearchConstants.SEARCH_SUCCESS:
       return {
         ...state,
         isFetching: false,
         results: action.payload?.results,
-        error: null,
       };
-    case SearchConstants.RESULT_FETCH_MORE_FAILURE:
+    case SearchConstants.SEARCH_FAILURE:
       return {
         ...state,
         isFetching: false,
         error: action.payload?.error,
       };
-    case SearchConstants.RESULT_CLEAR:
+    case SearchConstants.CLEAR_RESULTS:
       return {
         ...state,
+        results: [],
+      };
+    case SearchConstants.SEARCH_CANCEL:
+      return {
+        ...state,
+        isSearching: false,
+        isFetching: false,
         results: [],
       };
     case SearchConstants.SET_CURRENT_POSITION:
