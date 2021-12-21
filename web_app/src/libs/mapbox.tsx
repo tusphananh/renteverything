@@ -4,8 +4,6 @@ import { Position } from "../constants/DashBoardConstants";
 import { MarkerType } from "../constants/SearchConstants";
 import styles from "../styles/Search.module.scss";
 
-mapboxgl.accessToken = `${process.env.MAPBOX_TOKEN}`;
-
 export const addMarker = (
   map: mapboxgl.Map,
   position: Position,
@@ -31,9 +29,26 @@ export const addMarker = (
 };
 
 export const getMap = (): mapboxgl.Map => {
-  return new mapboxgl.Map({
+  mapboxgl.accessToken = `${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`;
+  const map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mapbox/dark-v10",
     zoom: 5,
   });
+  if (map) {
+    map.addControl(new mapboxgl.NavigationControl());
+    map.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+      })
+    );
+    console.log(process.env.MAPBOX_TOKEN);
+    console.log("Map loaded successfully");
+  } else {
+    console.log("Map load failed");
+  }
+  return map;
 };

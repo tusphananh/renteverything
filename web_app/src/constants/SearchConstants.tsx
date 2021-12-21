@@ -1,8 +1,9 @@
 import { Item, User } from "../graphql-generated/graphql";
 import { Position } from "./DashBoardConstants";
+import { Socket } from "socket.io-client";
 
 export enum SearchConstants {
-  CLEAR_RESULTS= "CLEAR_RESULTS",
+  CLEAR_RESULTS = "CLEAR_RESULTS",
   SEARCH_REQUEST = "SEARCH_REQUEST",
   SEARCH_SUCCESS = "SEARCH_SUCCESS",
   SEARCH_FAILURE = "SEARCH_FAILURE",
@@ -39,6 +40,7 @@ export interface SearchResult {
 }
 
 export interface SearchState {
+  socket?: Socket;
   searchs?: Search[] | [];
   results?: SearchResult[] | [];
   isFetching?: boolean;

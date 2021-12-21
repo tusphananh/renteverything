@@ -30,7 +30,7 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
 
   const httpLink = new HttpLink({
     // uri: 'http://localhost:4000/graphql', // Server URL (must be absolute)
-    uri: process.env.GRAPHQL_HOST,
+    uri: process.env.NEXT_PUBLIC_GRAPHQL_HOST,
     credentials: "include", // Additional fetch() options like `credentials` or `headers`
     fetch: enhancedFetch,
   });
@@ -42,7 +42,8 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
     connectToDevTools: process.env.NODE_ENV !== "production",
   });
 
-  client && console.log("connected: ", process.env.GRAPHQL_HOST);
+  client &&
+    console.log("GrapQL connected: ", process.env.NEXT_PUBLIC_GRAPHQL_HOST);
   return client;
 }
 
