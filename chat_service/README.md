@@ -2,13 +2,9 @@
 
 ## Introduction
 
-#
-
 This service is used to send and receive messages between users. Connecting with database and save messages.
 
 ## Installation
-
-#
 
 > Before you can use this service, you need to install api_service and run docker-compose to deploy the database.
 
@@ -25,8 +21,6 @@ npm run production
 ```
 
 ## Libraries
-
-#
 
 > This service uses the following libraries:
 
