@@ -4,6 +4,7 @@ import { searchs } from "../constants/ExampleConstants";
 import { SearchAction, SearchState } from "../constants/SearchConstants";
 import { getSocket } from "../libs/socket";
 import searchReducer from "../reducers/searchReducer";
+import { useAuthContext } from "./authContext";
 
 const initialState: SearchState = {
   socket: undefined,
@@ -13,6 +14,7 @@ const initialState: SearchState = {
   error: null,
   searchs: searchs,
   curPos: null,
+  address: "searching your location...",
 };
 
 export const SearchContext = React.createContext<{
@@ -24,6 +26,7 @@ export const SearchContext = React.createContext<{
 });
 
 export const SearchProvider: React.FC = ({ children }) => {
+  const { authState } = useAuthContext();
   const [searchState, searchDispatch] = React.useReducer(
     searchReducer,
     initialState
@@ -38,7 +41,23 @@ export const SearchProvider: React.FC = ({ children }) => {
     }
   };
 
+  const setCurPos = async () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      searchDispatch(
+        setCurrentPosition({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        })
+      );
+      console.log(position.coords);
+    });
+  };
+
   useEffect(() => {
+    /**
+     * Get then Set current position
+     */
+    authState.isAuthenticated && setCurPos();
     /**
      * Connect to search socket
      */
@@ -50,22 +69,6 @@ export const SearchProvider: React.FC = ({ children }) => {
     searchState?.socket?.on("connect", () => {
       console.log("connected to search socket");
     });
-
-    /**
-     * Get then Set current position
-     */
-    const setCurPos = async () => {
-      await navigator.geolocation.getCurrentPosition((position) => {
-        searchDispatch(
-          setCurrentPosition({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          })
-        );
-        console.log(position.coords);
-      });
-    };
-    setCurPos();
   }, []);
 
   const values = {

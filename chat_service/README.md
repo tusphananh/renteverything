@@ -6,7 +6,7 @@ This service is used to send and receive messages between users. Connecting with
 
 ## Installation
 
-> Before you can use this service, you need to install api_service and run docker-compose to deploy the database.
+> Before you can use this service, you need to run docker-compose to deploy the database.
 
 1. Install packages:
 

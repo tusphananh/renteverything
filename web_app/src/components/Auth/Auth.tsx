@@ -11,13 +11,12 @@ const Auth: FC = () => {
   };
 
   useEffect(() => {
-    if (authState.isAuthenticated && !authState.isFetching) {
+    if (!authState.isAuthenticated && !authState.isFetching) {
       toLogin();
     }
   }, [authState]);
 
-  return <>{!authState.isAuthenticated && <Dashboard />}</>;
-
+  return <>{authState.isAuthenticated && <Dashboard />}</>;
 };
 
 export default Auth;

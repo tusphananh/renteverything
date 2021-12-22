@@ -9,6 +9,7 @@ import { useSearchContext } from "../../contexts/searchContext";
 import { addMarker, getMap } from "../../libs/mapbox";
 import styles from "../../styles/Search.module.scss";
 import SearchIcon from "../../assets/icons/search.svg";
+import LocationArrowIcon from "../../assets/icons/location-arrow.svg";
 import { searchCancel, searchRequest } from "../../actions/searchActions";
 /**
  * Search component here
@@ -86,9 +87,10 @@ const SearchPanel: React.FC<{
   isVisible: boolean;
 }> = (props) => {
   const [inputIsFocused, setInputIsFocused] = React.useState<boolean>(false);
-  const [inputValue, setInputValue] = React.useState<string>("");
-  const [inputRadius, setInputRadius] = React.useState<number>(1);
-  const { searchDispatch } = useSearchContext();
+  const [nameValue, setNameValue] = React.useState<string>("");
+  const [radiusValue, setRadiusValue] = React.useState<number>(1);
+  const [hourValue, setHourValue] = React.useState<number>(0);
+  const { searchState, searchDispatch } = useSearchContext();
   const search = () => {
     searchDispatch(searchRequest());
   };
@@ -97,11 +99,15 @@ const SearchPanel: React.FC<{
       className={styles["search-panel"]}
       isVisible={props.isVisible}
     >
+      <div className={styles["search-panel__address-container"]}>
+        <LocationArrowIcon />
+        <button>{searchState.address}</button>
+      </div>
       <div className={styles["search-panel__input-container"]}>
         {/* If input is not focused and input value is not empty, then show the placeholder */}
         <div
           className={
-            !inputIsFocused && inputValue === ""
+            !inputIsFocused && nameValue === ""
               ? styles["search-panel-input__placeholder"]
               : styles["hide"] + " " + styles["search-panel-input__placeholder"]
           }
@@ -113,20 +119,22 @@ const SearchPanel: React.FC<{
           className={styles["search-panel-input__input"]}
           onFocus={() => setInputIsFocused(true)}
           onBlur={() => setInputIsFocused(false)}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => setNameValue(e.target.value)}
         />
       </div>
       <div className={styles["search-panel__slider-container"]}>
-        <p>Radius:</p>
-        <p> &nbsp; {inputRadius} km &nbsp;</p>
+        <div className={styles["search-panel__radius-container"]}>
+          <p>Radius:</p>
+          <p> &nbsp; {radiusValue} km &nbsp;</p>
+        </div>
         <input
           type="range"
           min="1"
           max="30"
-          value={inputRadius}
+          value={radiusValue}
           className={styles["search-panel__slider"]}
           onChange={(e) => {
-            setInputRadius(Number(e.target.value));
+            setRadiusValue(Number(e.target.value));
             /**
              * Fill the color fo the left side of the slider
              */
@@ -140,7 +148,14 @@ const SearchPanel: React.FC<{
           }}
         ></input>
       </div>
-
+      <div className={styles["search-panel__duration-container"]}>
+        <p>Duration</p>
+        <input
+          placeholder="Hour"
+          className={styles["search-panel__duration-input"]}
+          onChange={(e) => setHourValue(Number(e.target.value))}
+        ></input>
+      </div>
       <button
         className={styles["search-panel__search-btn"]}
         onClick={() => {

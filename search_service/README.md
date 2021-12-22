@@ -6,7 +6,7 @@ This service is used to search for users. Connecting with Redis to save the rece
 
 ## Installation
 
-> Before you can use this service, you need to install api_service and run docker-compose to deploy the database.
+> Before you can use this service, you need to run docker-compose to deploy the database.
 
 1. Install packages:
 

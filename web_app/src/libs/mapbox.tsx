@@ -52,3 +52,5 @@ export const getMap = (): mapboxgl.Map => {
   }
   return map;
 };
+
+

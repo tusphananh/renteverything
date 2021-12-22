@@ -47,6 +47,7 @@ export interface SearchState {
   isSearching?: boolean;
   error?: string | null;
   curPos: Position | undefined | null;
+  address?: string | null;
 }
 
 export interface SearchAction {
