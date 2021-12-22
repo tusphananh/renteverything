@@ -1,5 +1,5 @@
 # Rent Everything
-![alt text for screen readers](./client/src/assets/images/intro.jpg)
+![alt text for screen readers](./web_app/src/assets/images/intro.jpg)
 ## The purpose of this project
 > Help people
 #
