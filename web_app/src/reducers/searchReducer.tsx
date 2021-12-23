@@ -1,6 +1,7 @@
 import {
   SearchAction,
   SearchConstants,
+  searchScene,
   SearchState,
 } from "../constants/SearchConstants";
 
@@ -44,7 +45,26 @@ const searchReducer = (
         ...state,
         curPos: action.payload?.curPos!,
       };
-
+    case SearchConstants.TO_INPUT_DETAILS_SCENE:
+      return {
+        ...state,
+        searchScene: searchScene.INPUT_DETAILS,
+      };
+    case SearchConstants.TO_INPUT_LOCATION_SCENE:
+      return {
+        ...state,
+        searchScene: searchScene.INPUT_LOCATION,
+      };
+    case SearchConstants.TO_RESULTS_SCENE:
+      return {
+        ...state,
+        searchScene: searchScene.RESULTS,
+      };
+    case SearchConstants.SET_ADDRESS:
+      return {
+        ...state,
+        address: action.payload?.address,
+      };
     default:
       return state;
   }

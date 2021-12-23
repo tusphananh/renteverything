@@ -9,6 +9,10 @@ export enum SearchConstants {
   SEARCH_FAILURE = "SEARCH_FAILURE",
   SEARCH_CANCEL = "SEARCH_CANCEL",
   SET_CURRENT_POSITION = "SET_CURRENT_POSITION",
+  TO_INPUT_DETAILS_SCENE = "TO_INPUT_DETAILS_SCENE",
+  TO_INPUT_LOCATION_SCENE = "TO_INPUT_LOCATION_SCENE",
+  TO_RESULTS_SCENE = "TO_RESULTS_SCENE",
+  SET_ADDRESS = "SET_ADDRESS",
 }
 
 export interface Search {
@@ -46,8 +50,9 @@ export interface SearchState {
   isFetching?: boolean;
   isSearching?: boolean;
   error?: string | null;
-  curPos: Position | undefined | null;
+  curPos?: Position | undefined | null;
   address?: string | null;
+  searchScene?: searchScene;
 }
 
 export interface SearchAction {
@@ -63,4 +68,15 @@ export enum searchAnimationVariantsName {
 export enum MarkerType {
   GREEN = "GREEN",
   RED = "RED",
+}
+
+export enum searchScene {
+  INPUT_DETAILS = "INPUT_DETAILS",
+  INPUT_LOCATION = "INPUT_LOCATION",
+  RESULTS = "RESULTS",
+}
+
+export interface SearchAddress {
+  address: string;
+  position: Position;
 }

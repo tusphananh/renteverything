@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
-import { setCurrentPosition } from "../actions/searchActions";
+import { setAddress, setCurrentPosition } from "../actions/searchActions";
 import { searchs } from "../constants/ExampleConstants";
-import { SearchAction, SearchState } from "../constants/SearchConstants";
+import {
+  SearchAction,
+  searchScene,
+  SearchState,
+} from "../constants/SearchConstants";
+import { getReverseGeocoding } from "../libs/mapbox";
 import { getSocket } from "../libs/socket";
 import searchReducer from "../reducers/searchReducer";
 import { useAuthContext } from "./authContext";
@@ -15,6 +20,7 @@ const initialState: SearchState = {
   searchs: searchs,
   curPos: null,
   address: "searching your location...",
+  searchScene: searchScene.INPUT_DETAILS,
 };
 
 export const SearchContext = React.createContext<{
@@ -49,7 +55,7 @@ export const SearchProvider: React.FC = ({ children }) => {
           lng: position.coords.longitude,
         })
       );
-      console.log(position.coords);
+      // console.log(position.coords);
     });
   };
 
@@ -70,6 +76,17 @@ export const SearchProvider: React.FC = ({ children }) => {
       console.log("connected to search socket");
     });
   }, []);
+
+  useEffect(() => {
+    const setAddressHandler = async () => {
+      if (searchState.curPos) {
+        const address = await getReverseGeocoding(searchState.curPos);
+        console.log(address);
+        searchDispatch(setAddress(address.toString()));
+      }
+    };
+    setAddressHandler();
+  }, [searchState.curPos]);
 
   const values = {
     searchState,
