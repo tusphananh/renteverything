@@ -1,6 +1,6 @@
 import { ErrorResponse, User } from "../graphql-generated/graphql";
 
-export enum AuthType {
+export enum AuthTypes {
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGIN_FAILURE,
   AUTH_LOGOUT_REQUESTS,
@@ -27,6 +27,6 @@ export interface AuthState {
 }
 
 export interface AuthAction {
-  type: AuthType;
+  type: AuthTypes;
   payload?: AuthState;
 }

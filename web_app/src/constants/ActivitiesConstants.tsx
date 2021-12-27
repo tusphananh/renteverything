@@ -1,6 +1,6 @@
 import { Item, User } from "../graphql-generated/graphql";
 
-export enum ActivitiesConstants {
+export enum ActivitiesTypes {
   ACTIVITIES_FETCH_REQUEST = "ACTIVITIES_FETCH_REQUEST",
   ACTIVITIES_FETCH_SUCCESS = "ACTIVITIES_FETCH_SUCCESS",
   ACTIVITIES_FETCH_FAILURE = "ACTIVITIES_FETCH_FAILURE",
@@ -22,7 +22,7 @@ export interface ActivitiesState {
 }
 
 export interface ActivitiesAction {
-  type: ActivitiesConstants;
+  type: ActivitiesTypes;
   payload?: ActivitiesState;
 }
 

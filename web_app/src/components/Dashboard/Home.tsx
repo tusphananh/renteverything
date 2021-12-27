@@ -1,20 +1,22 @@
 import React, { useEffect } from "react";
-import { Search } from "../../constants/SearchConstants";
-import styles from "../../styles/Home.module.scss";
+import RecentLogo from "../../assets/icons/recent.svg";
+import StreetViewIcon from "../../assets/icons/street-view.svg";
 import {
   ActivitiesStatus,
   Activity,
 } from "../../constants/ActivitiesConstants";
-import StreetViewIcon from "../../assets/icons/street-view.svg";
-import RecentLogo from "../../assets/icons/recent.svg";
+import { NearByItem } from "../../constants/HomeConstants";
+import { SearchInterface } from "../../constants/SearchConstants";
+import { useSearchContext } from "../../contexts/searchContext";
+import { getDistance } from "../../libs/mapbox";
+import styles from "../../styles/Home.module.scss";
 
 const Home: React.FC<{
-  searchs?: Search[];
   activities?: Activity[];
-}> = ({ searchs, activities }) => {
+}> = ({ activities }) => {
   return (
     <div className={styles["main"]}>
-      <NearByBoard Icon={RecentLogo} searchs={searchs} />
+      <NearByBoard Icon={RecentLogo} />
       <RecentBoard Icon={StreetViewIcon} activities={activities} />
     </div>
   );
@@ -49,47 +51,68 @@ const RecentBoard: React.FC<{
 
 const NearByBoard: React.FC<{
   Icon: any;
-  searchs?: Search[];
-}> = ({ Icon, searchs }) => {
+}> = ({ Icon }) => {
+  const { searchState } = useSearchContext();
+  const [searchs, setSeachs] = React.useState<NearByItem[]>([]);
+  useEffect(() => {
+    if (searchState.curPos && searchState.searchs) {
+      const pos = searchState.curPos;
+      searchState.searchs.forEach(async (search: SearchInterface) => {
+        const distance = await getDistance(pos, {
+          lat: search.lat,
+          lng: search.lng,
+        });
+
+        const item: NearByItem = {
+          distance,
+          ...search,
+        };
+
+        setSeachs((prevState) => [...prevState, item]);
+        console.log(item);
+      });
+    }
+  }, [searchState.searchs, searchState.curPos]);
+
   return (
     <div className={styles["board"]}>
       {/* Title Here */}
       <BoardHeader title={"Nearby"} Icon={Icon} />
       {/* Render Items Here */}
-      {searchs &&
-        searchs.length > 0 &&
-        searchs.map((search: Search) => {
-          return (
-            <BoardItem
-              key={search.id}
-              name={search.name}
-              description={search.description}
-              rightText={(search.distance / 1000).toFixed(2) + " km"}
-            />
-          );
-        })}
+      {searchs.map((search: NearByItem) => {
+        return (
+          <BoardItem
+            key={search.id}
+            name={search.name}
+            rightText={(search.distance / 1000).toFixed(2) + " km"}
+          />
+        );
+      })}
     </div>
   );
 };
 
 const BoardItem: React.FC<{
   name: string;
-  description: string;
+  description?: string;
   rightText: string;
   status?: ActivitiesStatus;
 }> = ({ name, description, rightText, status }) => {
-  const [statusStyle] = React.useState([styles["board__right"]]);
+  const [statusStyle, setStatusStyle] = React.useState([
+    styles["board__right"],
+  ]);
   useEffect(() => {
     if (status === ActivitiesStatus.SUCCESS) {
-      statusStyle.push(styles["board__right--success"]);
+      // statusStyle.push(styles["board__right--success"]);
+      setStatusStyle((prev) => [...prev, styles["board__right--success"]]);
     } else if (status === ActivitiesStatus.FAILURE) {
-      statusStyle.push(styles["board__right--failure"]);
+      // statusStyle.push(styles["board__right--failure"]);
+      setStatusStyle((prev) => [...prev, styles["board__right--failure"]]);
     } else if (status === ActivitiesStatus.PENDING) {
-      statusStyle.push(styles["board__right--pending"]);
-    } else {
-      statusStyle.push(styles["board__right"]);
+      // statusStyle.push(styles["board__right--pending"]);
+      setStatusStyle((prev) => [...prev, styles["board__right--pending"]]);
     }
-  }, []);
+  }, [statusStyle]);
   return (
     <div className={styles["board__item"]}>
       <div className={styles["board-description"]}>

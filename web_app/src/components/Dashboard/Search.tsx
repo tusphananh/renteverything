@@ -1,15 +1,22 @@
 import React, { useEffect } from "react";
 import { SkeletonAnimation } from "../../animations/SearchAnimations";
+import LocationArrowIcon from "../../assets/icons/location-arrow.svg";
+import MinusIcon from "../../assets/icons/minus.svg";
+import PlusIcon from "../../assets/icons/plus.svg";
 import { MarkerType } from "../../constants/SearchConstants";
 import { useSearchContext } from "../../contexts/searchContext";
 import {
   addMarker,
+  flyTo,
   generateMarker,
   getMap,
-  removeMarker,
+  zoomIn,
+  zoomOut,
 } from "../../libs/mapbox";
 import styles from "../../styles/Search.module.scss";
+import "mapbox-gl/dist/mapbox-gl.css";
 import { SearchController } from "./SearchController";
+
 /**
  * Search component here
  */
@@ -59,7 +66,10 @@ const Search: React.FC<{
       </SkeletonAnimation>
 
       {/* Search Controller */}
-      <SearchController />
+      <SearchController map={map} />
+
+      {/* Map Controller */}
+      <MapController map={map} />
 
       {/* Map */}
       <div
@@ -70,6 +80,45 @@ const Search: React.FC<{
             : styles["map-container--disabled"]
         }
       ></div>
+    </div>
+  );
+};
+
+const MapController: React.FC<{
+  map: mapboxgl.Map | null;
+}> = ({ map }) => {
+  const { searchState } = useSearchContext();
+  return (
+    <div className={styles["map-controller-container"]}>
+      <div className={styles["map-controller__btn-container"]}>
+        <button
+          className={styles["map-controller__btn"]}
+          onClick={() => {
+            zoomIn(map);
+          }}
+        >
+          <PlusIcon />
+        </button>
+        <div className={styles["map-controller__devider"]} />
+        <button
+          className={styles["map-controller__btn"]}
+          onClick={() => {
+            zoomOut(map);
+          }}
+        >
+          <MinusIcon />
+        </button>
+      </div>
+      <div className={styles["map-controller__btn-container"]}>
+        <button
+          className={styles["map-controller__btn"]}
+          onClick={() => {
+            flyTo(map, searchState.curPos!);
+          }}
+        >
+          <LocationArrowIcon />
+        </button>
+      </div>
     </div>
   );
 };

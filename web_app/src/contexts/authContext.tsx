@@ -1,29 +1,29 @@
 import {
-  useReducer,
   createContext,
   Dispatch,
-  useContext,
   FC,
+  useContext,
   useEffect,
+  useReducer,
 } from "react";
 import {
-  requestLogin,
+  checkSessionSuccess,
   loginFailure,
   loginSuccess,
-  registerSuccess,
   registerFailure,
-  requestRegister,
+  registerSuccess,
   requestCheckSession,
-  checkSessionSuccess,
-  checkSessionFailure,
+  requestLogin,
+  requestRegister,
 } from "../actions/authActions";
 import { AuthAction, AuthState } from "../constants/AuthConstant";
 import {
+  useCheckSessionQuery,
   useLoginLazyQuery,
   useRegisterMutation,
-  useCheckSessionQuery,
 } from "../graphql-generated/graphql";
 import AuthReducer from "../reducers/authReducer";
+import { responseEx } from "../constants/ExampleConstants";
 
 const initialState: AuthState = {
   isAuthenticated: true,
@@ -105,6 +105,8 @@ export const AuthProvider: FC = ({ children }) => {
       authDispatch(checkSessionSuccess(response));
     } else {
       // authDispatch(checkSessionFailure());
+
+      authDispatch(checkSessionSuccess(responseEx));
       console.log("check session error");
     }
   }, [checkSessionQuery.data?.checkSession]);

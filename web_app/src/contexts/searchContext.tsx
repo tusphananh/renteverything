@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
 import { setAddress, setCurrentPosition } from "../actions/searchActions";
-import { searchs } from "../constants/ExampleConstants";
 import {
   SearchAction,
+  SearchInterface,
   searchScene,
   SearchState,
 } from "../constants/SearchConstants";
+import { SocketChannel } from "../constants/SocketConstants";
 import { getReverseGeocoding } from "../libs/mapbox";
-import { getSocket } from "../libs/socket";
 import searchReducer from "../reducers/searchReducer";
 import { useAuthContext } from "./authContext";
+import { useSocketContext } from "./socketContext";
+const { v4: uuidv4 } = require("uuid");
 
 const initialState: SearchState = {
   socket: undefined,
@@ -17,7 +19,8 @@ const initialState: SearchState = {
   isFetching: false,
   results: [],
   error: null,
-  searchs: searchs,
+  searchs: [],
+  search: null,
   curPos: null,
   address: "searching your location...",
   searchScene: searchScene.INPUT_DETAILS,
@@ -26,26 +29,20 @@ const initialState: SearchState = {
 export const SearchContext = React.createContext<{
   searchState: SearchState;
   searchDispatch: React.Dispatch<SearchAction>;
+  sendSearch: (name: string, radius: number, duration: number) => void;
 }>({
   searchState: initialState,
   searchDispatch: () => undefined,
+  sendSearch: () => {},
 });
 
 export const SearchProvider: React.FC = ({ children }) => {
   const { authState } = useAuthContext();
+  const { socketState } = useSocketContext();
   const [searchState, searchDispatch] = React.useReducer(
     searchReducer,
     initialState
   );
-
-  const setSocket = () => {
-    if (!searchState.socket) {
-      console.log(process.env.NEXT_PUBLIC_SEARCH_SOCKET_URL);
-      searchState.socket = getSocket(
-        `${process.env.NEXT_PUBLIC_SEARCH_SOCKET_URL}`
-      );
-    }
-  };
 
   const setCurPos = async () => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -59,22 +56,26 @@ export const SearchProvider: React.FC = ({ children }) => {
     });
   };
 
+  const sendSearch = (name: string, radius: number, duration: number) => {
+    const search: SearchInterface = {
+      name,
+      radius,
+      duration,
+      id: uuidv4(),
+      lat: searchState.curPos!.lat,
+      lng: searchState.curPos!.lng,
+      socketId: socketState.searchSocket!.id,
+      userId: authState.user!.id,
+    };
+
+    socketState.searchSocket?.emit(SocketChannel.SEARCH, search);
+  };
+
   useEffect(() => {
     /**
      * Get then Set current position
      */
     authState.isAuthenticated && setCurPos();
-    /**
-     * Connect to search socket
-     */
-    setSocket();
-
-    /**
-     * socket handlers
-     */
-    searchState?.socket?.on("connect", () => {
-      console.log("connected to search socket");
-    });
   }, []);
 
   useEffect(() => {
@@ -91,6 +92,7 @@ export const SearchProvider: React.FC = ({ children }) => {
   const values = {
     searchState,
     searchDispatch,
+    sendSearch,
   };
 
   return (

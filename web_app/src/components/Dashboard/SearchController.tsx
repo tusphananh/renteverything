@@ -1,4 +1,12 @@
-import React from "react";
+import { selectionSetMatchesResult } from "@apollo/client/cache/inmemory/helpers";
+import {
+  AnimatePresence,
+  AnimateSharedLayout,
+  motion,
+  Variants,
+} from "framer-motion";
+import mapboxgl from "mapbox-gl";
+import React, { useEffect } from "react";
 import {
   setAddress,
   setCurrentPosition,
@@ -6,20 +14,15 @@ import {
   toInputLocationScene,
   toResultsScene,
 } from "../../actions/searchActions";
+import AngleLeftIcon from "../../assets/icons/angle-left.svg";
 import LocationArrowIcon from "../../assets/icons/location-arrow.svg";
+import LocationPickerIcon from "../../assets/icons/location-picker.svg";
 import SearchIcon from "../../assets/icons/search.svg";
+import { Position } from "../../constants/DashBoardConstants";
 import { SearchAddress, searchScene } from "../../constants/SearchConstants";
 import { useSearchContext } from "../../contexts/searchContext";
-import styles from "../../styles/SearchController.module.scss";
-import {
-  motion,
-  AnimatePresence,
-  AnimateSharedLayout,
-  Variants,
-} from "framer-motion";
-import AngleLeftIcon from "../../assets/icons/angle-left.svg";
-import LocationPickerIcon from "../../assets/icons/location-picker.svg";
 import { getGeocodings } from "../../libs/mapbox";
+import styles from "../../styles/SearchController.module.scss";
 
 /**
  * Framer motion animation variants
@@ -52,7 +55,9 @@ const variants: Variants = {
  * SearchController component here
  */
 
-export const SearchController: React.FC<{}> = ({}) => {
+export const SearchController: React.FC<{
+  map: mapboxgl.Map | null;
+}> = ({ map }) => {
   const { searchState } = useSearchContext();
   return (
     <AnimateSharedLayout>
@@ -62,10 +67,10 @@ export const SearchController: React.FC<{}> = ({}) => {
             <SearchPanel></SearchPanel>
           )}
           {searchState.searchScene === searchScene.RESULTS && (
-            <ResultsPanel></ResultsPanel>
+            <ResultsPanel map={map}></ResultsPanel>
           )}
           {searchState.searchScene === searchScene.INPUT_LOCATION && (
-            <LocationPanel></LocationPanel>
+            <LocationPanel map={map}></LocationPanel>
           )}
         </motion.div>
       </AnimatePresence>
@@ -83,9 +88,10 @@ const SearchPanel: React.FC<{}> = () => {
   const [nameValue, setNameValue] = React.useState<string>("");
   const [radiusValue, setRadiusValue] = React.useState<number>(1);
   const [hourValue, setHourValue] = React.useState<number>(0);
-  const { searchState, searchDispatch } = useSearchContext();
+  const { searchState, searchDispatch, sendSearch } = useSearchContext();
 
   const search = () => {
+    sendSearch(nameValue, radiusValue, hourValue);
     searchDispatch(toResultsScene());
   };
 
@@ -176,7 +182,7 @@ const SearchPanel: React.FC<{}> = () => {
   );
 };
 
-const LocationPanel: React.FC<{}> = () => {
+const LocationPanel: React.FC<{ map: mapboxgl.Map | null }> = ({ map }) => {
   const { searchState, searchDispatch } = useSearchContext();
   const [addressValue, setAddressValue] = React.useState(
     searchState.address?.toString()
@@ -202,7 +208,7 @@ const LocationPanel: React.FC<{}> = () => {
       exit="exit"
       className={styles["location-panel-container"]}
     >
-      <SearchNavigation />
+      <SearchNavigation map={map} />
       <motion.div
         layout
         variants={variants}
@@ -224,6 +230,7 @@ const LocationPanel: React.FC<{}> = () => {
         {results.map((result) => {
           return (
             <motion.div
+              key={result.id}
               layout
               variants={variants}
               initial="initial"
@@ -248,7 +255,7 @@ const LocationPanel: React.FC<{}> = () => {
 /**
  * Result component here
  */
-const ResultsPanel: React.FC<{}> = () => {
+const ResultsPanel: React.FC<{ map: mapboxgl.Map | null }> = ({ map }) => {
   const { searchDispatch } = useSearchContext();
   const back = () => {
     searchDispatch(toInputDetailsScene());
@@ -262,7 +269,7 @@ const ResultsPanel: React.FC<{}> = () => {
       exit="exit"
       className={styles["result-panel-container"]}
     >
-      <SearchNavigation></SearchNavigation>
+      <SearchNavigation map={map}></SearchNavigation>
       <p>Results</p>
       <button onClick={() => back()}>Back</button>
     </motion.div>
@@ -273,11 +280,31 @@ const ResultsPanel: React.FC<{}> = () => {
  * SearchNavigation component here
  */
 
-const SearchNavigation: React.FC<{}> = () => {
+const SearchNavigation: React.FC<{ map: mapboxgl.Map | null }> = ({ map }) => {
   const { searchState, searchDispatch } = useSearchContext();
+  const [isPickingLocation, setIsPickingLocation] =
+    React.useState<boolean>(false);
+  const [pickedPosition, setPickedPosition] = React.useState<Position>();
+
   const back = () => {
     searchDispatch(toInputDetailsScene());
   };
+
+  useEffect(() => {
+    map?.on("click", (e) => {
+      setPickedPosition(e.lngLat);
+    });
+  }, [map]);
+
+  useEffect(() => {
+    if (isPickingLocation) {
+      if (pickedPosition) {
+        searchDispatch(setCurrentPosition(pickedPosition));
+        searchDispatch(toInputDetailsScene());
+      }
+    }
+  }, [pickedPosition]);
+
   return (
     <motion.div
       layout
@@ -297,7 +324,13 @@ const SearchNavigation: React.FC<{}> = () => {
         back
       </button>
       {searchState.searchScene === searchScene.INPUT_LOCATION && (
-        <button className={styles["search-navigation__location-picker"]}>
+        <button
+          className={styles["search-navigation__location-picker"]}
+          data-is-picking={isPickingLocation}
+          onClick={() => {
+            setIsPickingLocation(!isPickingLocation);
+          }}
+        >
           <LocationPickerIcon />{" "}
         </button>
       )}

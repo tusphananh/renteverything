@@ -17,6 +17,7 @@ import Items from "./ Items";
 import Home from "./Home";
 import Message from "./Message";
 import Search from "./Search";
+
 const user: User = {
   id: "1",
   lastName: "Tu",
@@ -32,13 +33,7 @@ function Dashboard() {
   const { activitiesState } = useActivitiesContext();
   const [mainBoard, setMainBoard] = React.useState<JSX.Element>();
   const [boards] = React.useState({
-    home: (
-      <Home
-        key={TabName.HOME}
-        searchs={searchState.searchs}
-        activities={activitiesState.activities}
-      />
-    ),
+    home: <Home key={TabName.HOME} activities={activitiesState.activities} />,
     message: <Message key={TabName.MESSAGES} />,
     activities: <Activities key={TabName.ACTIVITIES} />,
     items: <Items key={TabName.ITEMS} />,

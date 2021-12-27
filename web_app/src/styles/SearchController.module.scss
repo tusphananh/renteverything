@@ -86,14 +86,14 @@
     width: 100%;
     height: 100%;
     border-radius: 5px;
-    background: rgba(50, 50, 50, 1);
-    opacity: 0.5;
+    background: rgba(50, 50, 50, .5);
+    opacity: 1;
     border: none;
     text-align: center;
     outline: none;
-    color: $grey-color-100;
+    color: $grey-color-300;
     font-size: $font-size-1;
-    font-weight: $font-weight-semi-bold;
+    font-weight: $font-weight-regular;
 }
 
 .search-panel-input__icon {
@@ -137,8 +137,8 @@
 
 .search-panel__duration-input {
     border-radius: 5px;
-    background: rgba(50, 50, 50, 1);
-    opacity: 0.5;
+    background: rgba(50, 50, 50, .5);
+    opacity: 1;
     outline: none;
     color: $grey-color-100;
     font-size: $font-size-1;
@@ -267,7 +267,7 @@
     width: 100%;
     overflow-y: auto;
 
-  
+
     &::-webkit-scrollbar {
         width: 5px;
         background: $glass-white-10;
@@ -310,6 +310,15 @@
     &:hover {
         cursor: pointer;
         opacity: 0.8;
+    }
+
+    &[data-is-picking="true"] {
+        svg {
+            * {
+                fill: $glass-white-30;
+            }
+        }
+
     }
 
 }

@@ -39,6 +39,8 @@ services:
   redis:
     container_name: "redis"
     image: "redis"
+    # Set password at here
+    command: redis-server --requirepass test123
     restart: always
     ports:
       - "127.0.0.1:6379:6379"

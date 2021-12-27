@@ -1,6 +1,6 @@
 import {
   SearchAction,
-  SearchConstants,
+  SearchTypes,
   searchScene,
   SearchState,
 } from "../constants/SearchConstants";
@@ -10,57 +10,64 @@ const searchReducer = (
   action: SearchAction
 ): SearchState => {
   switch (action.type) {
-    case SearchConstants.SEARCH_REQUEST:
+    case SearchTypes.SEARCH_REQUEST:
       return {
         ...state,
         isFetching: true,
         isSearching: true,
       };
-    case SearchConstants.SEARCH_SUCCESS:
+    case SearchTypes.SEARCH_SUCCESS:
       return {
         ...state,
         isFetching: false,
         results: action.payload?.results,
       };
-    case SearchConstants.SEARCH_FAILURE:
+    case SearchTypes.SEARCH_FAILURE:
       return {
         ...state,
         isFetching: false,
         error: action.payload?.error,
       };
-    case SearchConstants.CLEAR_RESULTS:
+    case SearchTypes.CLEAR_RESULTS:
       return {
         ...state,
         results: [],
       };
-    case SearchConstants.SEARCH_CANCEL:
+    case SearchTypes.SEARCH_CANCEL:
       return {
         ...state,
         isSearching: false,
         isFetching: false,
         results: [],
       };
-    case SearchConstants.SET_CURRENT_POSITION:
+
+    case SearchTypes.ADD_SEARCH:
+      return {
+        ...state,
+        searchs: [...state.searchs!, action.payload?.search!],
+      };
+
+    case SearchTypes.SET_CURRENT_POSITION:
       return {
         ...state,
         curPos: action.payload?.curPos!,
       };
-    case SearchConstants.TO_INPUT_DETAILS_SCENE:
+    case SearchTypes.TO_INPUT_DETAILS_SCENE:
       return {
         ...state,
         searchScene: searchScene.INPUT_DETAILS,
       };
-    case SearchConstants.TO_INPUT_LOCATION_SCENE:
+    case SearchTypes.TO_INPUT_LOCATION_SCENE:
       return {
         ...state,
         searchScene: searchScene.INPUT_LOCATION,
       };
-    case SearchConstants.TO_RESULTS_SCENE:
+    case SearchTypes.TO_RESULTS_SCENE:
       return {
         ...state,
         searchScene: searchScene.RESULTS,
       };
-    case SearchConstants.SET_ADDRESS:
+    case SearchTypes.SET_ADDRESS:
       return {
         ...state,
         address: action.payload?.address,

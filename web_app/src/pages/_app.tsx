@@ -5,17 +5,22 @@ import { useApollo } from "../libs/apolloClient";
 import "../styles/globals.css";
 import { SearchProvider } from "../contexts/searchContext";
 import { ActivitiesProvider } from "../contexts/activitiesContext";
+import { SocketProvider } from "../contexts/socketContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);
   return (
     <ApolloProvider client={apolloClient}>
       <AuthProvider>
-        <SearchProvider>
-          <ActivitiesProvider>
-            <Component {...pageProps} />
-          </ActivitiesProvider>
-        </SearchProvider>
+        <SocketProvider>
+          <SearchProvider>
+            <SocketProvider>
+              <ActivitiesProvider>
+                <Component {...pageProps} />
+              </ActivitiesProvider>
+            </SocketProvider>
+          </SearchProvider>
+        </SocketProvider>
       </AuthProvider>
     </ApolloProvider>
   );

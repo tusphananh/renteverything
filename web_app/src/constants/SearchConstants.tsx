@@ -2,7 +2,7 @@ import { Item, User } from "../graphql-generated/graphql";
 import { Position } from "./DashBoardConstants";
 import { Socket } from "socket.io-client";
 
-export enum SearchConstants {
+export enum SearchTypes {
   CLEAR_RESULTS = "CLEAR_RESULTS",
   SEARCH_REQUEST = "SEARCH_REQUEST",
   SEARCH_SUCCESS = "SEARCH_SUCCESS",
@@ -13,18 +13,18 @@ export enum SearchConstants {
   TO_INPUT_LOCATION_SCENE = "TO_INPUT_LOCATION_SCENE",
   TO_RESULTS_SCENE = "TO_RESULTS_SCENE",
   SET_ADDRESS = "SET_ADDRESS",
+  ADD_SEARCH = "ADD_SEARCH",
 }
 
-export interface Search {
+export interface SearchInterface {
   id: string;
+  userId: string;
+  socketId: string;
   name: string;
-  description: string;
-  renterPosition: {
-    lat: number;
-    lng: number;
-  };
-  renter: User;
-  distance: number;
+  lng: number;
+  lat: number;
+  radius: number;
+  duration: number;
 }
 
 export interface SearchResult {
@@ -45,7 +45,8 @@ export interface SearchResult {
 
 export interface SearchState {
   socket?: Socket;
-  searchs?: Search[] | [];
+  search?: SearchInterface | null;
+  searchs?: SearchInterface[] | [];
   results?: SearchResult[] | [];
   isFetching?: boolean;
   isSearching?: boolean;
@@ -56,7 +57,7 @@ export interface SearchState {
 }
 
 export interface SearchAction {
-  type: SearchConstants;
+  type: SearchTypes;
   payload?: SearchState;
 }
 
@@ -77,6 +78,7 @@ export enum searchScene {
 }
 
 export interface SearchAddress {
+  id: string;
   address: string;
   position: Position;
 }

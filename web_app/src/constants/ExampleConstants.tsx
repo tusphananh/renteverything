@@ -1,6 +1,6 @@
-import { Item, User } from "../graphql-generated/graphql";
+import { Item, User, UserResponse } from "../graphql-generated/graphql";
 import { ActivitiesStatus, Activity } from "./ActivitiesConstants";
-import { Search } from "./SearchConstants";
+import { SearchInterface } from "./SearchConstants";
 
 const item: Item = {
   id: "1",
@@ -73,27 +73,32 @@ export const activities: Activity[] = [
   },
 ];
 
-export const searchs: Search[] = [
+export const searchs: SearchInterface[] = [
   {
     id: "1",
     name: "Shoes",
-    description: "Adidas",
-    renter: user,
-    renterPosition: {
-      lat: 0,
-      lng: 0,
-    },
-    distance: 12,
+    socketId: "1",
+    lng: 0,
+    lat: 0,
+    radius: 100,
+    duration: 1,
+    userId: "1",
   },
   {
     id: "2",
-    name: "Bike",
-    description: "Honda",
-    renter: user,
-    renterPosition: {
-      lat: 0,
-      lng: 0,
-    },
-    distance: 12,
+    name: "Shoes",
+    socketId: "2",
+    lng: 0,
+    lat: 0,
+    radius: 100,
+    duration: 1,
+    userId: "1",
   },
 ];
+
+export const responseEx: UserResponse = {
+  code: 200,
+  success: true,
+  errors: [],
+  data: user,
+};

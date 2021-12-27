@@ -1,5 +1,4 @@
 import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
 import { Position } from "../constants/DashBoardConstants";
 import { MarkerType, SearchAddress } from "../constants/SearchConstants";
 import styles from "../styles/Search.module.scss";
@@ -32,19 +31,19 @@ export const addMarker = (map: mapboxgl.Map, marker: mapboxgl.Marker) => {
 export const removeMarker = (marker: mapboxgl.Marker) => {
   marker.remove();
 };
-export const flyTo = (map: mapboxgl.Map, position: Position) => {
+export const flyTo = (map: mapboxgl.Map | null, position: Position) => {
   map &&
     map.flyTo({
       center: [position.lng, position.lat],
-      zoom: 15,
+      zoom: 13,
     });
 };
 
-export const zoomIn = (map: mapboxgl.Map) => {
+export const zoomIn = (map: mapboxgl.Map | null) => {
   map && map.zoomIn();
 };
 
-export const zoomOut = (map: mapboxgl.Map) => {
+export const zoomOut = (map: mapboxgl.Map | null) => {
   map && map.zoomOut();
 };
 
@@ -56,12 +55,12 @@ export const getMap = (): mapboxgl.Map => {
     zoom: 5,
   });
   if (map) {
-   
-    console.log(process.env.MAPBOX_TOKEN);
+    // console.log(process.env.MAPBOX_TOKEN);
     console.log("Map loaded successfully");
   } else {
     console.log("Map load failed");
   }
+
   return map;
 };
 
@@ -113,15 +112,21 @@ export const getGeocodings = async (
   // console.log(encodedSearchAddress);
   const result: SearchAddress[] = [];
   const { data } = await axios.get(
-    `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedSearchAddress}.json?country=VN&routing=true&limit=10&types=country,region,postcode,district,place,locality,neighborhood,address,poi&proximity=${curPos.lng},${curPos.lat}&access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`
+    `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedSearchAddress}.json?country=VN&limit=10&types=district,place,locality,address,poi&proximity=${curPos.lng},${curPos.lat}&access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`
   );
   if (data.features.length > 0) {
     // console.log(data);
     data.features.forEach(
-      (features: { place_name: any; properties: any; center: any[] }) => {
+      (features: {
+        id: any;
+        place_name: any;
+        properties: any;
+        center: any[];
+      }) => {
         const address = features.place_name;
         address &&
           result.push({
+            id: features.id,
             address: address,
             position: {
               lat: features.center[1],
@@ -133,4 +138,35 @@ export const getGeocodings = async (
   }
   // console.log(result);
   return result;
+};
+
+/**
+ * Get position when click on map.
+ */
+
+export const getClickPosition = (map: mapboxgl.Map): Promise<Position> => {
+  return new Promise((resolve, reject) => {
+    map.on("click", (e: mapboxgl.MapMouseEvent) => {
+      resolve({
+        lat: e.lngLat.lat,
+        lng: e.lngLat.lng,
+      });
+    });
+  });
+};
+
+/**
+ * Get navigation distance between two position.
+ */
+export const getDistance = async (
+  pos1: Position,
+  pos2: Position
+): Promise<number> => {
+  const { data } = await axios.get(
+    `https://api.mapbox.com/directions/v5/mapbox/driving/${pos1.lng},${pos1.lat};${pos2.lng},${pos2.lat}.json?geometries=geojson&access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`
+  );
+  if (data.routes.length > 0) {
+    return data.routes[0].distance;
+  }
+  return 0;
 };
