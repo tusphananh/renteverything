@@ -1,0 +1,60 @@
+mutation addItem(
+  $name: String!
+  $description: String!
+  $price: Float!
+  $realValue: Float!
+) {
+  addItem(
+    name: $name
+    description: $description
+    price: $price
+    realValue: $realValue
+  ) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ItemResponseFragment
+    }
+  }
+}
+
+mutation updateItem(
+  $id: Float!
+  $name: String!
+  $description: String!
+  $price: Float!
+  $realValue: Float!
+) {
+  updateItem(
+    id: $id
+    name: $name
+    description: $description
+    price: $price
+    realValue: $realValue
+  ) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ItemResponseFragment
+    }
+  }
+}
+
+mutation deleteItem($id: Float!) {
+  deleteItem(id: $id) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ItemResponseFragment
+    }
+  }
+}

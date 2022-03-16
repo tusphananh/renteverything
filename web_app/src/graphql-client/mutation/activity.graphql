@@ -1,0 +1,75 @@
+mutation addActivity(
+  $id: String!
+  $name: String!
+  $itemName: String!
+  $itemDescription: String!
+  $itemPrice: Float!
+  $itemRealValue: Float!
+  $totalPrice: Float!
+  $duration: Float!
+  $distance: Float!
+  $providerId: String!
+  $renterId: String!
+) {
+  addActivity(
+    id: $id
+    name: $name
+    itemName: $itemName
+    itemDescription: $itemDescription
+    itemPrice: $itemPrice
+    itemRealValue: $itemRealValue
+    totalPrice: $totalPrice
+    duration: $duration
+    distance: $distance
+    providerId: $providerId
+    renterId: $renterId
+  ) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
+    }
+  }
+}
+
+mutation failActivity($id: String!) {
+  failActivity(id: $id) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
+    }
+  }
+}
+
+mutation successActivity($id: String!) {
+  successActivity(id: $id) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
+    }
+  }
+}
+
+mutation addMessage($id: String!, $chatId: Float!, $text: String!) {
+  addMessage(id: $id, chatId: $chatId, text: $text) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...MessageResponseFragment
+    }
+  }
+}

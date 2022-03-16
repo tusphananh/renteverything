@@ -1,0 +1,34 @@
+fragment ActivityResponseFragment on Activity {
+  id
+  name
+  itemName
+  itemDescription
+  itemPrice
+  itemRealValue
+  totalPrice
+  duration
+  distance
+  status
+  createdAt
+  updatedAt
+  provider {
+    id
+    firstName
+    lastName
+    phone
+  }
+  renter {
+    id
+    firstName
+    lastName
+    phone
+  }
+  chat {
+    id
+    title
+    createdAt
+    messages {
+      ...MessageResponseFragment
+    }
+  }
+}

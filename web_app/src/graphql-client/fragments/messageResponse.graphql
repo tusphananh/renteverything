@@ -1,0 +1,12 @@
+fragment MessageResponseFragment on Message {
+  id
+  createdAt
+  text
+  chatId
+  user {
+    id
+    firstName
+    lastName
+    phone
+  }
+}

@@ -1,10 +1,10 @@
-import { ItemResponse, ItemsResponse } from "../types/ItemResponse";
-import { Resolver, Arg, Mutation, Query, Ctx, UseMiddleware } from "type-graphql";
+import User from "../entities/User";
+import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import Item from "../entities/Item";
-import { Context } from "../types/Context";
 import { checkAuth } from "../middlewares/checkAuth";
-import { Like } from "typeorm";
+import { Context } from "../types/Context";
 import { ErrorResponse } from "../types/ErrorResponse";
+import { ItemResponse, ItemsResponse } from "../types/ItemResponse";
 
 const serverErrors: ErrorResponse = {
   field: "server",
@@ -23,20 +23,31 @@ export class ItemResolver {
     @Arg("name") name: string,
     @Arg("description") description: string,
     @Arg("price") price: number,
-    @Arg("imageUrl", { nullable: true }) imageUrl: string,
-    @Arg("quantity", { nullable: true, defaultValue: 1 }) quantity: number,
+    @Arg("realValue") realValue: number,
     @Ctx() { req }: Context
   ): Promise<ItemResponse | null> {
     try {
-      const userId = req.session.userId;
+      const owner = await User.findOne({
+        id: req.session.userId,
+      });
+
+      if (!owner) {
+        return {
+          code: 404,
+          success: false,
+          errors: [{
+            field: "user",
+            message: "User not found",
+          }],
+        };
+      }
 
       const item = await Item.create({
         name,
         description,
         price,
-        imageUrl,
-        userId,
-        quantity
+        realValue,
+        owner
       }).save();
 
       const rs = {
@@ -69,11 +80,57 @@ export class ItemResolver {
   async getItems(
     @Ctx() { req }: Context
   ): Promise<ItemsResponse | null> {
-    const userId = req.session.userId;
+    const owner = await User.findOne({
+      id: req.session.userId,
+    });
+
+    if (!owner) {
+      return {
+        code: 404,
+        success: false,
+        errors: [{
+          field: "user",
+          message: "User not found",
+        }],
+      };
+    }
+
+    const items = owner.items;
+
+    const rs = {
+      code: 200,
+      success: true,
+      data: items,
+    }
+
+    return rs;
+
+  }
+
+  /**
+   * Get 1 item from the database by name
+   * @param name
+   */
+
+  @Query(() => ItemsResponse, { nullable: true })
+  async getItemsByName(@Arg("name") name: string, @Ctx() { req }: Context): Promise<ItemsResponse | null> {
     try {
-      const items = await Item.find({
-        userId,
+      const owner = await User.findOne({
+        id: req.session.userId,
       });
+
+      if (!owner) {
+        return {
+          code: 404,
+          success: false,
+          errors: [{
+            field: "user",
+            message: "User not found",
+          }],
+        };
+      }
+
+      const items = owner.items.filter(item => item.name.includes(name));
 
       const rs = {
         code: 200,
@@ -85,49 +142,6 @@ export class ItemResolver {
 
     } catch (error) {
       console.log(error);
-      const rs: ItemsResponse = {
-        code: 500,
-        success: false,
-        errors: [serverErrors]
-      }
-
-      return rs;
-    }
-  }
-
-  /**
-   * Get 1 item from the database by name
-   * @param name
-   */
-
-  @Query(() => ItemsResponse, { nullable: true })
-  async getItemsByName(@Arg("name") name: string): Promise<ItemsResponse | null> {
-    try {
-      const item = await Item.find({
-        name: Like(`%${name}%`)
-      });
-
-      if (!item) {
-        const rs = {
-          code: 404,
-          success: false,
-          errors: [{
-            field: "name",
-            message: "Item not found"
-          }]
-        }
-
-        return rs;
-      }
-      const rs = {
-        code: 200,
-        success: true,
-        data: item,
-      }
-
-      return rs;
-    } catch (error) {
-      console.log(error);
       const rs = {
         code: 500,
         success: false,
@@ -138,68 +152,6 @@ export class ItemResolver {
     }
   }
 
-  /**
-   * Update an item in the database by id
-   * @param id
-   */
-
-  @Mutation(() => ItemResponse, { nullable: true })
-  @UseMiddleware(checkAuth)
-  async updateItem(
-    @Arg("id") id: number,
-    @Arg("name", { nullable: true }) name: string,
-    @Arg("description", { nullable: true }) description: string,
-    @Arg("price", { nullable: true }) price: number,
-    @Arg("imageUrl", { nullable: true }) imageUrl: string,
-    @Arg("quantity", { nullable: true }) quantity: number,
-    @Ctx() { req }: Context
-  ): Promise<ItemResponse | null> {
-    try {
-      const userId = req.session.userId;
-
-      let item = await Item.findOne({
-        id,
-        userId,
-      });
-
-      if (!item) {
-        const rs = {
-          code: 404,
-          success: false,
-          errors: [serverErrors]
-        }
-        return rs;
-      }
-
-      item.name = name ? name : item.name;
-      item.description = description ? description : item.description;
-      item.price = price ? price : item.price;
-      item.imageUrl = imageUrl ? imageUrl : item.imageUrl;
-      item.quantity = quantity ? quantity : item.quantity;
-
-      item = await item.save();
-
-      const rs = {
-        code: 200,
-        success: true,
-        data: item,
-      }
-
-      console.log(rs);
-
-      return rs;
-
-    } catch (error) {
-      console.log(error);
-      const rs = {
-        code: 500,
-        success: false,
-        errors: [serverErrors]
-      }
-
-      return rs;
-    }
-  }
 
   /**
    * Delete an item from the database by id
@@ -215,8 +167,10 @@ export class ItemResolver {
       const userId = req.session.userId;
 
       const item = await Item.findOne({
-        id,
-        userId
+        id: id,
+        owner: {
+          id: userId
+        }
       });
 
       if (!item) {
@@ -253,4 +207,72 @@ export class ItemResolver {
     }
   }
 
+  /**
+   * Update item from the database by id
+   */
+
+  @Mutation(() => ItemResponse, { nullable: true })
+  @UseMiddleware(checkAuth)
+  async updateItem(
+    @Arg("id") id: number,
+    @Arg("name") name: string,
+    @Arg("description") description: string,
+    @Arg("price") price: number,
+    @Arg("realValue") realValue: number,
+    @Ctx() { req }: Context
+  ): Promise<ItemResponse | null> {
+    try {
+      const owner = await User.findOne({
+        id: req.session.userId,
+      });
+
+      if (!owner) {
+        return {
+          code: 404,
+          success: false,
+          errors: [{
+            field: "user",
+            message: "User not found",
+          }],
+        };
+      }
+
+      const item = owner.items.find(item => item.id === id);
+
+      if (!item) {
+        return {
+          code: 404,
+          success: false,
+          errors: [{
+            field: "id",
+            message: "Item not found",
+          }],
+        };
+      }
+
+      item.name = name;
+      item.description = description;
+      item.price = price;
+      item.realValue = realValue;
+      await item.save();
+
+      const rs = {
+        code: 200,
+        success: true,
+        data: item,
+      }
+
+      return rs;
+
+    } catch (error) {
+      console.log(error);
+      const rs = {
+        code: 500,
+        success: false,
+        errors: [serverErrors]
+      }
+
+      return rs;
+    }
+  }
 }

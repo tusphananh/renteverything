@@ -1,12 +1,12 @@
 // Class UserMutationResponse implements MutationResponse
 
 import { Field, ObjectType } from "type-graphql";
-import { Response } from "./Response";
+import { ResponseClass } from "./Response";
 import Item from "../entities/Item";
 import { ErrorResponse } from "./ErrorResponse";
 
 @ObjectType()
-export class ItemResponse extends Response(Item) {
+export class ItemResponse extends ResponseClass(Item) {
     code: number;
     success: boolean;
     @Field(() => [ErrorResponse], { nullable: true, defaultValue: [] })
@@ -15,7 +15,7 @@ export class ItemResponse extends Response(Item) {
 }
 
 @ObjectType()
-export class ItemsResponse extends Response(Item) {
+export class ItemsResponse extends ResponseClass(Item) {
     code: number;
     success: boolean;
     @Field(() => [ErrorResponse], { nullable: true, defaultValue: [] })

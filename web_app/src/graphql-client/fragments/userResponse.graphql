@@ -3,6 +3,10 @@ fragment UserResponseFragment on User {
   firstName
   lastName
   phone
+  balance
   createdAt
   updatedAt
+  items {
+    ...ItemResponseFragment
+  }
 }

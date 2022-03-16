@@ -1,9 +1,9 @@
-import SearchInterface from "../constants/SearchConstants"
+import { SearchItem } from "../constants/SearchConstants"
 import { addRedisObjectValue, getAllRedisKeys, getRedisObjectValue, removeRedisValue } from "../libs/redis"
 
 export default class Search {
 
-    static create = (search: SearchInterface) => {
+    static create = (search: SearchItem) => {
         addRedisObjectValue(search.id, search)
     }
 
@@ -18,7 +18,6 @@ export default class Search {
     static remove = (id: string) => {
         removeRedisValue(id)
     }
-
 
 }
 

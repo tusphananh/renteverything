@@ -1,0 +1,25 @@
+query getRentActivities {
+  getRentActivities {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
+    }
+  }
+}
+
+query getProvideActivities {
+  getProvideActivities {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
+    }
+  }
+}

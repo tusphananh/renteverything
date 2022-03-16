@@ -135,6 +135,7 @@ export const LoginInputAnimation: FC<{
   placeholder?: string;
   initial?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }> = (props) => {
   const animationCtrl = useAnimation();
 
@@ -150,6 +151,7 @@ export const LoginInputAnimation: FC<{
     <motion.input
       initial={props.initial}
       onChange={props.onChange}
+      onKeyPress={props.onKeyPress}
       placeholder={props.placeholder}
       type={props.type}
       className={props.className}

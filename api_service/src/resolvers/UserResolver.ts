@@ -1,12 +1,12 @@
-import User from "../entities/User";
-import { Resolver, Arg, Mutation, Query, Ctx, UseMiddleware } from "type-graphql";
 import argon2 from "argon2";
+import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { SESSION_COOKIE_NAME } from "../configs/CookieConstants";
+import User from "../entities/User";
+import { checkAuth } from "../middlewares/checkAuth";
+import { Context } from "../types/Context";
+import { ErrorResponse } from "../types/ErrorResponse";
 import { UserResponse } from "../types/UserResponse";
 import { isLoginFormValid, isRegisterFormValid } from "../utils/inputValidator";
-import { Context } from "../types/Context";
-import { SESSION_COOKIE_NAME } from "../constants/CookieConstants";
-import { ErrorResponse } from "../types/ErrorResponse";
-import { checkAuth } from "../middlewares/checkAuth";
 
 const serverErrors: ErrorResponse = {
   field: "server",
@@ -59,6 +59,11 @@ export class UserResolver {
         password: hashedPassword,
         firstName,
         lastName,
+        rentActivities: [],
+        provideActivities: [],
+        items: [],
+        balance: 0,
+        messages: [],
       }).save();
 
       const rs = {
@@ -242,6 +247,47 @@ export class UserResolver {
           errors: errors,
         };
       }
+
+      return {
+        code: 200,
+        success: true,
+        data: user,
+      }
+    } catch (error) {
+      console.log(error);
+      return {
+        code: 500,
+        success: false,
+        errors: [serverErrors],
+      };
+    }
+  }
+
+  /**
+   * Update user balance
+   */
+  @Mutation(() => UserResponse, { nullable: true })
+  @UseMiddleware(checkAuth)
+  async updateBalance(
+    @Arg("amount") amount: number,
+    @Ctx() { req }: Context
+  ): Promise<UserResponse> {
+    try {
+      const user = await User.findOne({ id: req.session.userId });
+      if (!user) {
+        const errors: ErrorResponse[] = [{
+          field: "session",
+          message: "Session expired",
+        }]
+        return {
+          code: 400,
+          success: false,
+          errors: errors,
+        };
+      }
+
+      user.balance += amount;
+      await user.save();
 
       return {
         code: 200,

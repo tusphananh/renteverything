@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This service is used to send and receive messages between users. Connecting with database and save messages.
+This service is used to search for users. Connecting with Redis to save the recent searches.
 
 ## Installation
 

@@ -1,28 +1,24 @@
-import type { AppProps } from "next/app";
-import { AuthProvider } from "../contexts/authContext";
-import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "../libs/apolloClient";
-import "../styles/globals.css";
-import { SearchProvider } from "../contexts/searchContext";
-import { ActivitiesProvider } from "../contexts/activitiesContext";
-import { SocketProvider } from "../contexts/socketContext";
+import { ApolloProvider } from '@apollo/client'
+import type { AppProps } from 'next/app'
+import { ActivitiesProvider } from '../contexts/activitiesContext'
+import { AuthProvider } from '../contexts/authContext'
+import { SearchProvider } from '../contexts/searchContext'
+import { useApollo } from '../libs/apolloClient'
+import '../styles/globals.css'
+
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const apolloClient = useApollo(pageProps);
+  const apolloClient = useApollo(pageProps)
   return (
     <ApolloProvider client={apolloClient}>
       <AuthProvider>
-        <SocketProvider>
-          <SearchProvider>
-            <SocketProvider>
-              <ActivitiesProvider>
-                <Component {...pageProps} />
-              </ActivitiesProvider>
-            </SocketProvider>
-          </SearchProvider>
-        </SocketProvider>
+        <SearchProvider>
+          <ActivitiesProvider>
+            <Component {...pageProps} />
+          </ActivitiesProvider>
+        </SearchProvider>
       </AuthProvider>
     </ApolloProvider>
-  );
+  )
 }
-export default MyApp;
+export default MyApp

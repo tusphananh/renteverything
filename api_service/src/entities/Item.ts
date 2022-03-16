@@ -1,5 +1,6 @@
 import { Field, Float, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import User from "./User";
 
 @ObjectType()
 @Entity()
@@ -17,19 +18,13 @@ export default class Item extends BaseEntity {
   description!: string;
 
   @Field(() => Float)
-  @Column({type: "float" })
+  @Column({ type: "float" })
   price!: number;
 
-  // imageUrl is nullable
-  @Field() 
-  @Column({ nullable: true ,default: "" ,type: "text" })
-  imageUrl?: string;
+  @Field(() => Float)
+  @Column({ type: "float" })
+  realValue!: number;
 
-  @Field()
-  @Column({ nullable: false, default: 1, type: "int" })
-  quantity?: number;
-
-  @Field()
-  @Column()
-  userId!: number;
+  @JoinColumn({ name: "userId" })
+  @ManyToOne(() => User, user => user.items) owner!: User;
 }

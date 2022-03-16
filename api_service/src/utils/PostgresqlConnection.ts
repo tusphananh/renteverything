@@ -1,6 +1,9 @@
+import Activity from "../entities/Activity";
 import { createConnection } from "typeorm";
 import Item from "../entities/Item";
 import User from "../entities/User";
+import Chat from "../entities/Chat";
+import Message from "../entities/Message";
 
 export const postgresqlConnection = async () => {
   try {
@@ -13,7 +16,7 @@ export const postgresqlConnection = async () => {
       database: process.env.DB_NAME,
       synchronize: true,
       logging: true,
-      entities: [User, Item],
+      entities: [User, Item, Activity, Chat, Message],
     });
 
     return connection;

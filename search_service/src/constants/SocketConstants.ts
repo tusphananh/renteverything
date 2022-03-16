@@ -1,17 +1,19 @@
-import SearchInterface from "./SearchConstants";
-
-
+import { SearchResult, SearchItem } from "./SearchConstants";
 export interface ServerToClientEvents {
-    noArg: () => void;
-    basicEmit: (a: number, b: string, c: Buffer) => void;
-    withAck: (d: string, callback: (e: number) => void) => void;
-    [SocketChannel.NEARBY]: (data: SearchInterface) => void;
-    [SocketChannel.SEARCH]: (data: SearchInterface) => void;
+    noArg: () => void
+    basicEmit: (a: number, b: string, c: Buffer) => void
+    withAck: (d: string, callback: (e: number) => void) => void
+    [SocketChannel.NEARBY]: (data: SearchItem) => void
+    [SocketChannel.SEARCH]: (data: SearchItem) => void
+    [SocketChannel.RESULT]: (data: SearchResult) => void
+    [SocketChannel.CANCEL]: (data: SearchItem) => void
 }
 
 export interface ClientToServerEvents {
-    hello: () => void;
-    [SocketChannel.SEARCH]: (data: SearchInterface) => void;
+    hello: () => void
+    [SocketChannel.SEARCH]: (data: SearchItem) => void
+    [SocketChannel.RESULT]: (data: SearchResult) => void
+    [SocketChannel.CANCEL]: (data: SearchItem) => void
 }
 
 export interface InterServerEvents {
@@ -22,11 +24,11 @@ export interface SocketData {
     name: string;
     age: number;
 }
-
 export enum SocketChannel {
-    CONNECTION = "connection",
-    DISCONNECT = "disconnect",
-    NEARBY = "nearby",
-    SEARCH = "search",
+    CONNECTION = 'connection',
+    DISCONNECT = 'disconnect',
+    NEARBY = 'nearby',
+    SEARCH = 'search',
+    RESULT = 'result',
+    CANCEL = 'cancel',
 }
-

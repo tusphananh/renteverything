@@ -1,18 +1,20 @@
-import { SESSION_COOKIE_NAME } from "../constants/CookieConstants";
-import { COOKIE_SECURE } from "../constants/RedisConstants";
+import { SESSION_COOKIE_NAME } from "../configs/CookieConstants";
+import { COOKIE_SECURE } from "../configs/RedisConstants";
 
 const redis = require("redis");
 const connectRedis = require("connect-redis");
 const session = require("express-session");
 
-const maxAge = 1000 * 60 * 10;
+// const maxAge = 1000 * 60 * 10;
+// Infinite Live Long
+const maxAge = 1000 * 60 * 60 * 24 * 365;
 
 export const redisSession = async () => {
   try {
     const RedisStore = connectRedis(session);
+    const url = `redis://${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}/${process.env.REDIS_DB}`;
     const redisClient = redis.createClient({
-      host: process.env.REDIS_HOST,
-      port: process.env.REDIS_PORT,
+      url: url,
     });
 
     const rs = await session({

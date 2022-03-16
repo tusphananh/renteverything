@@ -147,26 +147,38 @@ export const getGeocodings = async (
 export const getClickPosition = (map: mapboxgl.Map): Promise<Position> => {
   return new Promise((resolve, reject) => {
     map.on("click", (e: mapboxgl.MapMouseEvent) => {
-      resolve({
-        lat: e.lngLat.lat,
-        lng: e.lngLat.lng,
-      });
+      if (e.lngLat) {
+        resolve({
+          lat: e.lngLat.lat,
+          lng: e.lngLat.lng,
+        });
+      }
+      reject();
     });
   });
 };
 
 /**
- * Get navigation distance between two position.
+ * Get navigation distance and duration between two position.
  */
-export const getDistance = async (
+export const getDistance_and_Duration = async (
   pos1: Position,
   pos2: Position
-): Promise<number> => {
+): Promise<{
+  distance: number;
+  duration: number;
+}> => {
   const { data } = await axios.get(
     `https://api.mapbox.com/directions/v5/mapbox/driving/${pos1.lng},${pos1.lat};${pos2.lng},${pos2.lat}.json?geometries=geojson&access_token=${process.env.NEXT_PUBLIC_MAPBOX_TOKEN}`
   );
   if (data.routes.length > 0) {
-    return data.routes[0].distance;
+    return {
+      distance: data.routes[0].distance,
+      duration: data.routes[0].duration,
+    };
   }
-  return 0;
+  return {
+    distance: 0,
+    duration: 0,
+  };
 };

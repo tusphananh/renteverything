@@ -2,11 +2,11 @@
 
 import User from "../entities/User";
 import { Field, ObjectType } from "type-graphql";
-import { Response } from "./Response";
+import { ResponseClass } from "./Response";
 import { ErrorResponse } from "./ErrorResponse";
 
 @ObjectType()
-export class UserResponse extends Response(User) {
+export class UserResponse extends ResponseClass(User) {
   code: number;
   success: boolean;
   @Field(() => [ErrorResponse], { nullable: true, defaultValue: [] })

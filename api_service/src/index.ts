@@ -4,7 +4,7 @@ require("dotenv").config();
 require("reflect-metadata");
 const express = require("express");
 const cors = require("cors");
-import { corsOptions } from "./constants/CorsOptions";
+import { corsOptions } from "./configs/CorsOptions";
 import { ApolloConnection } from "./utils/ApolloConnection";
 import { postgresqlConnection } from "./utils/PostgresqlConnection";
 import { redisSession } from "./utils/RedisConnection";
@@ -22,7 +22,7 @@ const main = async () => {
   const redisConnection = await redisSession();
   if (redisConnection) {
     app.use(redisConnection);
-    console.log("Redis Connection Success" );
+    console.log("Redis Connection Success");
   } else {
     console.log("Redis Connection Failed");
   }

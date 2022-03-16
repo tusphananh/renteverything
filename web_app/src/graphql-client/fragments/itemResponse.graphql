@@ -1,9 +1,7 @@
 fragment ItemResponseFragment on Item {
-    id
-    name
-    description
-    price
-    imageUrl
-    quantity
-    userId
+  id
+  name
+  description
+  price
+  realValue
 }
