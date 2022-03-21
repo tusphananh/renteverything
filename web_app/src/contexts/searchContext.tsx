@@ -8,7 +8,7 @@ import {
   connectSearchSocket,
   removeNearByItem,
   setAddress,
-  setCurrentPosition,
+  setCurrentPosition
 } from '../actions/searchActions'
 import { Position } from '../constants/DashBoardConstants'
 import {
@@ -17,12 +17,11 @@ import {
   SearchItem,
   SearchResult,
   searchScene,
-  SearchState,
+  SearchState
 } from '../constants/SearchConstants'
 import { SocketChannel } from '../constants/SocketConstants'
 import { getDistance_and_Duration, getReverseGeocoding } from '../libs/mapbox'
 import searchReducer from '../reducers/searchReducer'
-import { useActivitiesContext } from './activitiesContext'
 import { useAuthContext } from './authContext'
 
 const initialState: SearchState = {
@@ -54,8 +53,6 @@ export const SearchContext = React.createContext<{
 
 export const SearchProvider: React.FC = ({ children }) => {
   const { authState } = useAuthContext()
-  const { activitiesDispatch } = useActivitiesContext()
-
   const [searchState, searchDispatch] = React.useReducer(
     searchReducer,
     initialState,

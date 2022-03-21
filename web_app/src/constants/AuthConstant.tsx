@@ -1,4 +1,5 @@
-import { ErrorResponse, Maybe, User } from '../graphql-generated/graphql'
+import { ErrorResponse } from '../graphql-generated/graphql'
+import { ItemMaybe } from './ItemsConstants'
 
 export enum AuthTypes {
   AUTH_LOGIN_SUCCESS = 'AUTH_LOGIN_SUCCESS',
@@ -10,12 +11,32 @@ export enum AuthTypes {
   AUTH_CHECK_SESSION_REQUESTS = 'AUTH_CHECK_SESSION_REQUESTS',
   AUTH_CHECK_SESSION_SUCCESS = 'AUTH_CHECK_SESSION_SUCCESS',
   AUTH_CHECK_SESSION_FAILURE = 'AUTH_CHECK_SESSION_FAILURE',
+  ADD_ITEM = 'ADD_ITEM',
+  ADD_ITEMS = 'ADD_ITEMS',
 }
 
+export type UserMaybe = {
+  __typename?: 'User'
+  id: string
+  firstName: string
+  lastName: string
+  phone: string
+  balance: number
+  createdAt: any
+  updatedAt: any
+  items: Array<{
+    __typename?: 'Item'
+    id: string
+    name: string
+    description: string
+    price: number
+    realValue: number
+  }>
+}
 export interface AuthLoginSuccessAction {
   type: AuthTypes.AUTH_LOGIN_SUCCESS
   payload: {
-    user: Maybe<User>
+    user: UserMaybe
   }
 }
 
@@ -37,7 +58,7 @@ export interface AuthRegisterRequestsAction {
 export interface AuthRegisterSuccessAction {
   type: AuthTypes.AUTH_REGISTER_SUCCESS
   payload: {
-    user: User
+    user: UserMaybe
   }
 }
 
@@ -51,7 +72,7 @@ export interface AuthRegisterFailureAction {
 export interface AuthCheckSessionSuccessAction {
   type: AuthTypes.AUTH_CHECK_SESSION_SUCCESS
   payload: {
-    user: User
+    user: UserMaybe
   }
 }
 
@@ -70,10 +91,22 @@ export interface AuthState {
   isFetching?: boolean
   isAuthenticated?: boolean
   message?: string | null
-  errors?: ErrorResponse[] | []
-  user?: User | null
+  errors?: ErrorResponse[] | [] | null
+  user?: UserMaybe | null
 }
 
+export interface AddItemAction {
+  type: AuthTypes.ADD_ITEM
+  payload: {
+    item: ItemMaybe
+  }
+}
+export interface AddItemsAction {
+  type: AuthTypes.ADD_ITEMS
+  payload: {
+    items: ItemMaybe[] | []
+  }
+}
 export type AuthAction =
   | AuthLoginSuccessAction
   | AuthLoginFailureAction
@@ -84,3 +117,5 @@ export type AuthAction =
   | AuthCheckSessionSuccessAction
   | AuthCheckSessionFailureAction
   | AuthCheckSessionRequestsAction
+  | AddItemAction
+  | AddItemsAction

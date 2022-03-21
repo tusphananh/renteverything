@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
-import { addRedisValue, getRedisValue } from "../libs/redis";
 import { MessageItem, SocketChannel, SocketItem } from "../constants/SocketConstants";
+import { addRedisValue, getRedisValue } from "../libs/redis";
 
 export const sendMessage = (io: Server, data: MessageItem) => {
     getRedisValue(data.toUserId).then((socketId: any) => {

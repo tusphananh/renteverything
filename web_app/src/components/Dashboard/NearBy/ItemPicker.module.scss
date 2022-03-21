@@ -1,0 +1,319 @@
+@import "../../../styles/fonts";
+@import "../../../styles/colors";
+@import "../../../styles/layout";
+
+$searchBarHeight: 52px;
+$filterWidth: 128px;
+$addButtonWidth: 52px;
+$closeBtnSize: 24px;
+
+.itemsTabContainer {
+    @extend .flex-center-column;
+    position: relative;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.searchBarContainer {
+    position: relative;
+    display: grid;
+    overflow: visible;
+    grid-template-columns: 50% auto auto $addButtonWidth;
+    grid-template-rows: auto;
+    grid-gap: 10px;
+    width: 100%;
+    height: $searchBarHeight;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+    // border: 1px solid $grey-color-100;
+}
+
+.searchBarInput {
+    padding: 0;
+    margin: 0;
+    @extend .grey-glassmorphism-3;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    padding-left: 20px;
+    color: $grey-color-100;
+}
+
+.searchFilterContainer {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: $searchBarHeight;
+    color: $grey-color-500;
+    z-index: 2;
+}
+
+.searchFilter {
+    @extend .grey-glassmorphism-6;
+    padding: 0px;
+    margin: 0px;
+    position: absolute;
+    display: inline-block;
+    width: 100%;
+    height: fit-content;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.filterItem {
+    position: relative;
+    text-align: center;
+    @extend .flex-center-row;
+    height: $searchBarHeight;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    &:hover {
+        cursor: pointer;
+        color: $primary-color;
+    }
+
+}
+
+.addBtn {
+    @extend .flex-center-row;
+    @extend .grey-glassmorphism-6;
+    height: $addButtonWidth;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    color: $grey-color-500;
+    font-size: $font-size-4;
+
+    &:hover {
+        cursor: pointer;
+        color: $primary-color;
+    }
+}
+
+.closeBtn {
+    width: $closeBtnSize;
+    height: $closeBtnSize;
+    @extend .flex-center-row;
+    @extend .grey-glassmorphism-6;
+    border: 1px solid rgba($color: $grey-color-500, $alpha: .2);
+    transform: rotate(45deg);
+    border-radius: 50%;
+
+    * {
+        fill: $red-color-500;
+        transform: scale(0.9, 0.9);
+        transform-origin: center;
+    }
+}
+
+.addItemBoardLayout {
+    @extend .flex-center-column;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    padding: 0;
+    margin: 0;
+    left: 0;
+    z-index: 2;
+
+}
+
+.addItemBoard {
+    @extend .flex-center-column;
+    @extend .grey-glassmorphism-3;
+
+    @media screen and (max-width: $breakpoint-desktop) {
+        width: 90%;
+    }
+
+    position: relative;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 60%;
+    height: fit-content;
+    overflow: hidden;
+    max-height: 75%;
+}
+
+.addItemBoardHeader {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 5px 0 0;
+    margin: 0;
+
+    p {
+        margin: 10px 0 0 20px;
+        font-size: $font-size-3;
+        font-weight: $font-weight-semi-bold;
+        color: $grey-color-300;
+    }
+}
+
+.itemInformaitonContainer {
+    display: grid;
+    width: 100%;
+    padding: 0px 10px 0px 10px;
+    height: fit-content;
+    margin-top: 10px;
+    grid-template-columns: 50% 50%;
+
+    @media screen and (max-width: $breakpoint-desktop) {
+        grid-template-columns: 100%;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 3px;
+            background: rgba($color: $grey-color-500, $alpha: .0);
+            border-radius: 20px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba($color: $grey-color-500, $alpha: .1);
+            border-radius: 20px;
+        }
+    }
+
+}
+
+.itemInputContainer {
+    margin: 10px;
+
+    p {
+        color: $grey-color-500;
+        font-size: $font-size-1;
+        margin-bottom: 10px;
+    }
+
+    input {
+        width: 100%;
+        color: $grey-color-100;
+        padding: 10px;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        height: 42px;
+        background-color: rgba($color: $grey-color-600, $alpha: .1);
+    }
+}
+
+.itemLocationContainer {
+    @extend .itemInputContainer;
+
+    @media screen and (min-width: $breakpoint-desktop) {
+        grid-column-start: 2;
+        grid-column-end: 4;
+    }
+}
+
+.itemAddBtn {
+    margin: 20px;
+
+    p {
+        color: rgba($color: $primary-color, $alpha: 1);
+        font-size: $font-size-1;
+        margin-bottom: 10px;
+    }
+
+    border-radius: 5px;
+    height: 42px;
+    width: 128px;
+    background-color: rgba($color: $grey-color-600, $alpha: .1);
+    outline: none;
+    border: none;
+
+    &:hover {
+        cursor: pointer;
+        opacity: .8;
+    }
+}
+
+.itemAddress {
+
+    font-size: $font-size-2;
+    font-weight: $font-weight-light;
+    color: $primary-color;
+    width: 100%;
+    height: 42px;
+    margin-top: auto;
+    margin-bottom: auto;
+    background: transparent;
+    border: none;
+    outline: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: -5px;
+
+    &:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
+}
+
+.itemBoardContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    grid-gap: 10px;
+    padding: 20px 0 0 0;
+}
+
+.itemContainer {
+    @extend .grey-glassmorphism-4;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: fit-content;
+    width: 100%;
+    padding: 20px;
+    overflow: hidden;
+
+    &:hover {
+        cursor: pointer;
+
+    }
+}
+
+.itemInfoLeft {
+    color: $grey-color-300;
+    font-size: $font-size-1;
+}
+
+.itemInfoRight {
+    margin-left: auto;
+    color: $grey-color-500;
+    font-size: $font-size-1;
+}
+
+.devider {
+    width: 100%;
+    height: 0.5px;
+    background-color: rgba($color: $grey-color-500, $alpha: .2);
+    margin-top: 30px;
+    align-self: start;
+}
+
+.selectBtn {
+    @extend .grey-glassmorphism-6;
+    border-radius: 5px;
+    width: 200%;
+    height: $searchBarHeight;
+
+    color: $primary-color;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgba($color: $grey-color-500, $alpha: .1);
+    }
+}

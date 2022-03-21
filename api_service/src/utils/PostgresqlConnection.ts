@@ -1,9 +1,9 @@
-import Activity from "../entities/Activity";
 import { createConnection } from "typeorm";
-import Item from "../entities/Item";
-import User from "../entities/User";
+import Activity from "../entities/Activity";
 import Chat from "../entities/Chat";
+import Item from "../entities/Item";
 import Message from "../entities/Message";
+import User from "../entities/User";
 
 export const postgresqlConnection = async () => {
   try {

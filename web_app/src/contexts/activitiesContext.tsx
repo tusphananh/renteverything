@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react'
 import {
   addMessage,
-  addProvideActivities,
-  addProvideActivity,
-  addRentActivities,
+  addProvideActivities, addRentActivities,
   addRentActivity,
-  setChatSocket,
+  setChatSocket
 } from '../actions/activitiesActions'
 import {
   ActivitiesAction,
   ActivitiesState,
   ActivityMaybe,
-  MessageMaybe,
+  MessageMaybe
 } from '../constants/ActivitiesConstants'
 import { SearchResult } from '../constants/SearchConstants'
 import { SocketChannel } from '../constants/SocketConstants'
@@ -19,7 +17,7 @@ import {
   useAddActivityMutation,
   useAddMessageMutation,
   useGetProvideActivitiesLazyQuery,
-  useGetRentActivitiesLazyQuery,
+  useGetRentActivitiesLazyQuery
 } from '../graphql-generated/graphql'
 import activitiesReducer from '../reducers/activitiesReducer'
 import { useAuthContext } from './authContext'

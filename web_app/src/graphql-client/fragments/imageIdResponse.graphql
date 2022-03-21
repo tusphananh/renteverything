@@ -1,0 +1,4 @@
+fragment ImageIDResponseFragment on ImageID {
+  frontSide
+  backSide
+}

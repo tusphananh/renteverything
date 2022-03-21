@@ -1,0 +1,12 @@
+query GetImageID {
+  getImageId {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ImageIDResponseFragment
+    }
+  }
+}

@@ -1,12 +1,12 @@
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import React, { useEffect } from 'react'
-import { SkeletonAnimation } from '../../animations/SearchAnimations'
-import LocationArrowIcon from '../../assets/icons/location-arrow.svg'
-import MinusIcon from '../../assets/icons/minus.svg'
-import PlusIcon from '../../assets/icons/plus.svg'
-import { MarkerType } from '../../constants/SearchConstants'
-import { useSearchContext } from '../../contexts/searchContext'
+import { SkeletonAnimation } from '../../../animations/SearchAnimations'
+import LocationArrowIcon from '../../../assets/icons/location-arrow.svg'
+import MinusIcon from '../../../assets/icons/minus.svg'
+import PlusIcon from '../../../assets/icons/plus.svg'
+import { MarkerType } from '../../../constants/SearchConstants'
+import { useSearchContext } from '../../../contexts/searchContext'
 import {
   addMarker,
   flyTo,
@@ -14,8 +14,8 @@ import {
   getMap,
   zoomIn,
   zoomOut
-} from '../../libs/mapbox'
-import styles from '../../styles/Search.module.scss'
+} from '../../../libs/mapbox'
+import styles from './Search.module.scss'
 import { SearchController } from './SearchController'
 
 /**

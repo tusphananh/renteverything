@@ -1,9 +1,9 @@
 // Class UserMutationResponse implements MutationResponse
 
 import { Field, ObjectType } from "type-graphql";
-import { ResponseClass } from "./Response";
 import Item from "../entities/Item";
 import { ErrorResponse } from "./ErrorResponse";
+import { ResponseClass } from "./Response";
 
 @ObjectType()
 export class ItemResponse extends ResponseClass(Item) {

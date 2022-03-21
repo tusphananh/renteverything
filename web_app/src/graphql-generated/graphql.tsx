@@ -14,6 +14,8 @@ export type Scalars = {
   Float: number;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type ActivitiesResponse = {
@@ -65,6 +67,20 @@ export type ErrorResponse = {
   message: Scalars['String'];
 };
 
+export type ImageId = {
+  __typename?: 'ImageID';
+  backSide: Scalars['String'];
+  frontSide: Scalars['String'];
+};
+
+export type ImageIdResponse = {
+  __typename?: 'ImageIDResponse';
+  code: Scalars['Float'];
+  data?: Maybe<ImageId>;
+  errors?: Maybe<Array<ErrorResponse>>;
+  success: Scalars['Boolean'];
+};
+
 export type Item = {
   __typename?: 'Item';
   description: Scalars['String'];
@@ -94,7 +110,7 @@ export type Message = {
   __typename?: 'Message';
   chatId: Scalars['Float'];
   createdAt: Scalars['DateTime'];
-  id: Scalars['String'];
+  id: Scalars['ID'];
   text: Scalars['String'];
   user: User;
 };
@@ -118,6 +134,7 @@ export type Mutation = {
   successActivity?: Maybe<ActivityResponse>;
   updateBalance?: Maybe<UserResponse>;
   updateItem?: Maybe<ItemResponse>;
+  uploadIdImage?: Maybe<UserResponse>;
 };
 
 
@@ -187,9 +204,16 @@ export type MutationUpdateItemArgs = {
   realValue: Scalars['Float'];
 };
 
+
+export type MutationUploadIdImageArgs = {
+  backSide: Scalars['Upload'];
+  frontSide: Scalars['Upload'];
+};
+
 export type Query = {
   __typename?: 'Query';
   checkSession?: Maybe<UserResponse>;
+  getImageId?: Maybe<ImageIdResponse>;
   getItems?: Maybe<ItemsResponse>;
   getItemsByName?: Maybe<ItemsResponse>;
   getProvideActivities?: Maybe<ActivitiesResponse>;
@@ -233,6 +257,8 @@ export type UserResponse = {
 export type ActivityResponseFragmentFragment = { __typename?: 'Activity', id: string, name: string, itemName: string, itemDescription: string, itemPrice: number, itemRealValue: number, totalPrice: number, duration: number, distance: number, status: string, createdAt: any, updatedAt: any, provider: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, renter: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, chat: { __typename?: 'Chat', id: string, title: string, createdAt: any, messages: Array<{ __typename?: 'Message', id: string, createdAt: any, text: string, chatId: number, user: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string } }> } };
 
 export type ErrosResponseFragmentFragment = { __typename?: 'ErrorResponse', field: string, message: string };
+
+export type ImageIdResponseFragmentFragment = { __typename?: 'ImageID', frontSide: string, backSide: string };
 
 export type ItemResponseFragmentFragment = { __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number };
 
@@ -318,6 +344,14 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, balance: number, createdAt: any, updatedAt: any, items: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> }> };
 
+export type UploadIdImageMutationVariables = Exact<{
+  frontSide: Scalars['Upload'];
+  backSide: Scalars['Upload'];
+}>;
+
+
+export type UploadIdImageMutation = { __typename?: 'Mutation', uploadIdImage?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, balance: number, createdAt: any, updatedAt: any, items: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> }> };
+
 export type GetRentActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -327,6 +361,11 @@ export type GetProvideActivitiesQueryVariables = Exact<{ [key: string]: never; }
 
 
 export type GetProvideActivitiesQuery = { __typename?: 'Query', getProvideActivities?: Maybe<{ __typename?: 'ActivitiesResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data: Array<{ __typename?: 'Activity', id: string, name: string, itemName: string, itemDescription: string, itemPrice: number, itemRealValue: number, totalPrice: number, duration: number, distance: number, status: string, createdAt: any, updatedAt: any, provider: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, renter: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, chat: { __typename?: 'Chat', id: string, title: string, createdAt: any, messages: Array<{ __typename?: 'Message', id: string, createdAt: any, text: string, chatId: number, user: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string } }> } }> }> };
+
+export type GetImageIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetImageIdQuery = { __typename?: 'Query', getImageId?: Maybe<{ __typename?: 'ImageIDResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'ImageID', frontSide: string, backSide: string }> }> };
 
 export type LoginQueryVariables = Exact<{
   phone: Scalars['String'];
@@ -400,6 +439,12 @@ export const ErrosResponseFragmentFragmentDoc = gql`
     fragment ErrosResponseFragment on ErrorResponse {
   field
   message
+}
+    `;
+export const ImageIdResponseFragmentFragmentDoc = gql`
+    fragment ImageIDResponseFragment on ImageID {
+  frontSide
+  backSide
 }
     `;
 export const ItemResponseFragmentFragmentDoc = gql`
@@ -803,6 +848,48 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UploadIdImageDocument = gql`
+    mutation UploadIdImage($frontSide: Upload!, $backSide: Upload!) {
+  uploadIdImage(frontSide: $frontSide, backSide: $backSide) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
+    }
+  }
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${UserResponseFragmentFragmentDoc}`;
+export type UploadIdImageMutationFn = Apollo.MutationFunction<UploadIdImageMutation, UploadIdImageMutationVariables>;
+
+/**
+ * __useUploadIdImageMutation__
+ *
+ * To run a mutation, you first call `useUploadIdImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUploadIdImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uploadIdImageMutation, { data, loading, error }] = useUploadIdImageMutation({
+ *   variables: {
+ *      frontSide: // value for 'frontSide'
+ *      backSide: // value for 'backSide'
+ *   },
+ * });
+ */
+export function useUploadIdImageMutation(baseOptions?: Apollo.MutationHookOptions<UploadIdImageMutation, UploadIdImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadIdImageMutation, UploadIdImageMutationVariables>(UploadIdImageDocument, options);
+      }
+export type UploadIdImageMutationHookResult = ReturnType<typeof useUploadIdImageMutation>;
+export type UploadIdImageMutationResult = Apollo.MutationResult<UploadIdImageMutation>;
+export type UploadIdImageMutationOptions = Apollo.BaseMutationOptions<UploadIdImageMutation, UploadIdImageMutationVariables>;
 export const GetRentActivitiesDocument = gql`
     query getRentActivities {
   getRentActivities {
@@ -887,6 +974,48 @@ export function useGetProvideActivitiesLazyQuery(baseOptions?: Apollo.LazyQueryH
 export type GetProvideActivitiesQueryHookResult = ReturnType<typeof useGetProvideActivitiesQuery>;
 export type GetProvideActivitiesLazyQueryHookResult = ReturnType<typeof useGetProvideActivitiesLazyQuery>;
 export type GetProvideActivitiesQueryResult = Apollo.QueryResult<GetProvideActivitiesQuery, GetProvideActivitiesQueryVariables>;
+export const GetImageIdDocument = gql`
+    query GetImageID {
+  getImageId {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ImageIDResponseFragment
+    }
+  }
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${ImageIdResponseFragmentFragmentDoc}`;
+
+/**
+ * __useGetImageIdQuery__
+ *
+ * To run a query within a React component, call `useGetImageIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetImageIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetImageIdQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetImageIdQuery(baseOptions?: Apollo.QueryHookOptions<GetImageIdQuery, GetImageIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetImageIdQuery, GetImageIdQueryVariables>(GetImageIdDocument, options);
+      }
+export function useGetImageIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetImageIdQuery, GetImageIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetImageIdQuery, GetImageIdQueryVariables>(GetImageIdDocument, options);
+        }
+export type GetImageIdQueryHookResult = ReturnType<typeof useGetImageIdQuery>;
+export type GetImageIdLazyQueryHookResult = ReturnType<typeof useGetImageIdLazyQuery>;
+export type GetImageIdQueryResult = Apollo.QueryResult<GetImageIdQuery, GetImageIdQueryVariables>;
 export const LoginDocument = gql`
     query Login($phone: String!, $password: String!) {
   login(phone: $phone, password: $password) {

@@ -1,4 +1,4 @@
-import { SearchResult, SearchItem } from "./SearchConstants";
+import { SearchItem, SearchResult } from "./SearchConstants";
 export interface ServerToClientEvents {
     noArg: () => void
     basicEmit: (a: number, b: string, c: Buffer) => void
@@ -31,4 +31,5 @@ export enum SocketChannel {
     SEARCH = 'search',
     RESULT = 'result',
     CANCEL = 'cancel',
+    ACTIVITY_APPROVED = 'activity_approved',
 }

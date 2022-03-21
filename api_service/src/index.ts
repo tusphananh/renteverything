@@ -8,7 +8,9 @@ import { corsOptions } from "./configs/CorsOptions";
 import { ApolloConnection } from "./utils/ApolloConnection";
 import { postgresqlConnection } from "./utils/PostgresqlConnection";
 import { redisSession } from "./utils/RedisConnection";
-
+import {
+  graphqlUploadExpress, // A Koa implementation is also exported.
+} from 'graphql-upload';
 /**
  * TypeScript need main asysnc function
  */
@@ -16,6 +18,7 @@ import { redisSession } from "./utils/RedisConnection";
 const main = async () => {
   const app = express();
   app.use(cors(corsOptions));
+  app.use(graphqlUploadExpress())
   /**
    * Redis Connection
    */

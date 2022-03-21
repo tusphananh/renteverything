@@ -1,4 +1,8 @@
 import argon2 from "argon2";
+import fs from "fs";
+import { FileUpload, GraphQLUpload } from "graphql-upload";
+import path from "path";
+import { finished } from "stream/promises";
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { SESSION_COOKIE_NAME } from "../configs/CookieConstants";
 import User from "../entities/User";
@@ -7,7 +11,6 @@ import { Context } from "../types/Context";
 import { ErrorResponse } from "../types/ErrorResponse";
 import { UserResponse } from "../types/UserResponse";
 import { isLoginFormValid, isRegisterFormValid } from "../utils/inputValidator";
-
 const serverErrors: ErrorResponse = {
   field: "server",
   message: "Server error",
@@ -303,5 +306,76 @@ export class UserResolver {
       };
     }
   }
+
+  /**
+   * Upload image of ID
+   */
+  @Mutation(() => UserResponse, { nullable: true })
+  @UseMiddleware(checkAuth)
+  async uploadIdImage(
+    @Arg("frontSide", () => GraphQLUpload) frontSide: FileUpload,
+    @Arg("backSide", () => GraphQLUpload) backSide: FileUpload,
+    @Ctx() { req }: Context
+  ): Promise<UserResponse> {
+    try {
+      const user = await User.findOne({ id: req.session.userId });
+      if (!user) {
+        const errors: ErrorResponse[] = [{
+          field: "session",
+          message: "Session expired",
+        }]
+        return {
+          code: 400,
+          success: false,
+          errors: errors,
+        };
+      }
+
+      //If folder image not exist, create folder at ../uploads
+      const folder = path.join(__dirname, "../../../uploads");
+      if (!fs.existsSync(folder)) {
+        fs.mkdirSync(folder);
+      }
+      //Get the image type is jpg or png
+      const imageType = frontSide.filename.split(".")[1];
+
+      // Name the frontSide image with user id and backSide image with user id
+      const frontSideName = `${user.id}_frontSide.${imageType}`;
+      const backSideName = `${user.id}_backSide.${imageType}`;
+
+      // Save the frontSide image and backSide image to ../uploads
+      console.log(frontSide);
+
+      const frontStream = frontSide.createReadStream();
+      const frontOut = fs.createWriteStream(path.join(folder, frontSideName));
+      frontStream.pipe(frontOut);
+      await finished(frontOut);
+
+      const backStream = backSide.createReadStream();
+      const backOut = fs.createWriteStream(path.join(folder, backSideName));
+      backStream.pipe(backOut);
+      await finished(backOut);
+
+
+      // Save the exact file path to user
+      user.frontIdImageFilePath = path.join(folder, frontSideName);
+      user.backIdImageFilePath = path.join(folder, backSideName);
+      await user.save();
+
+      return {
+        code: 200,
+        success: true,
+        data: user,
+      }
+    } catch (error) {
+      console.log(error);
+      return {
+        code: 500,
+        success: false,
+        errors: [serverErrors],
+      };
+    }
+  }
+  
 }
 

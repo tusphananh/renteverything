@@ -1,4 +1,5 @@
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
+import { uuid } from 'uuidv4';
 import Activity from "../entities/Activity";
 import Chat from "../entities/Chat";
 import Message from "../entities/Message";
@@ -8,7 +9,6 @@ import { ActivitiesResponse, ActivityResponse } from "../types/ActivityResponse"
 import { Context } from "../types/Context";
 import { ErrorResponse } from "../types/ErrorResponse";
 import { ActivityStatus } from "../types/Status";
-import { uuid } from 'uuidv4';
 const serverErrors: ErrorResponse = {
     field: "server",
     message: "Server error",

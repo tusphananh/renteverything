@@ -1,4 +1,4 @@
-export enum TabName {
+export enum DashBoardTabName {
   NEAR_BY = "Near By",
   MESSAGES = "Messages",
   ITEMS = "Items",

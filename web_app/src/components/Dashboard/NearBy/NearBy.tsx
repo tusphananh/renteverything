@@ -1,25 +1,28 @@
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion'
 import React, { Fragment } from 'react'
-import { removeNearByItem } from '../../actions/searchActions'
-import { variants } from '../../animations/VariantAnimations'
-import CircleXIcon from '../../assets/icons/circle-x.svg'
-import RecentLogo from '../../assets/icons/recent.svg'
-import { ConfirmBoardState } from '../../constants/DashBoardConstants'
+import { v4 as uuidv4 } from 'uuid'
+import { removeNearByItem } from '../../../actions/searchActions'
+import { variants } from '../../../animations/VariantAnimations'
+import CircleXIcon from '../../../assets/icons/circle-x.svg'
+import RecentLogo from '../../../assets/icons/recent.svg'
+import { ConfirmBoardState } from '../../../constants/DashBoardConstants'
 import {
   ConfirmInputValues,
   NearByItem,
-  SearchResult,
-} from '../../constants/SearchConstants'
-import { useAuthContext } from '../../contexts/authContext'
-import { useSearchContext } from '../../contexts/searchContext'
-import { Item } from '../../graphql-generated/graphql'
-import styles from '../../styles/NearBy.module.scss'
-import { v4 as uuidv4 } from 'uuid'
+  SearchResult
+} from '../../../constants/SearchConstants'
+import { useAuthContext } from '../../../contexts/authContext'
+import { useSearchContext } from '../../../contexts/searchContext'
+import { Item } from '../../../graphql-generated/graphql'
 import {
   capitalizeFirstLetter,
   hourFormatter,
-  timeFormatter,
-} from '../../utils/formatter'
+  timeFormatter
+} from '../../../utils/formatter'
+import ItemPicker from './ItemPicker'
+import styles from './NearBy.module.scss'
 
 const NearBy: React.FC<{}> = () => {
   return (
@@ -112,11 +115,24 @@ const ConfirmBoard: React.FC<{
   route_duration,
   id,
   setConfirmBoardState,
-  address,
 }) => {
   const { authState } = useAuthContext()
   const { sendResult, searchState, searchDispatch } = useSearchContext()
+  const [chooseItemClicked, setChooseItemClicked] = React.useState(false)
   const [inputValue, setInputValue] = React.useState<ConfirmInputValues>()
+  const importConfirmInputValues = (
+    name: string,
+    price: number,
+    realValue: number,
+    description: string,
+  ) => {
+    setInputValue({
+      name,
+      price,
+      realValue,
+      description,
+    })
+  }
   const confirm = () => {
     if (
       inputValue?.description &&
@@ -195,6 +211,7 @@ const ConfirmBoard: React.FC<{
             <input
               type="text"
               placeholder="Max 5 words"
+              value={inputValue?.name}
               onChange={(e) => {
                 setInputValue({ ...inputValue, name: e.target.value })
               }}
@@ -205,6 +222,7 @@ const ConfirmBoard: React.FC<{
             <input
               type="text"
               placeholder="USD / hour"
+              value={inputValue?.price}
               onChange={(e) => {
                 setInputValue({
                   ...inputValue,
@@ -218,6 +236,7 @@ const ConfirmBoard: React.FC<{
             <input
               type="text"
               placeholder="USD"
+              value={inputValue?.realValue}
               onChange={(e) => {
                 setInputValue({
                   ...inputValue,
@@ -231,6 +250,7 @@ const ConfirmBoard: React.FC<{
             <input
               type="text"
               placeholder="Max 10 words"
+              value={inputValue?.description}
               onChange={(e) => {
                 setInputValue({
                   ...inputValue,
@@ -239,10 +259,12 @@ const ConfirmBoard: React.FC<{
               }}
             />
           </div>
-          <div className={styles['confirm-board__input-container--location']}>
-            <p>Address</p>
-            <button className={styles['confirm-board__address']}>
-              {address}
+          <div className={styles['confirm-board__choose-item-container']}>
+            <button
+              className={styles['confirm-board__choose-item-btn']}
+              onClick={() => setChooseItemClicked(true)}
+            >
+              Choose from your inventory
             </button>
           </div>
         </div>
@@ -255,6 +277,20 @@ const ConfirmBoard: React.FC<{
           <p>Confirm</p>
         </button>
       </div>
+      {chooseItemClicked && (
+        <div className={styles['choose-item-layout']}>
+          <button
+            className={styles['choose-item-close-btn']}
+            onClick={() => setChooseItemClicked(false)}
+          >
+            <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
+          </button>
+          <ItemPicker
+            importConfirmInputValues={importConfirmInputValues}
+            setChooseItemClicked={setChooseItemClicked}
+          />
+        </div>
+      )}
     </motion.div>
   )
 }

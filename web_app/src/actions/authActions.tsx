@@ -1,4 +1,6 @@
 import {
+  AddItemAction,
+  AddItemsAction,
   AuthCheckSessionFailureAction,
   AuthCheckSessionRequestsAction,
   AuthCheckSessionSuccessAction,
@@ -9,28 +11,28 @@ import {
   AuthRegisterSuccessAction,
   AuthRequestLoginAction,
   AuthTypes,
+  UserMaybe
 } from '../constants/AuthConstant'
+import { ItemMaybe } from '../constants/ItemsConstants'
 import { UserResponse } from '../graphql-generated/graphql'
 
 export const requestLogin = (): AuthRequestLoginAction => ({
   type: AuthTypes.AUTH_LOGIN_REQUESTS,
 })
 
-export const loginSuccess = (
-  response?: UserResponse,
-): AuthLoginSuccessAction => ({
+export const loginSuccess = (user: UserMaybe): AuthLoginSuccessAction => ({
   type: AuthTypes.AUTH_LOGIN_SUCCESS,
   payload: {
-    user: response?.data!,
+    user: user,
   },
 })
 
 export const loginFailure = (
-  response: UserResponse,
+  errors: UserResponse['errors'],
 ): AuthLoginFailureAction => ({
   type: AuthTypes.AUTH_LOGIN_FAILURE,
   payload: {
-    errors: response.errors || [],
+    errors: errors || [],
   },
 })
 
@@ -39,20 +41,20 @@ export const requestRegister = (): AuthRegisterRequestsAction => ({
 })
 
 export const registerSuccess = (
-  response: UserResponse,
+  user: UserMaybe,
 ): AuthRegisterSuccessAction => ({
   type: AuthTypes.AUTH_REGISTER_SUCCESS,
   payload: {
-    user: response.data!,
+    user: user,
   },
 })
 
 export const registerFailure = (
-  response: UserResponse,
+  errors: UserResponse['errors'],
 ): AuthRegisterFailureAction => ({
   type: AuthTypes.AUTH_REGISTER_FAILURE,
   payload: {
-    errors: response.errors || [],
+    errors: errors || [],
   },
 })
 
@@ -61,11 +63,11 @@ export const requestCheckSession = (): AuthCheckSessionRequestsAction => ({
 })
 
 export const checkSessionSuccess = (
-  response: UserResponse,
+  user: UserMaybe,
 ): AuthCheckSessionSuccessAction => ({
   type: AuthTypes.AUTH_CHECK_SESSION_SUCCESS,
   payload: {
-    user: response.data!,
+    user: user,
   },
 })
 
@@ -73,5 +75,19 @@ export const checkSessionFailure = (): AuthCheckSessionFailureAction => ({
   type: AuthTypes.AUTH_CHECK_SESSION_FAILURE,
   payload: {
     errors: [],
+  },
+})
+
+export const addItemAction = (item: ItemMaybe): AddItemAction => ({
+  type: AuthTypes.ADD_ITEM,
+  payload: {
+    item,
+  },
+})
+
+export const addItemsAction = (items: ItemMaybe[]): AddItemsAction => ({
+  type: AuthTypes.ADD_ITEMS,
+  payload: {
+    items,
   },
 })

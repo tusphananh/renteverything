@@ -14,7 +14,7 @@ export function ResponseClass<TData>(TDataClass: ClassType<TData>) {
     @Field(() => [ErrorResponse], { nullable: true, defaultValue: [] })
     errors?: ErrorResponse[] | [];
     @Field(() => TDataClass || [TDataClass], { nullable: true })
-    data?: TData | TData[];
+    data?: TData | TData[]
   }
   return ResponseClass;
 }

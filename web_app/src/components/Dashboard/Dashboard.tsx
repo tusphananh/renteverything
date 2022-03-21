@@ -7,26 +7,27 @@ import LogoutIcon from '../../assets/icons/logout.svg'
 import MessageIcon from '../../assets/icons/messages.svg'
 import NotiIcon from '../../assets/icons/noti.svg'
 import SearchIcon from '../../assets/icons/signal-stream.svg'
-import { TabName } from '../../constants/DashBoardConstants'
+import { DashBoardTabName } from '../../constants/DashBoardConstants'
 import { useAuthContext } from '../../contexts/authContext'
 import { User } from '../../graphql-generated/graphql'
-import styles from '../../styles/DashBoard.module.scss'
-import Activities from './ Activities'
-import Items from './ Items'
-import Message from './Message'
-import NearBy from './NearBy'
-import Search from './Search'
+import Activities from './Activities/ Activities'
+import styles from './DashBoard.module.scss'
+import Items from './Items/ Items'
+import Message from './Message/Message'
+import NearBy from './NearBy/NearBy'
+import Search from './Search/Search'
 
 function Dashboard() {
-  const [activeTabName, setTabName] = React.useState<TabName>(TabName.NEAR_BY)
+  const [activeTabName, setTabName] = React.useState<DashBoardTabName>(DashBoardTabName.NEAR_BY)
   const [mainBoard, setMainBoard] = React.useState<JSX.Element>()
+
   const { authState } = useAuthContext()
   const [user, setUser] = React.useState<User>()
   const [boards] = React.useState({
-    home: <NearBy key={TabName.NEAR_BY} />,
-    message: <Message key={TabName.MESSAGES} />,
-    activities: <Activities key={TabName.ACTIVITIES} />,
-    items: <Items key={TabName.ITEMS} />,
+    home: <NearBy key={DashBoardTabName.NEAR_BY} />,
+    message: <Message key={DashBoardTabName.MESSAGES} />,
+    activities: <Activities key={DashBoardTabName.ACTIVITIES} />,
+    items: <Items key={DashBoardTabName.ITEMS} />,
   })
 
   useEffect(() => {
@@ -34,13 +35,13 @@ function Dashboard() {
   }, [authState.user])
 
   useEffect(() => {
-    if (activeTabName === TabName.NEAR_BY) {
+    if (activeTabName === DashBoardTabName.NEAR_BY) {
       setMainBoard(boards.home)
-    } else if (activeTabName === TabName.MESSAGES) {
+    } else if (activeTabName === DashBoardTabName.MESSAGES) {
       setMainBoard(boards.message)
-    } else if (activeTabName === TabName.ACTIVITIES) {
+    } else if (activeTabName === DashBoardTabName.ACTIVITIES) {
       setMainBoard(boards.activities)
-    } else if (activeTabName === TabName.ITEMS) {
+    } else if (activeTabName === DashBoardTabName.ITEMS) {
       setMainBoard(boards.items)
     } else {
       setMainBoard(<></>)
@@ -61,10 +62,10 @@ function Dashboard() {
           />
         </div>
 
-        <div className={styles['header__user-info-container']}>
+        <a className={styles['header__user-info-container']} href="/account">
           <p> {user && user.firstName + ' ' + user.lastName}</p>
           <p>{user && user.balance + ' USD'}</p>
-        </div>
+        </a>
 
         <p className={styles['header__name']}>{activeTabName}</p>
         <div className={styles['header__noti']}>
@@ -75,41 +76,41 @@ function Dashboard() {
         <div className={styles['navbar']}>
           <NavbarItem
             activeTabName={activeTabName}
-            tabName={TabName.NEAR_BY}
+            tabName={DashBoardTabName.NEAR_BY}
             name="Near By"
-            onClick={() => setTabName(TabName.NEAR_BY)}
+            onClick={() => setTabName(DashBoardTabName.NEAR_BY)}
           >
             <HomeIcon alt="Near By" />
           </NavbarItem>
           <NavbarItem
             activeTabName={activeTabName}
-            tabName={TabName.ACTIVITIES}
+            tabName={DashBoardTabName.ACTIVITIES}
             name="Activities"
-            onClick={() => setTabName(TabName.ACTIVITIES)}
+            onClick={() => setTabName(DashBoardTabName.ACTIVITIES)}
           >
             <CalenderIcon alt="Activities" />
           </NavbarItem>
           <NavbarItem
             activeTabName={activeTabName}
-            tabName={TabName.SEARCH}
+            tabName={DashBoardTabName.SEARCH}
             name="Search"
-            onClick={() => setTabName(TabName.SEARCH)}
+            onClick={() => setTabName(DashBoardTabName.SEARCH)}
           >
             <SearchIcon alt="Search" transform="scale(1.8)" />
           </NavbarItem>
           <NavbarItem
             activeTabName={activeTabName}
-            tabName={TabName.MESSAGES}
+            tabName={DashBoardTabName.MESSAGES}
             name="Message"
-            onClick={() => setTabName(TabName.MESSAGES)}
+            onClick={() => setTabName(DashBoardTabName.MESSAGES)}
           >
             <MessageIcon alt="Message" />
           </NavbarItem>
           <NavbarItem
             activeTabName={activeTabName}
-            tabName={TabName.ITEMS}
+            tabName={DashBoardTabName.ITEMS}
             name="Items"
-            onClick={() => setTabName(TabName.ITEMS)}
+            onClick={() => setTabName(DashBoardTabName.ITEMS)}
           >
             <ItemsIcon alt="Items" />
           </NavbarItem>
@@ -123,7 +124,7 @@ function Dashboard() {
         </div>
         <div className={styles['dashboard']}>
           {mainBoard}
-          <Search isVisible={activeTabName === TabName.SEARCH} />
+          <Search isVisible={activeTabName === DashBoardTabName.SEARCH} />
         </div>
       </div>
     </div>
@@ -131,8 +132,8 @@ function Dashboard() {
 }
 
 const NavbarItem: React.FC<{
-  tabName: TabName
-  activeTabName: TabName
+  tabName: DashBoardTabName
+  activeTabName: DashBoardTabName
   onClick?: React.MouseEventHandler<HTMLButtonElement>
   name: string
 }> = ({ activeTabName, tabName, children, onClick, name }) => {

@@ -13,3 +13,4 @@ export class UserResponse extends ResponseClass(User) {
   errors?: ErrorResponse[] | [];
   data?: User;
 }
+

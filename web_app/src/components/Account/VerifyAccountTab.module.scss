@@ -1,0 +1,45 @@
+@import "../../styles/fonts";
+@import "../../styles/colors";
+@import "../../styles/layout";
+
+.verifyAccountTab {
+    @extend .flex-center-column;
+    @extend .grey-glassmorphism-6;
+    width: 100%;
+    height: 100%;
+
+}
+
+.uploadContainer {
+    @extend .grey-glassmorphism-6;
+    border: dashed 4px rgba($color: $grey-color-300, $alpha: .3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    aspect-ratio: 16 / 9;
+    color: $grey-color-500;
+    transition: .2s;
+    margin: 20px;
+    overflow: hidden;
+
+    &:hover {
+        color: $primary-color;
+        cursor: pointer;
+    }
+}
+
+.inputFile {
+    display: none;
+}
+
+.verifyButton {
+    @extend .grey-glassmorphism-6;
+    margin: 20px;
+    color: $primary-color;
+    padding: 20px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}

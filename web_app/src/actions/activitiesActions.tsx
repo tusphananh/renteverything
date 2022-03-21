@@ -1,4 +1,3 @@
-import { Socket } from 'socket.io-client'
 import {
   ActivitiesTypes,
   ActivityMaybe,
@@ -10,7 +9,7 @@ import {
   MessageMaybe,
   RemoveProvideActivityAction,
   RemoveRentActivityAction,
-  SetChatSocketAction,
+  SetChatSocketAction
 } from '../constants/ActivitiesConstants'
 import { getSocket } from '../libs/socket'
 

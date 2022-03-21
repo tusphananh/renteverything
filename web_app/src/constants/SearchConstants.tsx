@@ -1,6 +1,6 @@
-import { Item, User } from '../graphql-generated/graphql'
-import { Position } from './DashBoardConstants'
 import { Socket } from 'socket.io-client'
+import { User } from '../graphql-generated/graphql'
+import { Position } from './DashBoardConstants'
 import { ClientToServerEvents, ServerToClientEvents } from './SocketConstants'
 
 export enum SearchTypes {

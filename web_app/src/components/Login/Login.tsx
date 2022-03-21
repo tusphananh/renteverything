@@ -1,20 +1,19 @@
 import { useRouter } from 'next/router'
 import React, { FC, useEffect } from 'react'
-import { useAuthContext } from '../../contexts/authContext'
-import styles from '../../styles/Login.module.scss'
-import Logo from '../../assets/icons/logo-light.svg'
-import ArrowToRight from '../../assets/icons/arrow-to-right.svg'
 import {
-  LoginStates,
-  loginAnimationVariantsName,
-} from '../../constants/LoginConstants'
-import { isPasswordValid, isPhoneNumberValid } from '../../utils/inputValidator'
-import {
-  LoginErrorAnimation,
-  LoginInputAnimation,
-  LoginNavBarAnimation,
-  LoginTextAnimation,
+    LoginErrorAnimation,
+    LoginInputAnimation,
+    LoginNavBarAnimation,
+    LoginTextAnimation
 } from '../../animations/LoginAnimations'
+import ArrowToRight from '../../assets/icons/arrow-to-right.svg'
+import Logo from '../../assets/icons/logo-light.svg'
+import {
+    loginAnimationVariantsName, LoginStates
+} from '../../constants/LoginConstants'
+import { useAuthContext } from '../../contexts/authContext'
+import { isPasswordValid, isPhoneNumberValid } from '../../utils/inputValidator'
+import styles from './Login.module.scss'
 
 interface error {
   isError: boolean

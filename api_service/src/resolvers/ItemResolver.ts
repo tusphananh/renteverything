@@ -1,6 +1,6 @@
-import User from "../entities/User";
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import Item from "../entities/Item";
+import User from "../entities/User";
 import { checkAuth } from "../middlewares/checkAuth";
 import { Context } from "../types/Context";
 import { ErrorResponse } from "../types/ErrorResponse";

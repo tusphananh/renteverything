@@ -1,19 +1,19 @@
 import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion'
 import React, { useEffect } from 'react'
-import { variants } from '../../animations/VariantAnimations'
-import StreetViewIcon from '../../assets/icons/street-view.svg'
+import { variants } from '../../../animations/VariantAnimations'
+import StreetViewIcon from '../../../assets/icons/street-view.svg'
 import {
   ActivitiesStatus,
   ActivityMaybe,
-} from '../../constants/ActivitiesConstants'
-import { useActivitiesContext } from '../../contexts/activitiesContext'
-import styles from '../../styles/Activities.module.scss'
+} from '../../../constants/ActivitiesConstants'
+import { useActivitiesContext } from '../../../contexts/activitiesContext'
 import {
   capitalizeFirstLetter,
   formatDate,
   getReverseActivityStatus,
   hourFormatter,
-} from '../../utils/formatter'
+} from '../../../utils/formatter'
+import styles from './Activities.module.scss'
 function Activities() {
   return <RecentBoard Icon={StreetViewIcon} />
 }
@@ -126,14 +126,8 @@ const BoardItem: React.FC<{
   name,
   description,
   duration,
-  createAt,
   status,
   itemRealValue,
-  distance,
-  provider,
-  providerPhone,
-  renter,
-  renterPhone,
   itemPrice,
   totalPrice,
 }) => {

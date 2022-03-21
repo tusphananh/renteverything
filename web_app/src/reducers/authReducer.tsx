@@ -72,6 +72,24 @@ export const AuthReducer = (
         isAuthenticated: false,
         errors: action.payload?.errors!,
       }
+    case AuthTypes.ADD_ITEM:
+      return {
+        ...state,
+        isFetching: false,
+        user: {
+          ...state.user!,
+          items: [...state.user!.items, action.payload.item],
+        },
+      }
+    case AuthTypes.ADD_ITEMS:
+      return {
+        ...state,
+        isFetching: false,
+        user: {
+          ...state.user!,
+          items: [...state.user!.items, ...action.payload.items],
+        },
+      }
 
     default:
       return state

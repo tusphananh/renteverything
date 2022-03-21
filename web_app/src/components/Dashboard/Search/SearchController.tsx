@@ -9,26 +9,26 @@ import {
   setCurrentPosition,
   toInputDetailsScene,
   toInputLocationScene,
-  toResultsScene,
-} from '../../actions/searchActions'
-import { variants } from '../../animations/VariantAnimations'
-import AngleLeftIcon from '../../assets/icons/angle-left.svg'
-import LocationArrowIcon from '../../assets/icons/location-arrow.svg'
-import LocationPickerIcon from '../../assets/icons/location-picker.svg'
-import SearchIcon from '../../assets/icons/search.svg'
-import { Position } from '../../constants/DashBoardConstants'
+  toResultsScene
+} from '../../../actions/searchActions'
+import { variants } from '../../../animations/VariantAnimations'
+import AngleLeftIcon from '../../../assets/icons/angle-left.svg'
+import LocationArrowIcon from '../../../assets/icons/location-arrow.svg'
+import LocationPickerIcon from '../../../assets/icons/location-picker.svg'
+import SearchIcon from '../../../assets/icons/search.svg'
+import { Position } from '../../../constants/DashBoardConstants'
 import {
   SearchAddress,
   SearchItem,
   SearchResult,
-  searchScene,
-} from '../../constants/SearchConstants'
-import { useActivitiesContext } from '../../contexts/activitiesContext'
-import { useAuthContext } from '../../contexts/authContext'
-import { useSearchContext } from '../../contexts/searchContext'
-import { getGeocodings } from '../../libs/mapbox'
-import styles from '../../styles/SearchController.module.scss'
-import { capitalizeFirstLetter } from '../../utils/formatter'
+  searchScene
+} from '../../../constants/SearchConstants'
+import { useActivitiesContext } from '../../../contexts/activitiesContext'
+import { useAuthContext } from '../../../contexts/authContext'
+import { useSearchContext } from '../../../contexts/searchContext'
+import { getGeocodings } from '../../../libs/mapbox'
+import { capitalizeFirstLetter } from '../../../utils/formatter'
+import styles from './SearchController.module.scss'
 
 /**
  * SearchController component here

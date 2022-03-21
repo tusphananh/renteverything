@@ -1,0 +1,58 @@
+@import "../../styles/fonts";
+@import "../../styles/colors";
+@import "../../styles/layout";
+
+$avatarSize: 108px;
+
+.accountInfoTab {
+    @extend .grey-glassmorphism-6;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-areas: "avatarAndInfo avatarAndInfo";
+    grid-template-columns: 1fr 1fr;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.avatar {
+    @extend .grey-glassmorphism-5;
+    border-radius: 50%;
+    width: $avatarSize;
+    height: $avatarSize;
+    margin-right: 40px;
+
+    * {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.infoContainer {
+    width: 90%;
+}
+
+.infoHeader {
+    color: $grey-color-500;
+}
+
+.infoValue {
+    background-color: rgba($color: $grey-color-500, $alpha: .05);
+    padding: 20px;
+    color: $grey-color-300;
+    border-radius: 10px;
+}
+
+.avatarAndInfo {
+    grid-area: avatarAndInfo;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.topInfoContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 80%;
+}

@@ -1,0 +1,13 @@
+mutation UploadIdImage($frontSide: Upload!, $backSide: Upload!) {
+  uploadIdImage(frontSide: $frontSide, backSide: $backSide) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
+    }
+  }
+}
+

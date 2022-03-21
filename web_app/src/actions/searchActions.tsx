@@ -20,7 +20,7 @@ import {
   SetCurrentPositionAction,
   ToInputDetailsSceneAction,
   ToInputLocationSceneAction,
-  ToResultsSceneAction,
+  ToResultsSceneAction
 } from '../constants/SearchConstants'
 import { getSocket } from '../libs/socket'
 

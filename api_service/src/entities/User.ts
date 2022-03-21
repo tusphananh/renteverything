@@ -1,11 +1,11 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity, OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
+    BaseEntity,
+    Column,
+    CreateDateColumn,
+    Entity, OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
 } from "typeorm";
 import Activity from "./Activity";
 import Item from "./Item";
@@ -57,4 +57,10 @@ export default class User extends BaseEntity {
 
   @OneToMany(() => Message, message => message.user)
   messages!: Message[];
+
+  @Column({ nullable: true })
+  frontIdImageFilePath?: string;
+
+  @Column({ nullable: true })
+  backIdImageFilePath?: string;
 }

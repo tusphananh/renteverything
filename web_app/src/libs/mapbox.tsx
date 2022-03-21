@@ -1,8 +1,8 @@
+import axios from "axios";
 import mapboxgl from "mapbox-gl";
+import styles from "../components/Dashboard/Search/Search.module.scss";
 import { Position } from "../constants/DashBoardConstants";
 import { MarkerType, SearchAddress } from "../constants/SearchConstants";
-import styles from "../styles/Search.module.scss";
-import axios from "axios";
 
 export const generateMarker = (
   position: Position,

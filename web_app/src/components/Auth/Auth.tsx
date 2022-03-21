@@ -1,7 +1,7 @@
-import React, { useEffect, FC } from 'react'
-import Dashboard from '../Dashboard/Dashboard'
 import { useRouter } from 'next/router'
+import React, { FC, Fragment, useEffect } from 'react'
 import { useAuthContext } from '../../contexts/authContext'
+import Dashboard from '../Dashboard/Dashboard'
 
 const Auth: FC = () => {
   const { authState } = useAuthContext()
@@ -17,7 +17,9 @@ const Auth: FC = () => {
   }, [authState])
 
   return (
-    <>{authState.isAuthenticated && !authState.isFetching && <Dashboard />}</>
+    <Fragment>
+      {authState.isAuthenticated && !authState.isFetching && <Dashboard />}
+    </Fragment>
   )
 }
 

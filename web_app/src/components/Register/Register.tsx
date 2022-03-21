@@ -1,27 +1,24 @@
 import { useRouter } from "next/router";
 import React, { FC, useEffect } from "react";
-import { useAuthContext } from "../../contexts/authContext";
-import styles from "../../styles/Register.module.scss";
+import {
+  RegisterErrorAnimation, RegisterInformationAnimation, RegisterInputAnimation,
+  RegisterNavBarAnimation,
+  RegisterTextAnimation
+} from "../../animations/RegisterAnimations";
 import Logo from "../../assets/icons/logo-light.svg";
 import NextBtn from "../../assets/icons/next-btn.svg";
 import StartBtn from "../../assets/icons/start-btn.svg";
 import {
-  RegisterStates,
-  registerAnimationVariantsName,
+  registerAnimationVariantsName, RegisterStates
 } from "../../constants/RegisterConstants";
+import { useAuthContext } from "../../contexts/authContext";
 import {
   isFirstNameValid,
   isLastNameValid,
   isPasswordValid,
-  isPhoneNumberValid,
+  isPhoneNumberValid
 } from "../../utils/inputValidator";
-import {
-  RegisterErrorAnimation,
-  RegisterInputAnimation,
-  RegisterNavBarAnimation,
-  RegisterTextAnimation,
-  RegisterInformationAnimation,
-} from "../../animations/RegisterAnimations";
+import styles from "./Register.module.scss";
 
 interface error {
   isError: boolean;
