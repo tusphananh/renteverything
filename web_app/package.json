@@ -8,7 +8,7 @@
     "start": "npm run build && next start",
     "lint": "next lint",
     "codegen": "graphql-codegen --config codegen.yml",
-    "pm2": "pm2 start npm --name next/app -o ./logs/pm2/access.log -e ./logs/pm2/error.log --log-date-format '%Y-%m-%d %H:%M:%S' --merge-logs -- start",
+    "pm2": "pm2 start npm --name web_app -o ./logs/pm2/access.log -e ./logs/pm2/error.log --log-date-format '%Y-%m-%d %H:%M:%S' --merge-logs -- start",
     "production": "rimraf ./logs && npm run pm2"
   },
   "dependencies": {
