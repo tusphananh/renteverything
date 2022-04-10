@@ -235,7 +235,6 @@ export class UserResolver {
    * Check user already have session
    */
   @Query(() => UserResponse, { nullable: true })
-  @UseMiddleware(checkAuth)
   async checkSession(@Ctx() { req }: Context): Promise<UserResponse> {
     try {
       const user = await User.findOne({ id: req.session.userId });
@@ -376,6 +375,6 @@ export class UserResolver {
       };
     }
   }
-  
+
 }
 
