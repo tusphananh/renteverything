@@ -145,7 +145,6 @@ export class UserResolver {
 
       // Create session
       req.session.userId = rs.data.id;
-
       return rs;
     } catch (error) {
       console.log(error);
@@ -237,6 +236,7 @@ export class UserResolver {
   @Query(() => UserResponse, { nullable: true })
   async checkSession(@Ctx() { req }: Context): Promise<UserResponse> {
     try {
+
       const user = await User.findOne({ id: req.session.userId });
       if (!user) {
         const errors: ErrorResponse[] = [{
