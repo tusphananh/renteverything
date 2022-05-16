@@ -1,5 +1,5 @@
-query Login($phone: String!, $password: String!) {
-  login(phone: $phone, password: $password) {
+query Logout {
+  logout {
     code
     success
     errors {

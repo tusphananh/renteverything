@@ -163,6 +163,7 @@ export class UserResolver {
    * Logout for user by Query
    */
   @Query(() => UserResponse, { nullable: true })
+  @UseMiddleware(checkAuth)
   async logout(@Ctx() { req, res }: Context): Promise<UserResponse> {
     try {
       // Delete session
@@ -182,7 +183,6 @@ export class UserResolver {
       return {
         code: 200,
         success: true,
-
       };
     } catch (error) {
 
@@ -266,11 +266,11 @@ export class UserResolver {
   }
 
   /**
-   * Update user balance
+   * Add user balance
    */
   @Mutation(() => UserResponse, { nullable: true })
   @UseMiddleware(checkAuth)
-  async updateBalance(
+  async addBalance(
     @Arg("amount") amount: number,
     @Ctx() { req }: Context
   ): Promise<UserResponse> {
@@ -289,6 +289,47 @@ export class UserResolver {
       }
 
       user.balance += amount;
+      await user.save();
+
+      return {
+        code: 200,
+        success: true,
+        data: user,
+      }
+    } catch (error) {
+      console.log(error);
+      return {
+        code: 500,
+        success: false,
+        errors: [serverErrors],
+      };
+    }
+  }
+
+  /**
+   * Subtract user balance
+   */
+  @Mutation(() => UserResponse, { nullable: true })
+  @UseMiddleware(checkAuth)
+  async subtractBalance(
+    @Arg("amount") amount: number,
+    @Ctx() { req }: Context
+  ): Promise<UserResponse> {
+    try {
+      const user = await User.findOne({ id: req.session.userId });
+      if (!user) {
+        const errors: ErrorResponse[] = [{
+          field: "session",
+          message: "Session expired",
+        }]
+        return {
+          code: 400,
+          success: false,
+          errors: errors,
+        };
+      }
+
+      user.balance -= amount;
       await user.save();
 
       return {

@@ -1,0 +1,24 @@
+mutation addBalance($amount: Float!) {
+  addBalance(amount: $amount) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
+    }
+  }
+}
+mutation subtractBalance($amount: Float!) {
+  subtractBalance(amount: $amount) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
+    }
+  }
+}
