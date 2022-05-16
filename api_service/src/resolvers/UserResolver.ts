@@ -163,7 +163,6 @@ export class UserResolver {
    * Logout for user by Query
    */
   @Query(() => UserResponse, { nullable: true })
-  @UseMiddleware(checkAuth)
   async logout(@Ctx() { req, res }: Context): Promise<UserResponse> {
     try {
       // Delete session
