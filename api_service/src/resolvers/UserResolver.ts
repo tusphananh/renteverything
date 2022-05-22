@@ -94,7 +94,7 @@ export class UserResolver {
    * Login for user by Query
    */
 
-  @Query(() => UserResponse, { nullable: true })
+  @Mutation(() => UserResponse, { nullable: true })
   async login(
     @Arg("phone") phone: string,
     @Arg("password") password: string,
@@ -162,7 +162,7 @@ export class UserResolver {
   /**
    * Logout for user by Query
    */
-  @Query(() => UserResponse, { nullable: true })
+  @Mutation(() => UserResponse, { nullable: true })
   async logout(@Ctx() { req, res }: Context): Promise<UserResponse> {
     try {
       // Delete session
