@@ -1,26 +1,26 @@
-import { useRouter } from 'next/router'
-import React, { FC, Fragment, useEffect } from 'react'
-import { useAuthContext } from '../../contexts/authContext'
-import Dashboard from '../Dashboard/Dashboard'
+import { useRouter } from "next/router";
+import React, { FC, Fragment, useEffect } from "react";
+import { useAuthContext } from "../../contexts/authContext";
+import Dashboard from "../Dashboard/Dashboard";
 
 const Auth: FC = () => {
-  const { authState } = useAuthContext()
-  const router = useRouter()
+  const { authState } = useAuthContext();
+  const router = useRouter();
   const toLogin = () => {
-    router.push('/login')
-  }
+    router.push("/login");
+  };
 
   useEffect(() => {
-    if (!authState.isAuthenticated && !authState.isFetching) {
-      toLogin()
+    if (!authState.isAuthenticated) {
+      toLogin();
     }
-  }, [authState])
+  }, [authState]);
 
   return (
     <Fragment>
       {authState.isAuthenticated && !authState.isFetching && <Dashboard />}
     </Fragment>
-  )
-}
+  );
+};
 
-export default Auth
+export default Auth;

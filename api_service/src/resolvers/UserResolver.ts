@@ -2,6 +2,7 @@ import argon2 from "argon2";
 import fs from "fs";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
 import path from "path";
+import { uploadFolder } from "../configs/FolderConstants";
 import { finished } from "stream/promises";
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { SESSION_COOKIE_NAME } from "../configs/CookieConstants";
@@ -370,11 +371,6 @@ export class UserResolver {
         };
       }
 
-      //If folder image not exist, create folder at ../uploads
-      const folder = path.join(__dirname, "../../../uploads");
-      if (!fs.existsSync(folder)) {
-        fs.mkdirSync(folder);
-      }
       //Get the image type is jpg or png
       const imageType = frontSide.filename.split(".")[1];
 
@@ -386,19 +382,19 @@ export class UserResolver {
       console.log(frontSide);
 
       const frontStream = frontSide.createReadStream();
-      const frontOut = fs.createWriteStream(path.join(folder, frontSideName));
+      const frontOut = fs.createWriteStream(path.join(uploadFolder, frontSideName));
       frontStream.pipe(frontOut);
       await finished(frontOut);
 
       const backStream = backSide.createReadStream();
-      const backOut = fs.createWriteStream(path.join(folder, backSideName));
+      const backOut = fs.createWriteStream(path.join(uploadFolder, backSideName));
       backStream.pipe(backOut);
       await finished(backOut);
 
 
       // Save the exact file path to user
-      user.frontIdImageFilePath = path.join(folder, frontSideName);
-      user.backIdImageFilePath = path.join(folder, backSideName);
+      user.frontIdImageFilePath = path.join(uploadFolder, frontSideName);
+      user.backIdImageFilePath = path.join(uploadFolder, backSideName);
       await user.save();
 
       return {

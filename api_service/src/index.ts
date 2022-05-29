@@ -4,18 +4,22 @@ require("dotenv").config();
 require("reflect-metadata");
 const express = require("express");
 const cors = require("cors");
+import fs from "fs";
 import { corsOptions } from "./configs/CorsOptions";
 import { ApolloConnection } from "./utils/ApolloConnection";
 import { postgresqlConnection } from "./utils/PostgresqlConnection";
 import { redisSession } from "./utils/RedisConnection";
-import {
-  graphqlUploadExpress, // A Koa implementation is also exported.
-} from 'graphql-upload';
+import { uploadFolder } from "./configs/FolderConstants";
+import { graphqlUploadExpress } from 'graphql-upload';
 /**
  * TypeScript need main asysnc function
  */
 
 const main = async () => {
+  //If folder image not exist, create folder at ../uploads
+  if (!fs.existsSync(uploadFolder)) {
+    fs.mkdirSync(uploadFolder);
+  }
   const app = express();
   app.use(cors(corsOptions));
   // app.set('trust proxy', 1);
