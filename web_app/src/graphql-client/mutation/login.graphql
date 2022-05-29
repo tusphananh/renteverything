@@ -1,4 +1,4 @@
-query Login($phone: String!, $password: String!) {
+mutation Login($phone: String!, $password: String!) {
   login(phone: $phone, password: $password) {
     code
     success

@@ -23,7 +23,7 @@ function Dashboard() {
   );
   const [mainBoard, setMainBoard] = React.useState<JSX.Element>();
 
-  const { authState } = useAuthContext();
+  const { authState, logout } = useAuthContext();
   const [user, setUser] = React.useState<User>();
   const [boards] = React.useState({
     home: <NearBy key={DashBoardTabName.NEAR_BY} />,
@@ -117,7 +117,12 @@ function Dashboard() {
             <ItemsIcon alt="Items" />
           </NavbarItem>
 
-          <button className={styles["navbar__item-logout"]}>
+          <button
+            onClick={() => {
+              logout();
+            }}
+            className={styles["navbar__item-logout"]}
+          >
             <div className={styles["navbar-item-logo"]}>
               <LogoutIcon alt="Logout" />
             </div>

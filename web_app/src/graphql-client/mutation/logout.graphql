@@ -1,4 +1,4 @@
-query Logout {
+mutation Logout {
   logout {
     code
     success
