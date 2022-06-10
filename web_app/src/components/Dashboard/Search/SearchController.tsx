@@ -29,6 +29,7 @@ import { useSearchContext } from "../../../contexts/searchContext";
 import { getGeocodings } from "../../../libs/mapbox";
 import { capitalizeFirstLetter } from "../../../utils/formatter";
 import styles from "./SearchController.module.scss";
+import common from "../../../styles/common.module.scss";
 
 /**
  * SearchController component here
@@ -77,8 +78,12 @@ const SearchPanel: React.FC<{}> = () => {
   const [hourValue, setHourValue] = React.useState<number>(0);
   const { searchState, searchDispatch, sendSearch } = useSearchContext();
   const { authState } = useAuthContext();
+  const [error, setError] = React.useState<string>("");
   const search = () => {
-    if (hourValue && nameValue && radiusValue) {
+    if (!authState.user?.isVerified) {
+      setError("Please verify your account first");
+    } else if (hourValue && nameValue && radiusValue) {
+      setError("");
       const search: SearchItem = {
         name: nameValue,
         radius: radiusValue * 1000,
@@ -169,15 +174,18 @@ const SearchPanel: React.FC<{}> = () => {
           onChange={(e) => setHourValue(Number(e.target.value))}
         ></input>
       </motion.div>
-      <motion.button
-        layout
-        className={styles["search-panel__search-btn"]}
-        onClick={() => {
-          search();
-        }}
-      >
-        Search
-      </motion.button>
+      <motion.div className={styles["search-container"]}>
+        {error !== "" && <motion.p className={common.error}>{error}</motion.p>}
+        <motion.button
+          layout
+          className={styles["search-panel__search-btn"]}
+          onClick={() => {
+            search();
+          }}
+        >
+          Search
+        </motion.button>
+      </motion.div>
     </motion.div>
   );
 };
@@ -275,7 +283,6 @@ const ResultsPanel: React.FC<{ map: mapboxgl.Map | null }> = ({ map }) => {
         animate="visible"
         exit="exit"
       >
-        {" "}
         Results
       </motion.p>
       <motion.div
@@ -297,124 +304,136 @@ const ResultsPanel: React.FC<{ map: mapboxgl.Map | null }> = ({ map }) => {
 const ResultItem: React.FC<{ result: SearchResult }> = ({ result }) => {
   const [isExtended, setIsExtended] = React.useState(false);
   const { searchDispatch, sendSearchCancel } = useSearchContext();
+  const { authState, subtractBalance } = useAuthContext();
   const { approveResult } = useActivitiesContext();
+  const [error, setError] = React.useState<string>("");
   const approve = () => {
-    approveResult(result);
-    searchDispatch(clearResult());
-    sendSearchCancel();
-    searchDispatch(toInputDetailsScene());
+    const totalPrice = result.itemPrice * result.duration;
+    if (authState.user!.balance >= totalPrice) {
+      setError("");
+      approveResult(result);
+      subtractBalance(totalPrice);
+      searchDispatch(clearResult());
+      sendSearchCancel();
+      searchDispatch(toInputDetailsScene());
+    } else {
+      setError("Balance should be greater than item price with duration");
+    }
   };
   return (
-    <motion.div
-      layout
-      variants={variants}
-      initial="initial"
-      animate="visible"
-      exit="exit"
-      className={styles["result-item"]}
-    >
+    <>
+      {error && <p className={common.error}>{error}</p>}
       <motion.div
         layout
-        className={styles["result-item-nested"]}
-        onClick={() => setIsExtended(!isExtended)}
+        variants={variants}
+        initial="initial"
+        animate="visible"
+        exit="exit"
+        className={styles["result-item"]}
       >
-        <div className={styles["result-title-container"]}>
-          <p className={styles["result-title--left"]}>Name</p>
-          <p className={styles["result-title--right"]}>
-            {capitalizeFirstLetter(result.itemName)}
-          </p>
-        </div>
-        <div className={styles["result-title-container"]}>
-          <p className={styles["result-title--left"]}>Distance</p>
-          <p className={styles["result-title--right"]}>
-            {capitalizeFirstLetter(result.distance + " km")}
-          </p>
-        </div>
-        <div className={styles["result-title-container"]}>
-          <p className={styles["result-title--left"]}>Price</p>
-          <p className={styles["result-title--right"]}>
-            {capitalizeFirstLetter(result.itemPrice + " USD/hour")}
-          </p>
-        </div>
-      </motion.div>
+        <motion.div
+          layout
+          className={styles["result-item-nested"]}
+          onClick={() => setIsExtended(!isExtended)}
+        >
+          <div className={styles["result-title-container"]}>
+            <p className={styles["result-title--left"]}>Name</p>
+            <p className={styles["result-title--right"]}>
+              {capitalizeFirstLetter(result.itemName)}
+            </p>
+          </div>
+          <div className={styles["result-title-container"]}>
+            <p className={styles["result-title--left"]}>Distance</p>
+            <p className={styles["result-title--right"]}>
+              {capitalizeFirstLetter(result.distance + " km")}
+            </p>
+          </div>
+          <div className={styles["result-title-container"]}>
+            <p className={styles["result-title--left"]}>Price</p>
+            <p className={styles["result-title--right"]}>
+              {capitalizeFirstLetter(result.itemPrice + " USD/hour")}
+            </p>
+          </div>
+        </motion.div>
 
-      {isExtended && (
-        <AnimatePresence>
-          <motion.div
-            layout
-            variants={variants}
-            initial="initial"
-            animate="visible"
-            exit="exit"
-            className={styles["result-extended-nested"]}
-            onClick={() => {
-              setIsExtended(!isExtended);
-            }}
-          >
-            <div className={styles["result-title-container"]}>
-              <p className={styles["result-title--left"]}>Description</p>
-              <p className={styles["result-title--right"]}>
-                {result.itemDescription}
-              </p>
-            </div>
-            <div className={styles["result-title-container"]}>
-              <p className={styles["result-title--left"]}>Duration</p>
-              <p className={styles["result-title--right"]}>
-                {result.duration === 1
-                  ? result.duration + " hour"
-                  : result.duration + " hours"}
-              </p>
-            </div>
-            <div className={styles["result-title-container"]}>
-              <p className={styles["result-title--left"]}>Real value</p>
-              <p className={styles["result-title--right"]}>
-                {result.itemRealValue + " USD"}
-              </p>
-            </div>
-            <div className={styles["result-title-container"]}>
-              <p className={styles["result-title--left"]}>Total price</p>
-              <p className={styles["result-title--right"]}>
-                {result.totalPrice + " USD"}
-              </p>
-            </div>
-          </motion.div>
-          <motion.div
-            className={styles["result__extended"]}
-            layout
-            variants={variants}
-            initial="initial"
-            animate="visible"
-            exit="exit"
-          >
+        {isExtended && (
+          <AnimatePresence>
             <motion.div
               layout
               variants={variants}
               initial="initial"
               animate="visible"
               exit="exit"
-              className={styles["result-extended__btn-container"]}
+              className={styles["result-extended-nested"]}
+              onClick={() => {
+                setIsExtended(!isExtended);
+              }}
             >
-              <button
-                className={styles["result-extended__btn-approve"]}
-                onClick={() => {
-                  approve();
-                }}
-              >
-                Approve
-              </button>
-              <button
-                className={styles["result-extended__btn-decline"]}
-                onClick={() => {
-                  searchDispatch(removeResult(result.id));
-                }}
-              >
-                Decline
-              </button>
+              <div className={styles["result-title-container"]}>
+                <p className={styles["result-title--left"]}>Description</p>
+                <p className={styles["result-title--right"]}>
+                  {result.itemDescription}
+                </p>
+              </div>
+              <div className={styles["result-title-container"]}>
+                <p className={styles["result-title--left"]}>Duration</p>
+                <p className={styles["result-title--right"]}>
+                  {result.duration === 1
+                    ? result.duration + " hour"
+                    : result.duration + " hours"}
+                </p>
+              </div>
+              <div className={styles["result-title-container"]}>
+                <p className={styles["result-title--left"]}>Real value</p>
+                <p className={styles["result-title--right"]}>
+                  {result.itemRealValue + " USD"}
+                </p>
+              </div>
+              <div className={styles["result-title-container"]}>
+                <p className={styles["result-title--left"]}>Total price</p>
+                <p className={styles["result-title--right"]}>
+                  {result.totalPrice + " USD"}
+                </p>
+              </div>
             </motion.div>
-          </motion.div>
-        </AnimatePresence>
-      )}
-    </motion.div>
+            <motion.div
+              className={styles["result__extended"]}
+              layout
+              variants={variants}
+              initial="initial"
+              animate="visible"
+              exit="exit"
+            >
+              <motion.div
+                layout
+                variants={variants}
+                initial="initial"
+                animate="visible"
+                exit="exit"
+                className={styles["result-extended__btn-container"]}
+              >
+                <button
+                  className={styles["result-extended__btn-approve"]}
+                  onClick={() => {
+                    approve();
+                  }}
+                >
+                  Approve
+                </button>
+                <button
+                  className={styles["result-extended__btn-decline"]}
+                  onClick={() => {
+                    searchDispatch(removeResult(result.id));
+                  }}
+                >
+                  Decline
+                </button>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+        )}
+      </motion.div>
+    </>
   );
 };
 

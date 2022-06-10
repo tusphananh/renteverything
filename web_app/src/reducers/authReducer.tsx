@@ -105,10 +105,20 @@ export const AuthReducer = (
     case AuthTypes.LOGOUT:
       return {
         ...state,
-        isFetching: false,
+        isFetching: true,
         isAuthenticated: false,
         user: null,
         errors: [],
+      };
+
+    case AuthTypes.UPDATE_BALANCE:
+      return {
+        ...state,
+        isFetching: false,
+        user: {
+          ...state.user!,
+          balance: action.payload.balance,
+        },
       };
 
     default:

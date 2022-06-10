@@ -1,16 +1,10 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-const defaultOptions = {};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -25,118 +19,119 @@ export type Scalars = {
 };
 
 export type ActivitiesResponse = {
-  __typename?: "ActivitiesResponse";
-  code: Scalars["Float"];
+  __typename?: 'ActivitiesResponse';
+  code: Scalars['Float'];
   data: Array<Activity>;
   errors?: Maybe<Array<ErrorResponse>>;
-  success: Scalars["Boolean"];
+  success: Scalars['Boolean'];
 };
 
 export type Activity = {
-  __typename?: "Activity";
+  __typename?: 'Activity';
   chat: Chat;
-  createdAt: Scalars["DateTime"];
-  distance: Scalars["Float"];
-  duration: Scalars["Float"];
-  id: Scalars["ID"];
-  itemDescription: Scalars["String"];
-  itemName: Scalars["String"];
-  itemPrice: Scalars["Float"];
-  itemRealValue: Scalars["Float"];
-  name: Scalars["String"];
+  createdAt: Scalars['DateTime'];
+  distance: Scalars['Float'];
+  duration: Scalars['Float'];
+  id: Scalars['ID'];
+  itemDescription: Scalars['String'];
+  itemName: Scalars['String'];
+  itemPrice: Scalars['Float'];
+  itemRealValue: Scalars['Float'];
+  name: Scalars['String'];
   provider: User;
   renter: User;
-  status: Scalars["String"];
-  totalPrice: Scalars["Float"];
-  updatedAt: Scalars["DateTime"];
+  status: Scalars['String'];
+  totalPrice: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type ActivityResponse = {
-  __typename?: "ActivityResponse";
-  code: Scalars["Float"];
+  __typename?: 'ActivityResponse';
+  code: Scalars['Float'];
   data: Activity;
   errors?: Maybe<Array<ErrorResponse>>;
-  success: Scalars["Boolean"];
+  success: Scalars['Boolean'];
 };
 
 export type Chat = {
-  __typename?: "Chat";
-  createdAt: Scalars["DateTime"];
-  id: Scalars["ID"];
+  __typename?: 'Chat';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ID'];
   messages: Array<Message>;
-  title: Scalars["String"];
+  title: Scalars['String'];
 };
 
 export type ErrorResponse = {
-  __typename?: "ErrorResponse";
-  field: Scalars["String"];
-  message: Scalars["String"];
+  __typename?: 'ErrorResponse';
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type ImageId = {
-  __typename?: "ImageID";
-  backSide: Scalars["String"];
-  frontSide: Scalars["String"];
+  __typename?: 'ImageID';
+  backSide: Scalars['String'];
+  frontSide: Scalars['String'];
 };
 
 export type ImageIdResponse = {
-  __typename?: "ImageIDResponse";
-  code: Scalars["Float"];
+  __typename?: 'ImageIDResponse';
+  code: Scalars['Float'];
   data?: Maybe<ImageId>;
   errors?: Maybe<Array<ErrorResponse>>;
-  success: Scalars["Boolean"];
+  success: Scalars['Boolean'];
 };
 
 export type Item = {
-  __typename?: "Item";
-  description: Scalars["String"];
-  id: Scalars["ID"];
-  name: Scalars["String"];
-  price: Scalars["Float"];
-  realValue: Scalars["Float"];
+  __typename?: 'Item';
+  description: Scalars['String'];
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  price: Scalars['Float'];
+  realValue: Scalars['Float'];
 };
 
 export type ItemResponse = {
-  __typename?: "ItemResponse";
-  code: Scalars["Float"];
+  __typename?: 'ItemResponse';
+  code: Scalars['Float'];
   data?: Maybe<Item>;
   errors?: Maybe<Array<ErrorResponse>>;
-  success: Scalars["Boolean"];
+  success: Scalars['Boolean'];
 };
 
 export type ItemsResponse = {
-  __typename?: "ItemsResponse";
-  code: Scalars["Float"];
+  __typename?: 'ItemsResponse';
+  code: Scalars['Float'];
   data: Array<Item>;
   errors?: Maybe<Array<ErrorResponse>>;
-  success: Scalars["Boolean"];
+  success: Scalars['Boolean'];
 };
 
 export type Message = {
-  __typename?: "Message";
-  chatId: Scalars["Float"];
-  createdAt: Scalars["DateTime"];
-  id: Scalars["ID"];
-  text: Scalars["String"];
+  __typename?: 'Message';
+  chatId: Scalars['Float'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ID'];
+  text: Scalars['String'];
   user: User;
 };
 
 export type MessageResponse = {
-  __typename?: "MessageResponse";
-  code: Scalars["Float"];
+  __typename?: 'MessageResponse';
+  code: Scalars['Float'];
   data?: Maybe<Message>;
   errors?: Maybe<Array<ErrorResponse>>;
-  success: Scalars["Boolean"];
+  success: Scalars['Boolean'];
 };
 
 export type Mutation = {
-  __typename?: "Mutation";
+  __typename?: 'Mutation';
   addActivity?: Maybe<ActivityResponse>;
   addBalance?: Maybe<UserResponse>;
   addItem?: Maybe<ItemResponse>;
   addMessage?: Maybe<MessageResponse>;
   deleteItem?: Maybe<ItemResponse>;
   failActivity?: Maybe<ActivityResponse>;
+  inProgressActivity?: Maybe<ActivityResponse>;
   login?: Maybe<UserResponse>;
   logout?: Maybe<UserResponse>;
   register?: Maybe<UserResponse>;
@@ -146,80 +141,97 @@ export type Mutation = {
   uploadIdImage?: Maybe<UserResponse>;
 };
 
+
 export type MutationAddActivityArgs = {
-  distance: Scalars["Float"];
-  duration: Scalars["Float"];
-  id: Scalars["String"];
-  itemDescription: Scalars["String"];
-  itemName: Scalars["String"];
-  itemPrice: Scalars["Float"];
-  itemRealValue: Scalars["Float"];
-  name: Scalars["String"];
-  providerId: Scalars["String"];
-  renterId: Scalars["String"];
-  totalPrice: Scalars["Float"];
+  distance: Scalars['Float'];
+  duration: Scalars['Float'];
+  id: Scalars['String'];
+  itemDescription: Scalars['String'];
+  itemName: Scalars['String'];
+  itemPrice: Scalars['Float'];
+  itemRealValue: Scalars['Float'];
+  name: Scalars['String'];
+  providerId: Scalars['String'];
+  renterId: Scalars['String'];
+  totalPrice: Scalars['Float'];
 };
+
 
 export type MutationAddBalanceArgs = {
-  amount: Scalars["Float"];
+  amount: Scalars['Float'];
 };
+
 
 export type MutationAddItemArgs = {
-  description: Scalars["String"];
-  name: Scalars["String"];
-  price: Scalars["Float"];
-  realValue: Scalars["Float"];
+  description: Scalars['String'];
+  name: Scalars['String'];
+  price: Scalars['Float'];
+  realValue: Scalars['Float'];
 };
+
 
 export type MutationAddMessageArgs = {
-  chatId: Scalars["Float"];
-  id: Scalars["String"];
-  text: Scalars["String"];
+  chatId: Scalars['Float'];
+  id: Scalars['String'];
+  text: Scalars['String'];
 };
+
 
 export type MutationDeleteItemArgs = {
-  id: Scalars["Float"];
+  id: Scalars['Float'];
 };
+
 
 export type MutationFailActivityArgs = {
-  id: Scalars["String"];
+  id: Scalars['String'];
 };
+
+
+export type MutationInProgressActivityArgs = {
+  id: Scalars['String'];
+};
+
 
 export type MutationLoginArgs = {
-  password: Scalars["String"];
-  phone: Scalars["String"];
+  password: Scalars['String'];
+  phone: Scalars['String'];
 };
+
 
 export type MutationRegisterArgs = {
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  password: Scalars["String"];
-  phone: Scalars["String"];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  password: Scalars['String'];
+  phone: Scalars['String'];
 };
+
 
 export type MutationSubtractBalanceArgs = {
-  amount: Scalars["Float"];
+  amount: Scalars['Float'];
 };
+
 
 export type MutationSuccessActivityArgs = {
-  id: Scalars["String"];
+  id: Scalars['String'];
 };
+
 
 export type MutationUpdateItemArgs = {
-  description: Scalars["String"];
-  id: Scalars["Float"];
-  name: Scalars["String"];
-  price: Scalars["Float"];
-  realValue: Scalars["Float"];
+  description: Scalars['String'];
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  price: Scalars['Float'];
+  realValue: Scalars['Float'];
 };
 
+
 export type MutationUploadIdImageArgs = {
-  backSide: Scalars["Upload"];
-  frontSide: Scalars["Upload"];
+  backSide: Scalars['Upload'];
+  frontSide: Scalars['Upload'];
 };
 
 export type Query = {
-  __typename?: "Query";
+  __typename?: 'Query';
   checkSession?: Maybe<UserResponse>;
   getImageId?: Maybe<ImageIdResponse>;
   getItems?: Maybe<ItemsResponse>;
@@ -229,1000 +241,303 @@ export type Query = {
   refreshSession?: Maybe<UserResponse>;
 };
 
+
 export type QueryGetItemsByNameArgs = {
-  name: Scalars["String"];
+  name: Scalars['String'];
 };
 
 export type User = {
-  __typename?: "User";
-  balance: Scalars["Float"];
-  createdAt: Scalars["DateTime"];
-  firstName: Scalars["String"];
-  id: Scalars["ID"];
+  __typename?: 'User';
+  balance: Scalars['Float'];
+  createdAt: Scalars['DateTime'];
+  firstName: Scalars['String'];
+  id: Scalars['ID'];
+  isVerified: Scalars['Boolean'];
   items: Array<Item>;
-  lastName: Scalars["String"];
-  phone: Scalars["String"];
-  updatedAt: Scalars["DateTime"];
+  lastName: Scalars['String'];
+  phone: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type UserResponse = {
-  __typename?: "UserResponse";
-  code: Scalars["Float"];
+  __typename?: 'UserResponse';
+  code: Scalars['Float'];
   data?: Maybe<User>;
   errors?: Maybe<Array<ErrorResponse>>;
-  success: Scalars["Boolean"];
+  success: Scalars['Boolean'];
 };
 
-export type ActivityResponseFragmentFragment = {
-  __typename?: "Activity";
-  id: string;
-  name: string;
-  itemName: string;
-  itemDescription: string;
-  itemPrice: number;
-  itemRealValue: number;
-  totalPrice: number;
-  duration: number;
-  distance: number;
-  status: string;
-  createdAt: any;
-  updatedAt: any;
-  provider: {
-    __typename?: "User";
-    id: string;
-    firstName: string;
-    lastName: string;
-    phone: string;
-  };
-  renter: {
-    __typename?: "User";
-    id: string;
-    firstName: string;
-    lastName: string;
-    phone: string;
-  };
-  chat: {
-    __typename?: "Chat";
-    id: string;
-    title: string;
-    createdAt: any;
-    messages: Array<{
-      __typename?: "Message";
-      id: string;
-      createdAt: any;
-      text: string;
-      chatId: number;
-      user: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-    }>;
-  };
-};
+export type ActivityResponseFragmentFragment = { __typename?: 'Activity', id: string, name: string, itemName: string, itemDescription: string, itemPrice: number, itemRealValue: number, totalPrice: number, duration: number, distance: number, status: string, createdAt: any, updatedAt: any, provider: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, renter: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, chat: { __typename?: 'Chat', id: string, title: string, createdAt: any, messages: Array<{ __typename?: 'Message', id: string, createdAt: any, text: string, chatId: number, user: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string } }> } };
 
-export type ErrosResponseFragmentFragment = {
-  __typename?: "ErrorResponse";
-  field: string;
-  message: string;
-};
+export type ErrosResponseFragmentFragment = { __typename?: 'ErrorResponse', field: string, message: string };
 
-export type ImageIdResponseFragmentFragment = {
-  __typename?: "ImageID";
-  frontSide: string;
-  backSide: string;
-};
+export type ImageIdResponseFragmentFragment = { __typename?: 'ImageID', frontSide: string, backSide: string };
 
-export type ItemResponseFragmentFragment = {
-  __typename?: "Item";
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  realValue: number;
-};
+export type ItemResponseFragmentFragment = { __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number };
 
-export type MessageResponseFragmentFragment = {
-  __typename?: "Message";
-  id: string;
-  createdAt: any;
-  text: string;
-  chatId: number;
-  user: {
-    __typename?: "User";
-    id: string;
-    firstName: string;
-    lastName: string;
-    phone: string;
-  };
-};
+export type MessageResponseFragmentFragment = { __typename?: 'Message', id: string, createdAt: any, text: string, chatId: number, user: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string } };
 
-export type UserResponseFragmentFragment = {
-  __typename?: "User";
-  id: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  balance: number;
-  createdAt: any;
-  updatedAt: any;
-  items: Array<{
-    __typename?: "Item";
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    realValue: number;
-  }>;
-};
+export type UserResponseFragmentFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, balance: number, createdAt: any, updatedAt: any, isVerified: boolean, items: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> };
 
 export type AddActivityMutationVariables = Exact<{
-  id: Scalars["String"];
-  name: Scalars["String"];
-  itemName: Scalars["String"];
-  itemDescription: Scalars["String"];
-  itemPrice: Scalars["Float"];
-  itemRealValue: Scalars["Float"];
-  totalPrice: Scalars["Float"];
-  duration: Scalars["Float"];
-  distance: Scalars["Float"];
-  providerId: Scalars["String"];
-  renterId: Scalars["String"];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  itemName: Scalars['String'];
+  itemDescription: Scalars['String'];
+  itemPrice: Scalars['Float'];
+  itemRealValue: Scalars['Float'];
+  totalPrice: Scalars['Float'];
+  duration: Scalars['Float'];
+  distance: Scalars['Float'];
+  providerId: Scalars['String'];
+  renterId: Scalars['String'];
 }>;
 
-export type AddActivityMutation = {
-  __typename?: "Mutation";
-  addActivity?: Maybe<{
-    __typename?: "ActivityResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data: {
-      __typename?: "Activity";
-      id: string;
-      name: string;
-      itemName: string;
-      itemDescription: string;
-      itemPrice: number;
-      itemRealValue: number;
-      totalPrice: number;
-      duration: number;
-      distance: number;
-      status: string;
-      createdAt: any;
-      updatedAt: any;
-      provider: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-      renter: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-      chat: {
-        __typename?: "Chat";
-        id: string;
-        title: string;
-        createdAt: any;
-        messages: Array<{
-          __typename?: "Message";
-          id: string;
-          createdAt: any;
-          text: string;
-          chatId: number;
-          user: {
-            __typename?: "User";
-            id: string;
-            firstName: string;
-            lastName: string;
-            phone: string;
-          };
-        }>;
-      };
-    };
-  }>;
-};
+
+export type AddActivityMutation = { __typename?: 'Mutation', addActivity?: Maybe<{ __typename?: 'ActivityResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data: { __typename?: 'Activity', id: string, name: string, itemName: string, itemDescription: string, itemPrice: number, itemRealValue: number, totalPrice: number, duration: number, distance: number, status: string, createdAt: any, updatedAt: any, provider: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, renter: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, chat: { __typename?: 'Chat', id: string, title: string, createdAt: any, messages: Array<{ __typename?: 'Message', id: string, createdAt: any, text: string, chatId: number, user: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string } }> } } }> };
 
 export type FailActivityMutationVariables = Exact<{
-  id: Scalars["String"];
+  id: Scalars['String'];
 }>;
 
-export type FailActivityMutation = {
-  __typename?: "Mutation";
-  failActivity?: Maybe<{
-    __typename?: "ActivityResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data: {
-      __typename?: "Activity";
-      id: string;
-      name: string;
-      itemName: string;
-      itemDescription: string;
-      itemPrice: number;
-      itemRealValue: number;
-      totalPrice: number;
-      duration: number;
-      distance: number;
-      status: string;
-      createdAt: any;
-      updatedAt: any;
-      provider: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-      renter: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-      chat: {
-        __typename?: "Chat";
-        id: string;
-        title: string;
-        createdAt: any;
-        messages: Array<{
-          __typename?: "Message";
-          id: string;
-          createdAt: any;
-          text: string;
-          chatId: number;
-          user: {
-            __typename?: "User";
-            id: string;
-            firstName: string;
-            lastName: string;
-            phone: string;
-          };
-        }>;
-      };
-    };
-  }>;
-};
+
+export type FailActivityMutation = { __typename?: 'Mutation', failActivity?: Maybe<{ __typename?: 'ActivityResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data: { __typename?: 'Activity', id: string, name: string, itemName: string, itemDescription: string, itemPrice: number, itemRealValue: number, totalPrice: number, duration: number, distance: number, status: string, createdAt: any, updatedAt: any, provider: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, renter: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, chat: { __typename?: 'Chat', id: string, title: string, createdAt: any, messages: Array<{ __typename?: 'Message', id: string, createdAt: any, text: string, chatId: number, user: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string } }> } } }> };
 
 export type SuccessActivityMutationVariables = Exact<{
-  id: Scalars["String"];
+  id: Scalars['String'];
 }>;
 
-export type SuccessActivityMutation = {
-  __typename?: "Mutation";
-  successActivity?: Maybe<{
-    __typename?: "ActivityResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data: {
-      __typename?: "Activity";
-      id: string;
-      name: string;
-      itemName: string;
-      itemDescription: string;
-      itemPrice: number;
-      itemRealValue: number;
-      totalPrice: number;
-      duration: number;
-      distance: number;
-      status: string;
-      createdAt: any;
-      updatedAt: any;
-      provider: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-      renter: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-      chat: {
-        __typename?: "Chat";
-        id: string;
-        title: string;
-        createdAt: any;
-        messages: Array<{
-          __typename?: "Message";
-          id: string;
-          createdAt: any;
-          text: string;
-          chatId: number;
-          user: {
-            __typename?: "User";
-            id: string;
-            firstName: string;
-            lastName: string;
-            phone: string;
-          };
-        }>;
-      };
-    };
-  }>;
-};
+
+export type SuccessActivityMutation = { __typename?: 'Mutation', successActivity?: Maybe<{ __typename?: 'ActivityResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data: { __typename?: 'Activity', id: string, name: string, itemName: string, itemDescription: string, itemPrice: number, itemRealValue: number, totalPrice: number, duration: number, distance: number, status: string, createdAt: any, updatedAt: any, provider: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, renter: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, chat: { __typename?: 'Chat', id: string, title: string, createdAt: any, messages: Array<{ __typename?: 'Message', id: string, createdAt: any, text: string, chatId: number, user: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string } }> } } }> };
+
+export type InProgressActivityMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type InProgressActivityMutation = { __typename?: 'Mutation', inProgressActivity?: Maybe<{ __typename?: 'ActivityResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data: { __typename?: 'Activity', id: string, name: string, itemName: string, itemDescription: string, itemPrice: number, itemRealValue: number, totalPrice: number, duration: number, distance: number, status: string, createdAt: any, updatedAt: any, provider: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, renter: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, chat: { __typename?: 'Chat', id: string, title: string, createdAt: any, messages: Array<{ __typename?: 'Message', id: string, createdAt: any, text: string, chatId: number, user: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string } }> } } }> };
 
 export type AddMessageMutationVariables = Exact<{
-  id: Scalars["String"];
-  chatId: Scalars["Float"];
-  text: Scalars["String"];
+  id: Scalars['String'];
+  chatId: Scalars['Float'];
+  text: Scalars['String'];
 }>;
 
-export type AddMessageMutation = {
-  __typename?: "Mutation";
-  addMessage?: Maybe<{
-    __typename?: "MessageResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "Message";
-      id: string;
-      createdAt: any;
-      text: string;
-      chatId: number;
-      user: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-    }>;
-  }>;
-};
+
+export type AddMessageMutation = { __typename?: 'Mutation', addMessage?: Maybe<{ __typename?: 'MessageResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'Message', id: string, createdAt: any, text: string, chatId: number, user: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string } }> }> };
 
 export type AddBalanceMutationVariables = Exact<{
-  amount: Scalars["Float"];
+  amount: Scalars['Float'];
 }>;
 
-export type AddBalanceMutation = {
-  __typename?: "Mutation";
-  addBalance?: Maybe<{
-    __typename?: "UserResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "User";
-      id: string;
-      firstName: string;
-      lastName: string;
-      phone: string;
-      balance: number;
-      createdAt: any;
-      updatedAt: any;
-      items: Array<{
-        __typename?: "Item";
-        id: string;
-        name: string;
-        description: string;
-        price: number;
-        realValue: number;
-      }>;
-    }>;
-  }>;
-};
+
+export type AddBalanceMutation = { __typename?: 'Mutation', addBalance?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, balance: number, createdAt: any, updatedAt: any, isVerified: boolean, items: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> }> };
 
 export type SubtractBalanceMutationVariables = Exact<{
-  amount: Scalars["Float"];
+  amount: Scalars['Float'];
 }>;
 
-export type SubtractBalanceMutation = {
-  __typename?: "Mutation";
-  subtractBalance?: Maybe<{
-    __typename?: "UserResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "User";
-      id: string;
-      firstName: string;
-      lastName: string;
-      phone: string;
-      balance: number;
-      createdAt: any;
-      updatedAt: any;
-      items: Array<{
-        __typename?: "Item";
-        id: string;
-        name: string;
-        description: string;
-        price: number;
-        realValue: number;
-      }>;
-    }>;
-  }>;
-};
+
+export type SubtractBalanceMutation = { __typename?: 'Mutation', subtractBalance?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, balance: number, createdAt: any, updatedAt: any, isVerified: boolean, items: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> }> };
 
 export type AddItemMutationVariables = Exact<{
-  name: Scalars["String"];
-  description: Scalars["String"];
-  price: Scalars["Float"];
-  realValue: Scalars["Float"];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  price: Scalars['Float'];
+  realValue: Scalars['Float'];
 }>;
 
-export type AddItemMutation = {
-  __typename?: "Mutation";
-  addItem?: Maybe<{
-    __typename?: "ItemResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "Item";
-      id: string;
-      name: string;
-      description: string;
-      price: number;
-      realValue: number;
-    }>;
-  }>;
-};
+
+export type AddItemMutation = { __typename?: 'Mutation', addItem?: Maybe<{ __typename?: 'ItemResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> };
 
 export type UpdateItemMutationVariables = Exact<{
-  id: Scalars["Float"];
-  name: Scalars["String"];
-  description: Scalars["String"];
-  price: Scalars["Float"];
-  realValue: Scalars["Float"];
+  id: Scalars['Float'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  price: Scalars['Float'];
+  realValue: Scalars['Float'];
 }>;
 
-export type UpdateItemMutation = {
-  __typename?: "Mutation";
-  updateItem?: Maybe<{
-    __typename?: "ItemResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "Item";
-      id: string;
-      name: string;
-      description: string;
-      price: number;
-      realValue: number;
-    }>;
-  }>;
-};
+
+export type UpdateItemMutation = { __typename?: 'Mutation', updateItem?: Maybe<{ __typename?: 'ItemResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> };
 
 export type DeleteItemMutationVariables = Exact<{
-  id: Scalars["Float"];
+  id: Scalars['Float'];
 }>;
 
-export type DeleteItemMutation = {
-  __typename?: "Mutation";
-  deleteItem?: Maybe<{
-    __typename?: "ItemResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "Item";
-      id: string;
-      name: string;
-      description: string;
-      price: number;
-      realValue: number;
-    }>;
-  }>;
-};
+
+export type DeleteItemMutation = { __typename?: 'Mutation', deleteItem?: Maybe<{ __typename?: 'ItemResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> };
 
 export type LoginMutationVariables = Exact<{
-  phone: Scalars["String"];
-  password: Scalars["String"];
+  phone: Scalars['String'];
+  password: Scalars['String'];
 }>;
 
-export type LoginMutation = {
-  __typename?: "Mutation";
-  login?: Maybe<{
-    __typename?: "UserResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "User";
-      id: string;
-      firstName: string;
-      lastName: string;
-      phone: string;
-      balance: number;
-      createdAt: any;
-      updatedAt: any;
-      items: Array<{
-        __typename?: "Item";
-        id: string;
-        name: string;
-        description: string;
-        price: number;
-        realValue: number;
-      }>;
-    }>;
-  }>;
-};
 
-export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
+export type LoginMutation = { __typename?: 'Mutation', login?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, balance: number, createdAt: any, updatedAt: any, isVerified: boolean, items: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> }> };
 
-export type LogoutMutation = {
-  __typename?: "Mutation";
-  logout?: Maybe<{
-    __typename?: "UserResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "User";
-      id: string;
-      firstName: string;
-      lastName: string;
-      phone: string;
-      balance: number;
-      createdAt: any;
-      updatedAt: any;
-      items: Array<{
-        __typename?: "Item";
-        id: string;
-        name: string;
-        description: string;
-        price: number;
-        realValue: number;
-      }>;
-    }>;
-  }>;
-};
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, balance: number, createdAt: any, updatedAt: any, isVerified: boolean, items: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> }> };
 
 export type RegisterMutationVariables = Exact<{
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-  phone: Scalars["String"];
-  password: Scalars["String"];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phone: Scalars['String'];
+  password: Scalars['String'];
 }>;
 
-export type RegisterMutation = {
-  __typename?: "Mutation";
-  register?: Maybe<{
-    __typename?: "UserResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "User";
-      id: string;
-      firstName: string;
-      lastName: string;
-      phone: string;
-      balance: number;
-      createdAt: any;
-      updatedAt: any;
-      items: Array<{
-        __typename?: "Item";
-        id: string;
-        name: string;
-        description: string;
-        price: number;
-        realValue: number;
-      }>;
-    }>;
-  }>;
-};
+
+export type RegisterMutation = { __typename?: 'Mutation', register?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, balance: number, createdAt: any, updatedAt: any, isVerified: boolean, items: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> }> };
 
 export type UploadIdImageMutationVariables = Exact<{
-  frontSide: Scalars["Upload"];
-  backSide: Scalars["Upload"];
+  frontSide: Scalars['Upload'];
+  backSide: Scalars['Upload'];
 }>;
 
-export type UploadIdImageMutation = {
-  __typename?: "Mutation";
-  uploadIdImage?: Maybe<{
-    __typename?: "UserResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "User";
-      id: string;
-      firstName: string;
-      lastName: string;
-      phone: string;
-      balance: number;
-      createdAt: any;
-      updatedAt: any;
-      items: Array<{
-        __typename?: "Item";
-        id: string;
-        name: string;
-        description: string;
-        price: number;
-        realValue: number;
-      }>;
-    }>;
-  }>;
-};
 
-export type GetRentActivitiesQueryVariables = Exact<{ [key: string]: never }>;
+export type UploadIdImageMutation = { __typename?: 'Mutation', uploadIdImage?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, balance: number, createdAt: any, updatedAt: any, isVerified: boolean, items: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> }> };
 
-export type GetRentActivitiesQuery = {
-  __typename?: "Query";
-  getRentActivities?: Maybe<{
-    __typename?: "ActivitiesResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data: Array<{
-      __typename?: "Activity";
-      id: string;
-      name: string;
-      itemName: string;
-      itemDescription: string;
-      itemPrice: number;
-      itemRealValue: number;
-      totalPrice: number;
-      duration: number;
-      distance: number;
-      status: string;
-      createdAt: any;
-      updatedAt: any;
-      provider: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-      renter: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-      chat: {
-        __typename?: "Chat";
-        id: string;
-        title: string;
-        createdAt: any;
-        messages: Array<{
-          __typename?: "Message";
-          id: string;
-          createdAt: any;
-          text: string;
-          chatId: number;
-          user: {
-            __typename?: "User";
-            id: string;
-            firstName: string;
-            lastName: string;
-            phone: string;
-          };
-        }>;
-      };
-    }>;
-  }>;
-};
+export type GetRentActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetProvideActivitiesQueryVariables = Exact<{
-  [key: string]: never;
-}>;
 
-export type GetProvideActivitiesQuery = {
-  __typename?: "Query";
-  getProvideActivities?: Maybe<{
-    __typename?: "ActivitiesResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data: Array<{
-      __typename?: "Activity";
-      id: string;
-      name: string;
-      itemName: string;
-      itemDescription: string;
-      itemPrice: number;
-      itemRealValue: number;
-      totalPrice: number;
-      duration: number;
-      distance: number;
-      status: string;
-      createdAt: any;
-      updatedAt: any;
-      provider: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-      renter: {
-        __typename?: "User";
-        id: string;
-        firstName: string;
-        lastName: string;
-        phone: string;
-      };
-      chat: {
-        __typename?: "Chat";
-        id: string;
-        title: string;
-        createdAt: any;
-        messages: Array<{
-          __typename?: "Message";
-          id: string;
-          createdAt: any;
-          text: string;
-          chatId: number;
-          user: {
-            __typename?: "User";
-            id: string;
-            firstName: string;
-            lastName: string;
-            phone: string;
-          };
-        }>;
-      };
-    }>;
-  }>;
-};
+export type GetRentActivitiesQuery = { __typename?: 'Query', getRentActivities?: Maybe<{ __typename?: 'ActivitiesResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data: Array<{ __typename?: 'Activity', id: string, name: string, itemName: string, itemDescription: string, itemPrice: number, itemRealValue: number, totalPrice: number, duration: number, distance: number, status: string, createdAt: any, updatedAt: any, provider: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, renter: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, chat: { __typename?: 'Chat', id: string, title: string, createdAt: any, messages: Array<{ __typename?: 'Message', id: string, createdAt: any, text: string, chatId: number, user: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string } }> } }> }> };
 
-export type GetImageIdQueryVariables = Exact<{ [key: string]: never }>;
+export type GetProvideActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetImageIdQuery = {
-  __typename?: "Query";
-  getImageId?: Maybe<{
-    __typename?: "ImageIDResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "ImageID";
-      frontSide: string;
-      backSide: string;
-    }>;
-  }>;
-};
 
-export type CheckSessionQueryVariables = Exact<{ [key: string]: never }>;
+export type GetProvideActivitiesQuery = { __typename?: 'Query', getProvideActivities?: Maybe<{ __typename?: 'ActivitiesResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data: Array<{ __typename?: 'Activity', id: string, name: string, itemName: string, itemDescription: string, itemPrice: number, itemRealValue: number, totalPrice: number, duration: number, distance: number, status: string, createdAt: any, updatedAt: any, provider: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, renter: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string }, chat: { __typename?: 'Chat', id: string, title: string, createdAt: any, messages: Array<{ __typename?: 'Message', id: string, createdAt: any, text: string, chatId: number, user: { __typename?: 'User', id: string, firstName: string, lastName: string, phone: string } }> } }> }> };
 
-export type CheckSessionQuery = {
-  __typename?: "Query";
-  checkSession?: Maybe<{
-    __typename?: "UserResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "User";
-      id: string;
-      firstName: string;
-      lastName: string;
-      phone: string;
-      balance: number;
-      createdAt: any;
-      updatedAt: any;
-      items: Array<{
-        __typename?: "Item";
-        id: string;
-        name: string;
-        description: string;
-        price: number;
-        realValue: number;
-      }>;
-    }>;
-  }>;
-};
+export type GetImageIdQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type RefreshSessionQueryVariables = Exact<{ [key: string]: never }>;
 
-export type RefreshSessionQuery = {
-  __typename?: "Query";
-  refreshSession?: Maybe<{
-    __typename?: "UserResponse";
-    code: number;
-    success: boolean;
-    errors?: Maybe<
-      Array<{ __typename?: "ErrorResponse"; field: string; message: string }>
-    >;
-    data?: Maybe<{
-      __typename?: "User";
-      id: string;
-      firstName: string;
-      lastName: string;
-      phone: string;
-      balance: number;
-      createdAt: any;
-      updatedAt: any;
-      items: Array<{
-        __typename?: "Item";
-        id: string;
-        name: string;
-        description: string;
-        price: number;
-        realValue: number;
-      }>;
-    }>;
-  }>;
-};
+export type GetImageIdQuery = { __typename?: 'Query', getImageId?: Maybe<{ __typename?: 'ImageIDResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'ImageID', frontSide: string, backSide: string }> }> };
+
+export type CheckSessionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CheckSessionQuery = { __typename?: 'Query', checkSession?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, balance: number, createdAt: any, updatedAt: any, isVerified: boolean, items: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> }> };
+
+export type RefreshSessionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RefreshSessionQuery = { __typename?: 'Query', refreshSession?: Maybe<{ __typename?: 'UserResponse', code: number, success: boolean, errors?: Maybe<Array<{ __typename?: 'ErrorResponse', field: string, message: string }>>, data?: Maybe<{ __typename?: 'User', id: string, firstName: string, lastName: string, phone: string, balance: number, createdAt: any, updatedAt: any, isVerified: boolean, items: Array<{ __typename?: 'Item', id: string, name: string, description: string, price: number, realValue: number }> }> }> };
 
 export const MessageResponseFragmentFragmentDoc = gql`
-  fragment MessageResponseFragment on Message {
-    id
-    createdAt
-    text
-    chatId
-    user {
-      id
-      firstName
-      lastName
-      phone
-    }
-  }
-`;
-export const ActivityResponseFragmentFragmentDoc = gql`
-  fragment ActivityResponseFragment on Activity {
-    id
-    name
-    itemName
-    itemDescription
-    itemPrice
-    itemRealValue
-    totalPrice
-    duration
-    distance
-    status
-    createdAt
-    updatedAt
-    provider {
-      id
-      firstName
-      lastName
-      phone
-    }
-    renter {
-      id
-      firstName
-      lastName
-      phone
-    }
-    chat {
-      id
-      title
-      createdAt
-      messages {
-        ...MessageResponseFragment
-      }
-    }
-  }
-  ${MessageResponseFragmentFragmentDoc}
-`;
-export const ErrosResponseFragmentFragmentDoc = gql`
-  fragment ErrosResponseFragment on ErrorResponse {
-    field
-    message
-  }
-`;
-export const ImageIdResponseFragmentFragmentDoc = gql`
-  fragment ImageIDResponseFragment on ImageID {
-    frontSide
-    backSide
-  }
-`;
-export const ItemResponseFragmentFragmentDoc = gql`
-  fragment ItemResponseFragment on Item {
-    id
-    name
-    description
-    price
-    realValue
-  }
-`;
-export const UserResponseFragmentFragmentDoc = gql`
-  fragment UserResponseFragment on User {
+    fragment MessageResponseFragment on Message {
+  id
+  createdAt
+  text
+  chatId
+  user {
     id
     firstName
     lastName
     phone
-    balance
+  }
+}
+    `;
+export const ActivityResponseFragmentFragmentDoc = gql`
+    fragment ActivityResponseFragment on Activity {
+  id
+  name
+  itemName
+  itemDescription
+  itemPrice
+  itemRealValue
+  totalPrice
+  duration
+  distance
+  status
+  createdAt
+  updatedAt
+  provider {
+    id
+    firstName
+    lastName
+    phone
+  }
+  renter {
+    id
+    firstName
+    lastName
+    phone
+  }
+  chat {
+    id
+    title
     createdAt
-    updatedAt
-    items {
-      ...ItemResponseFragment
+    messages {
+      ...MessageResponseFragment
     }
   }
-  ${ItemResponseFragmentFragmentDoc}
-`;
+}
+    ${MessageResponseFragmentFragmentDoc}`;
+export const ErrosResponseFragmentFragmentDoc = gql`
+    fragment ErrosResponseFragment on ErrorResponse {
+  field
+  message
+}
+    `;
+export const ImageIdResponseFragmentFragmentDoc = gql`
+    fragment ImageIDResponseFragment on ImageID {
+  frontSide
+  backSide
+}
+    `;
+export const ItemResponseFragmentFragmentDoc = gql`
+    fragment ItemResponseFragment on Item {
+  id
+  name
+  description
+  price
+  realValue
+}
+    `;
+export const UserResponseFragmentFragmentDoc = gql`
+    fragment UserResponseFragment on User {
+  id
+  firstName
+  lastName
+  phone
+  balance
+  createdAt
+  updatedAt
+  isVerified
+  items {
+    ...ItemResponseFragment
+  }
+}
+    ${ItemResponseFragmentFragmentDoc}`;
 export const AddActivityDocument = gql`
-  mutation addActivity(
-    $id: String!
-    $name: String!
-    $itemName: String!
-    $itemDescription: String!
-    $itemPrice: Float!
-    $itemRealValue: Float!
-    $totalPrice: Float!
-    $duration: Float!
-    $distance: Float!
-    $providerId: String!
-    $renterId: String!
+    mutation addActivity($id: String!, $name: String!, $itemName: String!, $itemDescription: String!, $itemPrice: Float!, $itemRealValue: Float!, $totalPrice: Float!, $duration: Float!, $distance: Float!, $providerId: String!, $renterId: String!) {
+  addActivity(
+    id: $id
+    name: $name
+    itemName: $itemName
+    itemDescription: $itemDescription
+    itemPrice: $itemPrice
+    itemRealValue: $itemRealValue
+    totalPrice: $totalPrice
+    duration: $duration
+    distance: $distance
+    providerId: $providerId
+    renterId: $renterId
   ) {
-    addActivity(
-      id: $id
-      name: $name
-      itemName: $itemName
-      itemDescription: $itemDescription
-      itemPrice: $itemPrice
-      itemRealValue: $itemRealValue
-      totalPrice: $totalPrice
-      duration: $duration
-      distance: $distance
-      providerId: $providerId
-      renterId: $renterId
-    ) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...ActivityResponseFragment
-      }
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${ActivityResponseFragmentFragmentDoc}
-`;
-export type AddActivityMutationFn = Apollo.MutationFunction<
-  AddActivityMutation,
-  AddActivityMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${ActivityResponseFragmentFragmentDoc}`;
+export type AddActivityMutationFn = Apollo.MutationFunction<AddActivityMutation, AddActivityMutationVariables>;
 
 /**
  * __useAddActivityMutation__
@@ -1251,47 +566,29 @@ export type AddActivityMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddActivityMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddActivityMutation,
-    AddActivityMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<AddActivityMutation, AddActivityMutationVariables>(
-    AddActivityDocument,
-    options
-  );
-}
-export type AddActivityMutationHookResult = ReturnType<
-  typeof useAddActivityMutation
->;
-export type AddActivityMutationResult =
-  Apollo.MutationResult<AddActivityMutation>;
-export type AddActivityMutationOptions = Apollo.BaseMutationOptions<
-  AddActivityMutation,
-  AddActivityMutationVariables
->;
+export function useAddActivityMutation(baseOptions?: Apollo.MutationHookOptions<AddActivityMutation, AddActivityMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddActivityMutation, AddActivityMutationVariables>(AddActivityDocument, options);
+      }
+export type AddActivityMutationHookResult = ReturnType<typeof useAddActivityMutation>;
+export type AddActivityMutationResult = Apollo.MutationResult<AddActivityMutation>;
+export type AddActivityMutationOptions = Apollo.BaseMutationOptions<AddActivityMutation, AddActivityMutationVariables>;
 export const FailActivityDocument = gql`
-  mutation failActivity($id: String!) {
-    failActivity(id: $id) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...ActivityResponseFragment
-      }
+    mutation failActivity($id: String!) {
+  failActivity(id: $id) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${ActivityResponseFragmentFragmentDoc}
-`;
-export type FailActivityMutationFn = Apollo.MutationFunction<
-  FailActivityMutation,
-  FailActivityMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${ActivityResponseFragmentFragmentDoc}`;
+export type FailActivityMutationFn = Apollo.MutationFunction<FailActivityMutation, FailActivityMutationVariables>;
 
 /**
  * __useFailActivityMutation__
@@ -1310,47 +607,29 @@ export type FailActivityMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useFailActivityMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    FailActivityMutation,
-    FailActivityMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    FailActivityMutation,
-    FailActivityMutationVariables
-  >(FailActivityDocument, options);
-}
-export type FailActivityMutationHookResult = ReturnType<
-  typeof useFailActivityMutation
->;
-export type FailActivityMutationResult =
-  Apollo.MutationResult<FailActivityMutation>;
-export type FailActivityMutationOptions = Apollo.BaseMutationOptions<
-  FailActivityMutation,
-  FailActivityMutationVariables
->;
+export function useFailActivityMutation(baseOptions?: Apollo.MutationHookOptions<FailActivityMutation, FailActivityMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<FailActivityMutation, FailActivityMutationVariables>(FailActivityDocument, options);
+      }
+export type FailActivityMutationHookResult = ReturnType<typeof useFailActivityMutation>;
+export type FailActivityMutationResult = Apollo.MutationResult<FailActivityMutation>;
+export type FailActivityMutationOptions = Apollo.BaseMutationOptions<FailActivityMutation, FailActivityMutationVariables>;
 export const SuccessActivityDocument = gql`
-  mutation successActivity($id: String!) {
-    successActivity(id: $id) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...ActivityResponseFragment
-      }
+    mutation successActivity($id: String!) {
+  successActivity(id: $id) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${ActivityResponseFragmentFragmentDoc}
-`;
-export type SuccessActivityMutationFn = Apollo.MutationFunction<
-  SuccessActivityMutation,
-  SuccessActivityMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${ActivityResponseFragmentFragmentDoc}`;
+export type SuccessActivityMutationFn = Apollo.MutationFunction<SuccessActivityMutation, SuccessActivityMutationVariables>;
 
 /**
  * __useSuccessActivityMutation__
@@ -1369,47 +648,70 @@ export type SuccessActivityMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSuccessActivityMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SuccessActivityMutation,
-    SuccessActivityMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    SuccessActivityMutation,
-    SuccessActivityMutationVariables
-  >(SuccessActivityDocument, options);
-}
-export type SuccessActivityMutationHookResult = ReturnType<
-  typeof useSuccessActivityMutation
->;
-export type SuccessActivityMutationResult =
-  Apollo.MutationResult<SuccessActivityMutation>;
-export type SuccessActivityMutationOptions = Apollo.BaseMutationOptions<
-  SuccessActivityMutation,
-  SuccessActivityMutationVariables
->;
-export const AddMessageDocument = gql`
-  mutation addMessage($id: String!, $chatId: Float!, $text: String!) {
-    addMessage(id: $id, chatId: $chatId, text: $text) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
+export function useSuccessActivityMutation(baseOptions?: Apollo.MutationHookOptions<SuccessActivityMutation, SuccessActivityMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SuccessActivityMutation, SuccessActivityMutationVariables>(SuccessActivityDocument, options);
       }
-      data {
-        ...MessageResponseFragment
-      }
+export type SuccessActivityMutationHookResult = ReturnType<typeof useSuccessActivityMutation>;
+export type SuccessActivityMutationResult = Apollo.MutationResult<SuccessActivityMutation>;
+export type SuccessActivityMutationOptions = Apollo.BaseMutationOptions<SuccessActivityMutation, SuccessActivityMutationVariables>;
+export const InProgressActivityDocument = gql`
+    mutation inProgressActivity($id: String!) {
+  inProgressActivity(id: $id) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${MessageResponseFragmentFragmentDoc}
-`;
-export type AddMessageMutationFn = Apollo.MutationFunction<
-  AddMessageMutation,
-  AddMessageMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${ActivityResponseFragmentFragmentDoc}`;
+export type InProgressActivityMutationFn = Apollo.MutationFunction<InProgressActivityMutation, InProgressActivityMutationVariables>;
+
+/**
+ * __useInProgressActivityMutation__
+ *
+ * To run a mutation, you first call `useInProgressActivityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInProgressActivityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [inProgressActivityMutation, { data, loading, error }] = useInProgressActivityMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useInProgressActivityMutation(baseOptions?: Apollo.MutationHookOptions<InProgressActivityMutation, InProgressActivityMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InProgressActivityMutation, InProgressActivityMutationVariables>(InProgressActivityDocument, options);
+      }
+export type InProgressActivityMutationHookResult = ReturnType<typeof useInProgressActivityMutation>;
+export type InProgressActivityMutationResult = Apollo.MutationResult<InProgressActivityMutation>;
+export type InProgressActivityMutationOptions = Apollo.BaseMutationOptions<InProgressActivityMutation, InProgressActivityMutationVariables>;
+export const AddMessageDocument = gql`
+    mutation addMessage($id: String!, $chatId: Float!, $text: String!) {
+  addMessage(id: $id, chatId: $chatId, text: $text) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...MessageResponseFragment
+    }
+  }
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${MessageResponseFragmentFragmentDoc}`;
+export type AddMessageMutationFn = Apollo.MutationFunction<AddMessageMutation, AddMessageMutationVariables>;
 
 /**
  * __useAddMessageMutation__
@@ -1430,47 +732,29 @@ export type AddMessageMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddMessageMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddMessageMutation,
-    AddMessageMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<AddMessageMutation, AddMessageMutationVariables>(
-    AddMessageDocument,
-    options
-  );
-}
-export type AddMessageMutationHookResult = ReturnType<
-  typeof useAddMessageMutation
->;
-export type AddMessageMutationResult =
-  Apollo.MutationResult<AddMessageMutation>;
-export type AddMessageMutationOptions = Apollo.BaseMutationOptions<
-  AddMessageMutation,
-  AddMessageMutationVariables
->;
+export function useAddMessageMutation(baseOptions?: Apollo.MutationHookOptions<AddMessageMutation, AddMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddMessageMutation, AddMessageMutationVariables>(AddMessageDocument, options);
+      }
+export type AddMessageMutationHookResult = ReturnType<typeof useAddMessageMutation>;
+export type AddMessageMutationResult = Apollo.MutationResult<AddMessageMutation>;
+export type AddMessageMutationOptions = Apollo.BaseMutationOptions<AddMessageMutation, AddMessageMutationVariables>;
 export const AddBalanceDocument = gql`
-  mutation addBalance($amount: Float!) {
-    addBalance(amount: $amount) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...UserResponseFragment
-      }
+    mutation addBalance($amount: Float!) {
+  addBalance(amount: $amount) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${UserResponseFragmentFragmentDoc}
-`;
-export type AddBalanceMutationFn = Apollo.MutationFunction<
-  AddBalanceMutation,
-  AddBalanceMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${UserResponseFragmentFragmentDoc}`;
+export type AddBalanceMutationFn = Apollo.MutationFunction<AddBalanceMutation, AddBalanceMutationVariables>;
 
 /**
  * __useAddBalanceMutation__
@@ -1489,47 +773,29 @@ export type AddBalanceMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddBalanceMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddBalanceMutation,
-    AddBalanceMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<AddBalanceMutation, AddBalanceMutationVariables>(
-    AddBalanceDocument,
-    options
-  );
-}
-export type AddBalanceMutationHookResult = ReturnType<
-  typeof useAddBalanceMutation
->;
-export type AddBalanceMutationResult =
-  Apollo.MutationResult<AddBalanceMutation>;
-export type AddBalanceMutationOptions = Apollo.BaseMutationOptions<
-  AddBalanceMutation,
-  AddBalanceMutationVariables
->;
+export function useAddBalanceMutation(baseOptions?: Apollo.MutationHookOptions<AddBalanceMutation, AddBalanceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddBalanceMutation, AddBalanceMutationVariables>(AddBalanceDocument, options);
+      }
+export type AddBalanceMutationHookResult = ReturnType<typeof useAddBalanceMutation>;
+export type AddBalanceMutationResult = Apollo.MutationResult<AddBalanceMutation>;
+export type AddBalanceMutationOptions = Apollo.BaseMutationOptions<AddBalanceMutation, AddBalanceMutationVariables>;
 export const SubtractBalanceDocument = gql`
-  mutation subtractBalance($amount: Float!) {
-    subtractBalance(amount: $amount) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...UserResponseFragment
-      }
+    mutation subtractBalance($amount: Float!) {
+  subtractBalance(amount: $amount) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${UserResponseFragmentFragmentDoc}
-`;
-export type SubtractBalanceMutationFn = Apollo.MutationFunction<
-  SubtractBalanceMutation,
-  SubtractBalanceMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${UserResponseFragmentFragmentDoc}`;
+export type SubtractBalanceMutationFn = Apollo.MutationFunction<SubtractBalanceMutation, SubtractBalanceMutationVariables>;
 
 /**
  * __useSubtractBalanceMutation__
@@ -1548,57 +814,34 @@ export type SubtractBalanceMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSubtractBalanceMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    SubtractBalanceMutation,
-    SubtractBalanceMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    SubtractBalanceMutation,
-    SubtractBalanceMutationVariables
-  >(SubtractBalanceDocument, options);
-}
-export type SubtractBalanceMutationHookResult = ReturnType<
-  typeof useSubtractBalanceMutation
->;
-export type SubtractBalanceMutationResult =
-  Apollo.MutationResult<SubtractBalanceMutation>;
-export type SubtractBalanceMutationOptions = Apollo.BaseMutationOptions<
-  SubtractBalanceMutation,
-  SubtractBalanceMutationVariables
->;
+export function useSubtractBalanceMutation(baseOptions?: Apollo.MutationHookOptions<SubtractBalanceMutation, SubtractBalanceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SubtractBalanceMutation, SubtractBalanceMutationVariables>(SubtractBalanceDocument, options);
+      }
+export type SubtractBalanceMutationHookResult = ReturnType<typeof useSubtractBalanceMutation>;
+export type SubtractBalanceMutationResult = Apollo.MutationResult<SubtractBalanceMutation>;
+export type SubtractBalanceMutationOptions = Apollo.BaseMutationOptions<SubtractBalanceMutation, SubtractBalanceMutationVariables>;
 export const AddItemDocument = gql`
-  mutation addItem(
-    $name: String!
-    $description: String!
-    $price: Float!
-    $realValue: Float!
+    mutation addItem($name: String!, $description: String!, $price: Float!, $realValue: Float!) {
+  addItem(
+    name: $name
+    description: $description
+    price: $price
+    realValue: $realValue
   ) {
-    addItem(
-      name: $name
-      description: $description
-      price: $price
-      realValue: $realValue
-    ) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...ItemResponseFragment
-      }
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ItemResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${ItemResponseFragmentFragmentDoc}
-`;
-export type AddItemMutationFn = Apollo.MutationFunction<
-  AddItemMutation,
-  AddItemMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${ItemResponseFragmentFragmentDoc}`;
+export type AddItemMutationFn = Apollo.MutationFunction<AddItemMutation, AddItemMutationVariables>;
 
 /**
  * __useAddItemMutation__
@@ -1620,56 +863,35 @@ export type AddItemMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddItemMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddItemMutation,
-    AddItemMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<AddItemMutation, AddItemMutationVariables>(
-    AddItemDocument,
-    options
-  );
-}
+export function useAddItemMutation(baseOptions?: Apollo.MutationHookOptions<AddItemMutation, AddItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddItemMutation, AddItemMutationVariables>(AddItemDocument, options);
+      }
 export type AddItemMutationHookResult = ReturnType<typeof useAddItemMutation>;
 export type AddItemMutationResult = Apollo.MutationResult<AddItemMutation>;
-export type AddItemMutationOptions = Apollo.BaseMutationOptions<
-  AddItemMutation,
-  AddItemMutationVariables
->;
+export type AddItemMutationOptions = Apollo.BaseMutationOptions<AddItemMutation, AddItemMutationVariables>;
 export const UpdateItemDocument = gql`
-  mutation updateItem(
-    $id: Float!
-    $name: String!
-    $description: String!
-    $price: Float!
-    $realValue: Float!
+    mutation updateItem($id: Float!, $name: String!, $description: String!, $price: Float!, $realValue: Float!) {
+  updateItem(
+    id: $id
+    name: $name
+    description: $description
+    price: $price
+    realValue: $realValue
   ) {
-    updateItem(
-      id: $id
-      name: $name
-      description: $description
-      price: $price
-      realValue: $realValue
-    ) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...ItemResponseFragment
-      }
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ItemResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${ItemResponseFragmentFragmentDoc}
-`;
-export type UpdateItemMutationFn = Apollo.MutationFunction<
-  UpdateItemMutation,
-  UpdateItemMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${ItemResponseFragmentFragmentDoc}`;
+export type UpdateItemMutationFn = Apollo.MutationFunction<UpdateItemMutation, UpdateItemMutationVariables>;
 
 /**
  * __useUpdateItemMutation__
@@ -1692,47 +914,29 @@ export type UpdateItemMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateItemMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateItemMutation,
-    UpdateItemMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateItemMutation, UpdateItemMutationVariables>(
-    UpdateItemDocument,
-    options
-  );
-}
-export type UpdateItemMutationHookResult = ReturnType<
-  typeof useUpdateItemMutation
->;
-export type UpdateItemMutationResult =
-  Apollo.MutationResult<UpdateItemMutation>;
-export type UpdateItemMutationOptions = Apollo.BaseMutationOptions<
-  UpdateItemMutation,
-  UpdateItemMutationVariables
->;
+export function useUpdateItemMutation(baseOptions?: Apollo.MutationHookOptions<UpdateItemMutation, UpdateItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateItemMutation, UpdateItemMutationVariables>(UpdateItemDocument, options);
+      }
+export type UpdateItemMutationHookResult = ReturnType<typeof useUpdateItemMutation>;
+export type UpdateItemMutationResult = Apollo.MutationResult<UpdateItemMutation>;
+export type UpdateItemMutationOptions = Apollo.BaseMutationOptions<UpdateItemMutation, UpdateItemMutationVariables>;
 export const DeleteItemDocument = gql`
-  mutation deleteItem($id: Float!) {
-    deleteItem(id: $id) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...ItemResponseFragment
-      }
+    mutation deleteItem($id: Float!) {
+  deleteItem(id: $id) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ItemResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${ItemResponseFragmentFragmentDoc}
-`;
-export type DeleteItemMutationFn = Apollo.MutationFunction<
-  DeleteItemMutation,
-  DeleteItemMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${ItemResponseFragmentFragmentDoc}`;
+export type DeleteItemMutationFn = Apollo.MutationFunction<DeleteItemMutation, DeleteItemMutationVariables>;
 
 /**
  * __useDeleteItemMutation__
@@ -1751,47 +955,29 @@ export type DeleteItemMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteItemMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteItemMutation,
-    DeleteItemMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteItemMutation, DeleteItemMutationVariables>(
-    DeleteItemDocument,
-    options
-  );
-}
-export type DeleteItemMutationHookResult = ReturnType<
-  typeof useDeleteItemMutation
->;
-export type DeleteItemMutationResult =
-  Apollo.MutationResult<DeleteItemMutation>;
-export type DeleteItemMutationOptions = Apollo.BaseMutationOptions<
-  DeleteItemMutation,
-  DeleteItemMutationVariables
->;
+export function useDeleteItemMutation(baseOptions?: Apollo.MutationHookOptions<DeleteItemMutation, DeleteItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteItemMutation, DeleteItemMutationVariables>(DeleteItemDocument, options);
+      }
+export type DeleteItemMutationHookResult = ReturnType<typeof useDeleteItemMutation>;
+export type DeleteItemMutationResult = Apollo.MutationResult<DeleteItemMutation>;
+export type DeleteItemMutationOptions = Apollo.BaseMutationOptions<DeleteItemMutation, DeleteItemMutationVariables>;
 export const LoginDocument = gql`
-  mutation Login($phone: String!, $password: String!) {
-    login(phone: $phone, password: $password) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...UserResponseFragment
-      }
+    mutation Login($phone: String!, $password: String!) {
+  login(phone: $phone, password: $password) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${UserResponseFragmentFragmentDoc}
-`;
-export type LoginMutationFn = Apollo.MutationFunction<
-  LoginMutation,
-  LoginMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${UserResponseFragmentFragmentDoc}`;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
  * __useLoginMutation__
@@ -1811,44 +997,29 @@ export type LoginMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useLoginMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LoginMutation,
-    LoginMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
-    LoginDocument,
-    options
-  );
-}
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<
-  LoginMutation,
-  LoginMutationVariables
->;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const LogoutDocument = gql`
-  mutation Logout {
-    logout {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...UserResponseFragment
-      }
+    mutation Logout {
+  logout {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${UserResponseFragmentFragmentDoc}
-`;
-export type LogoutMutationFn = Apollo.MutationFunction<
-  LogoutMutation,
-  LogoutMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${UserResponseFragmentFragmentDoc}`;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
 
 /**
  * __useLogoutMutation__
@@ -1866,54 +1037,34 @@ export type LogoutMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useLogoutMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LogoutMutation,
-    LogoutMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(
-    LogoutDocument,
-    options
-  );
-}
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = Apollo.BaseMutationOptions<
-  LogoutMutation,
-  LogoutMutationVariables
->;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const RegisterDocument = gql`
-  mutation Register(
-    $firstName: String!
-    $lastName: String!
-    $phone: String!
-    $password: String!
+    mutation Register($firstName: String!, $lastName: String!, $phone: String!, $password: String!) {
+  register(
+    firstName: $firstName
+    lastName: $lastName
+    phone: $phone
+    password: $password
   ) {
-    register(
-      firstName: $firstName
-      lastName: $lastName
-      phone: $phone
-      password: $password
-    ) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...UserResponseFragment
-      }
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${UserResponseFragmentFragmentDoc}
-`;
-export type RegisterMutationFn = Apollo.MutationFunction<
-  RegisterMutation,
-  RegisterMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${UserResponseFragmentFragmentDoc}`;
+export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**
  * __useRegisterMutation__
@@ -1935,44 +1086,29 @@ export type RegisterMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useRegisterMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    RegisterMutation,
-    RegisterMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
-    RegisterDocument,
-    options
-  );
-}
+export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
+      }
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<
-  RegisterMutation,
-  RegisterMutationVariables
->;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const UploadIdImageDocument = gql`
-  mutation UploadIdImage($frontSide: Upload!, $backSide: Upload!) {
-    uploadIdImage(frontSide: $frontSide, backSide: $backSide) {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...UserResponseFragment
-      }
+    mutation UploadIdImage($frontSide: Upload!, $backSide: Upload!) {
+  uploadIdImage(frontSide: $frontSide, backSide: $backSide) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${UserResponseFragmentFragmentDoc}
-`;
-export type UploadIdImageMutationFn = Apollo.MutationFunction<
-  UploadIdImageMutation,
-  UploadIdImageMutationVariables
->;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${UserResponseFragmentFragmentDoc}`;
+export type UploadIdImageMutationFn = Apollo.MutationFunction<UploadIdImageMutation, UploadIdImageMutationVariables>;
 
 /**
  * __useUploadIdImageMutation__
@@ -1992,43 +1128,28 @@ export type UploadIdImageMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUploadIdImageMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UploadIdImageMutation,
-    UploadIdImageMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UploadIdImageMutation,
-    UploadIdImageMutationVariables
-  >(UploadIdImageDocument, options);
-}
-export type UploadIdImageMutationHookResult = ReturnType<
-  typeof useUploadIdImageMutation
->;
-export type UploadIdImageMutationResult =
-  Apollo.MutationResult<UploadIdImageMutation>;
-export type UploadIdImageMutationOptions = Apollo.BaseMutationOptions<
-  UploadIdImageMutation,
-  UploadIdImageMutationVariables
->;
+export function useUploadIdImageMutation(baseOptions?: Apollo.MutationHookOptions<UploadIdImageMutation, UploadIdImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UploadIdImageMutation, UploadIdImageMutationVariables>(UploadIdImageDocument, options);
+      }
+export type UploadIdImageMutationHookResult = ReturnType<typeof useUploadIdImageMutation>;
+export type UploadIdImageMutationResult = Apollo.MutationResult<UploadIdImageMutation>;
+export type UploadIdImageMutationOptions = Apollo.BaseMutationOptions<UploadIdImageMutation, UploadIdImageMutationVariables>;
 export const GetRentActivitiesDocument = gql`
-  query getRentActivities {
-    getRentActivities {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...ActivityResponseFragment
-      }
+    query getRentActivities {
+  getRentActivities {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${ActivityResponseFragmentFragmentDoc}
-`;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${ActivityResponseFragmentFragmentDoc}`;
 
 /**
  * __useGetRentActivitiesQuery__
@@ -2045,56 +1166,32 @@ export const GetRentActivitiesDocument = gql`
  *   },
  * });
  */
-export function useGetRentActivitiesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetRentActivitiesQuery,
-    GetRentActivitiesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetRentActivitiesQuery,
-    GetRentActivitiesQueryVariables
-  >(GetRentActivitiesDocument, options);
-}
-export function useGetRentActivitiesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetRentActivitiesQuery,
-    GetRentActivitiesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetRentActivitiesQuery,
-    GetRentActivitiesQueryVariables
-  >(GetRentActivitiesDocument, options);
-}
-export type GetRentActivitiesQueryHookResult = ReturnType<
-  typeof useGetRentActivitiesQuery
->;
-export type GetRentActivitiesLazyQueryHookResult = ReturnType<
-  typeof useGetRentActivitiesLazyQuery
->;
-export type GetRentActivitiesQueryResult = Apollo.QueryResult<
-  GetRentActivitiesQuery,
-  GetRentActivitiesQueryVariables
->;
+export function useGetRentActivitiesQuery(baseOptions?: Apollo.QueryHookOptions<GetRentActivitiesQuery, GetRentActivitiesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRentActivitiesQuery, GetRentActivitiesQueryVariables>(GetRentActivitiesDocument, options);
+      }
+export function useGetRentActivitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRentActivitiesQuery, GetRentActivitiesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRentActivitiesQuery, GetRentActivitiesQueryVariables>(GetRentActivitiesDocument, options);
+        }
+export type GetRentActivitiesQueryHookResult = ReturnType<typeof useGetRentActivitiesQuery>;
+export type GetRentActivitiesLazyQueryHookResult = ReturnType<typeof useGetRentActivitiesLazyQuery>;
+export type GetRentActivitiesQueryResult = Apollo.QueryResult<GetRentActivitiesQuery, GetRentActivitiesQueryVariables>;
 export const GetProvideActivitiesDocument = gql`
-  query getProvideActivities {
-    getProvideActivities {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...ActivityResponseFragment
-      }
+    query getProvideActivities {
+  getProvideActivities {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${ActivityResponseFragmentFragmentDoc}
-`;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${ActivityResponseFragmentFragmentDoc}`;
 
 /**
  * __useGetProvideActivitiesQuery__
@@ -2111,56 +1208,32 @@ export const GetProvideActivitiesDocument = gql`
  *   },
  * });
  */
-export function useGetProvideActivitiesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetProvideActivitiesQuery,
-    GetProvideActivitiesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetProvideActivitiesQuery,
-    GetProvideActivitiesQueryVariables
-  >(GetProvideActivitiesDocument, options);
-}
-export function useGetProvideActivitiesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetProvideActivitiesQuery,
-    GetProvideActivitiesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetProvideActivitiesQuery,
-    GetProvideActivitiesQueryVariables
-  >(GetProvideActivitiesDocument, options);
-}
-export type GetProvideActivitiesQueryHookResult = ReturnType<
-  typeof useGetProvideActivitiesQuery
->;
-export type GetProvideActivitiesLazyQueryHookResult = ReturnType<
-  typeof useGetProvideActivitiesLazyQuery
->;
-export type GetProvideActivitiesQueryResult = Apollo.QueryResult<
-  GetProvideActivitiesQuery,
-  GetProvideActivitiesQueryVariables
->;
+export function useGetProvideActivitiesQuery(baseOptions?: Apollo.QueryHookOptions<GetProvideActivitiesQuery, GetProvideActivitiesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetProvideActivitiesQuery, GetProvideActivitiesQueryVariables>(GetProvideActivitiesDocument, options);
+      }
+export function useGetProvideActivitiesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProvideActivitiesQuery, GetProvideActivitiesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetProvideActivitiesQuery, GetProvideActivitiesQueryVariables>(GetProvideActivitiesDocument, options);
+        }
+export type GetProvideActivitiesQueryHookResult = ReturnType<typeof useGetProvideActivitiesQuery>;
+export type GetProvideActivitiesLazyQueryHookResult = ReturnType<typeof useGetProvideActivitiesLazyQuery>;
+export type GetProvideActivitiesQueryResult = Apollo.QueryResult<GetProvideActivitiesQuery, GetProvideActivitiesQueryVariables>;
 export const GetImageIdDocument = gql`
-  query GetImageID {
-    getImageId {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...ImageIDResponseFragment
-      }
+    query GetImageID {
+  getImageId {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ImageIDResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${ImageIdResponseFragmentFragmentDoc}
-`;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${ImageIdResponseFragmentFragmentDoc}`;
 
 /**
  * __useGetImageIdQuery__
@@ -2177,54 +1250,32 @@ export const GetImageIdDocument = gql`
  *   },
  * });
  */
-export function useGetImageIdQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetImageIdQuery,
-    GetImageIdQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetImageIdQuery, GetImageIdQueryVariables>(
-    GetImageIdDocument,
-    options
-  );
-}
-export function useGetImageIdLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetImageIdQuery,
-    GetImageIdQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetImageIdQuery, GetImageIdQueryVariables>(
-    GetImageIdDocument,
-    options
-  );
-}
+export function useGetImageIdQuery(baseOptions?: Apollo.QueryHookOptions<GetImageIdQuery, GetImageIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetImageIdQuery, GetImageIdQueryVariables>(GetImageIdDocument, options);
+      }
+export function useGetImageIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetImageIdQuery, GetImageIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetImageIdQuery, GetImageIdQueryVariables>(GetImageIdDocument, options);
+        }
 export type GetImageIdQueryHookResult = ReturnType<typeof useGetImageIdQuery>;
-export type GetImageIdLazyQueryHookResult = ReturnType<
-  typeof useGetImageIdLazyQuery
->;
-export type GetImageIdQueryResult = Apollo.QueryResult<
-  GetImageIdQuery,
-  GetImageIdQueryVariables
->;
+export type GetImageIdLazyQueryHookResult = ReturnType<typeof useGetImageIdLazyQuery>;
+export type GetImageIdQueryResult = Apollo.QueryResult<GetImageIdQuery, GetImageIdQueryVariables>;
 export const CheckSessionDocument = gql`
-  query CheckSession {
-    checkSession {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...UserResponseFragment
-      }
+    query CheckSession {
+  checkSession {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${UserResponseFragmentFragmentDoc}
-`;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${UserResponseFragmentFragmentDoc}`;
 
 /**
  * __useCheckSessionQuery__
@@ -2241,56 +1292,32 @@ export const CheckSessionDocument = gql`
  *   },
  * });
  */
-export function useCheckSessionQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CheckSessionQuery,
-    CheckSessionQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CheckSessionQuery, CheckSessionQueryVariables>(
-    CheckSessionDocument,
-    options
-  );
-}
-export function useCheckSessionLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CheckSessionQuery,
-    CheckSessionQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CheckSessionQuery, CheckSessionQueryVariables>(
-    CheckSessionDocument,
-    options
-  );
-}
-export type CheckSessionQueryHookResult = ReturnType<
-  typeof useCheckSessionQuery
->;
-export type CheckSessionLazyQueryHookResult = ReturnType<
-  typeof useCheckSessionLazyQuery
->;
-export type CheckSessionQueryResult = Apollo.QueryResult<
-  CheckSessionQuery,
-  CheckSessionQueryVariables
->;
+export function useCheckSessionQuery(baseOptions?: Apollo.QueryHookOptions<CheckSessionQuery, CheckSessionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckSessionQuery, CheckSessionQueryVariables>(CheckSessionDocument, options);
+      }
+export function useCheckSessionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckSessionQuery, CheckSessionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckSessionQuery, CheckSessionQueryVariables>(CheckSessionDocument, options);
+        }
+export type CheckSessionQueryHookResult = ReturnType<typeof useCheckSessionQuery>;
+export type CheckSessionLazyQueryHookResult = ReturnType<typeof useCheckSessionLazyQuery>;
+export type CheckSessionQueryResult = Apollo.QueryResult<CheckSessionQuery, CheckSessionQueryVariables>;
 export const RefreshSessionDocument = gql`
-  query RefreshSession {
-    refreshSession {
-      code
-      success
-      errors {
-        ...ErrosResponseFragment
-      }
-      data {
-        ...UserResponseFragment
-      }
+    query RefreshSession {
+  refreshSession {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...UserResponseFragment
     }
   }
-  ${ErrosResponseFragmentFragmentDoc}
-  ${UserResponseFragmentFragmentDoc}
-`;
+}
+    ${ErrosResponseFragmentFragmentDoc}
+${UserResponseFragmentFragmentDoc}`;
 
 /**
  * __useRefreshSessionQuery__
@@ -2307,37 +1334,14 @@ export const RefreshSessionDocument = gql`
  *   },
  * });
  */
-export function useRefreshSessionQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    RefreshSessionQuery,
-    RefreshSessionQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<RefreshSessionQuery, RefreshSessionQueryVariables>(
-    RefreshSessionDocument,
-    options
-  );
-}
-export function useRefreshSessionLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    RefreshSessionQuery,
-    RefreshSessionQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<RefreshSessionQuery, RefreshSessionQueryVariables>(
-    RefreshSessionDocument,
-    options
-  );
-}
-export type RefreshSessionQueryHookResult = ReturnType<
-  typeof useRefreshSessionQuery
->;
-export type RefreshSessionLazyQueryHookResult = ReturnType<
-  typeof useRefreshSessionLazyQuery
->;
-export type RefreshSessionQueryResult = Apollo.QueryResult<
-  RefreshSessionQuery,
-  RefreshSessionQueryVariables
->;
+export function useRefreshSessionQuery(baseOptions?: Apollo.QueryHookOptions<RefreshSessionQuery, RefreshSessionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<RefreshSessionQuery, RefreshSessionQueryVariables>(RefreshSessionDocument, options);
+      }
+export function useRefreshSessionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RefreshSessionQuery, RefreshSessionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<RefreshSessionQuery, RefreshSessionQueryVariables>(RefreshSessionDocument, options);
+        }
+export type RefreshSessionQueryHookResult = ReturnType<typeof useRefreshSessionQuery>;
+export type RefreshSessionLazyQueryHookResult = ReturnType<typeof useRefreshSessionLazyQuery>;
+export type RefreshSessionQueryResult = Apollo.QueryResult<RefreshSessionQuery, RefreshSessionQueryVariables>;

@@ -1,9 +1,10 @@
-import Image from 'next/image'
-import { FC } from 'react'
-import { useAuthContext } from '../../contexts/authContext'
-import styles from './AccountInfoTab.module.scss'
+import Image from "next/image";
+import { FC } from "react";
+import { useAuthContext } from "../../contexts/authContext";
+import styles from "./AccountInfoTab.module.scss";
+import common from "../../styles/common.module.scss";
 const AccountInfoTab: FC = () => {
-  const { authState } = useAuthContext()
+  const { authState } = useAuthContext();
   return (
     <div className={styles.accountInfoTab}>
       <div className={styles.avatarAndInfo}>
@@ -17,6 +18,11 @@ const AccountInfoTab: FC = () => {
             height="42px"
             alt="avatar"
           />
+          <p
+            className={authState.user?.isVerified ? common.valid : common.error}
+          >
+            {authState.user?.isVerified ? "Verified" : "Not verified"}
+          </p>
         </div>
         <div className={styles.topInfoContainer}>
           <div className={styles.infoContainer}>
@@ -46,8 +52,14 @@ const AccountInfoTab: FC = () => {
         <p className={styles.infoHeader}> Updated At </p>
         <p className={styles.infoValue}> {authState.user?.updatedAt} </p>
       </div>
+      <button className={common.confirmBtn + " " + styles.infoContainer}>
+        Edit
+      </button>
+      <button className={common.confirmBtn + " " + styles.infoContainer}>
+        Change Password
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default AccountInfoTab
+export default AccountInfoTab;

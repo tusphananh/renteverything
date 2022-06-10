@@ -10,7 +10,7 @@ import SearchIcon from "../../assets/icons/signal-stream.svg";
 import { DashBoardTabName } from "../../constants/DashBoardConstants";
 import { useAuthContext } from "../../contexts/authContext";
 import { User } from "../../graphql-generated/graphql";
-import Activities from "./Activities/ Activities";
+import Activities from "./Activities/Activities";
 import styles from "./DashBoard.module.scss";
 import Items from "./Items/ Items";
 import Message from "./Message/Message";

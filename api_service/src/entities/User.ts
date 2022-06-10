@@ -1,11 +1,11 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import {
-    BaseEntity,
-    Column,
-    CreateDateColumn,
-    Entity, OneToMany,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity, OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from "typeorm";
 import Activity from "./Activity";
 import Item from "./Item";
@@ -63,4 +63,8 @@ export default class User extends BaseEntity {
 
   @Column({ nullable: true })
   backIdImageFilePath?: string;
+
+  @Field()
+  @Column({ default: false })
+  isVerified!: boolean;
 }

@@ -100,6 +100,18 @@ $btn-height: 52px;
 }
 
 .confirm-btn {
+    background-color: transparent;
+    border: none;
+    transition: .3s;
+
+    &:hover {
+        filter: brightness(1.2);
+        cursor: pointer;
+    }
+
+}
+
+.login-btn {
     @extend .btn;
     color: white;
     background: rgba(52, 174, 115, 0.8);
@@ -117,6 +129,7 @@ $btn-height: 52px;
 
     &:hover {
         background: rgba(52, 174, 115, 1);
+        cursor: pointer;
     }
 }
 

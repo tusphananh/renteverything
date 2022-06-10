@@ -61,6 +61,19 @@ mutation successActivity($id: String!) {
   }
 }
 
+mutation inProgressActivity($id: String!) {
+  inProgressActivity(id: $id) {
+    code
+    success
+    errors {
+      ...ErrosResponseFragment
+    }
+    data {
+      ...ActivityResponseFragment
+    }
+  }
+}
+
 mutation addMessage($id: String!, $chatId: Float!, $text: String!) {
   addMessage(id: $id, chatId: $chatId, text: $text) {
     code

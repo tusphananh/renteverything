@@ -308,5 +308,49 @@ export class ActivityResolver {
         }
     }
 
+    /**
+     * In-Progress activity
+     */
 
+    @Mutation(() => ActivityResponse, { nullable: true })
+    @UseMiddleware(checkAuth)
+    async inProgressActivity(
+        @Arg("id") id: string,
+    ): Promise<ActivityResponse | null> {
+        try {
+
+            const activity = await Activity.findOne({
+                id,
+            });
+
+            if (!activity) {
+                return {
+                    code: 404,
+                    success: false,
+                    errors: [{
+                        field: "id",
+                        message: "Activity not found",
+                    }],
+                }
+            }
+
+            activity.status = ActivityStatus.IN_PROGRESS;
+
+            await activity.save();
+
+            return {
+                code: 200,
+                success: true,
+                data: activity,
+            }
+
+        } catch (error) {
+            console.log(error);
+            return {
+                code: 500,
+                success: false,
+                errors: [serverErrors],
+            }
+        }
+    }
 }

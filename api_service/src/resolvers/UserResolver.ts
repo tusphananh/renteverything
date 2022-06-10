@@ -2,10 +2,10 @@ import argon2 from "argon2";
 import fs from "fs";
 import { FileUpload, GraphQLUpload } from "graphql-upload";
 import path from "path";
-import { uploadFolder } from "../configs/FolderConstants";
 import { finished } from "stream/promises";
 import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { SESSION_COOKIE_NAME } from "../configs/CookieConstants";
+import { uploadFolder } from "../configs/FolderConstants";
 import User from "../entities/User";
 import { checkAuth } from "../middlewares/checkAuth";
 import { Context } from "../types/Context";
@@ -378,23 +378,22 @@ export class UserResolver {
       const frontSideName = `${user.id}_frontSide.${imageType}`;
       const backSideName = `${user.id}_backSide.${imageType}`;
 
-      // Save the frontSide image and backSide image to ../uploads
-      console.log(frontSide);
-
       const frontStream = frontSide.createReadStream();
-      const frontOut = fs.createWriteStream(path.join(uploadFolder, frontSideName));
+      const frontPath = path.join(uploadFolder, frontSideName)
+      const frontOut = fs.createWriteStream(frontPath);
       frontStream.pipe(frontOut);
       await finished(frontOut);
 
       const backStream = backSide.createReadStream();
-      const backOut = fs.createWriteStream(path.join(uploadFolder, backSideName));
+      const backPath = path.join(uploadFolder, backSideName)
+      const backOut = fs.createWriteStream(backPath);
       backStream.pipe(backOut);
       await finished(backOut);
-
 
       // Save the exact file path to user
       user.frontIdImageFilePath = path.join(uploadFolder, frontSideName);
       user.backIdImageFilePath = path.join(uploadFolder, backSideName);
+      user.isVerified = true;
       await user.save();
 
       return {

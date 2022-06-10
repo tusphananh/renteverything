@@ -1,0 +1,64 @@
+@import "./fonts";
+@import "./colors";
+@import "./layout";
+
+.primaryColor {
+    color: $primary-color;
+}
+
+.input {
+    width: 100%;
+    height: 52px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    color: $grey-color-400;
+    padding: 10px 20px;
+}
+
+.confirmBtn {
+    width: 108px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    color: $primary-color;
+    border: rgba($grey-color-100, 0.05) solid 1px;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+    }
+}
+
+.deleteBtn {
+    @extend .confirmBtn;
+    color: $red-color-500;
+}
+
+.error {
+    color: $red-color-500;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.valid {
+    color: $primary-color;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.centerHorizontal {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.m20 {
+    margin: 20px;
+}
+
+.fullWidth {
+    width: 100%;
+}

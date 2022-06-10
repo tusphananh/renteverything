@@ -1,81 +1,84 @@
-import { useRouter } from 'next/router'
-import React, { FC, useEffect } from 'react'
+import { useRouter } from "next/router";
+import React, { FC, useEffect } from "react";
 import {
-    LoginErrorAnimation,
-    LoginInputAnimation,
-    LoginNavBarAnimation,
-    LoginTextAnimation
-} from '../../animations/LoginAnimations'
-import ArrowToRight from '../../assets/icons/arrow-to-right.svg'
-import Logo from '../../assets/icons/logo-light.svg'
+  LoginErrorAnimation,
+  LoginInputAnimation,
+  LoginNavBarAnimation,
+  LoginTextAnimation,
+} from "../../animations/LoginAnimations";
+import NextBtn from "../../assets/icons/next-btn.svg";
+import Logo from "../../assets/icons/logo-light.svg";
 import {
-    loginAnimationVariantsName, LoginStates
-} from '../../constants/LoginConstants'
-import { useAuthContext } from '../../contexts/authContext'
-import { isPasswordValid, isPhoneNumberValid } from '../../utils/inputValidator'
-import styles from './Login.module.scss'
+  loginAnimationVariantsName,
+  LoginStates,
+} from "../../constants/LoginConstants";
+import { useAuthContext } from "../../contexts/authContext";
+import {
+  isPasswordValid,
+  isPhoneNumberValid,
+} from "../../utils/inputValidator";
+import styles from "./Login.module.scss";
 
 interface error {
-  isError: boolean
-  message: string
+  isError: boolean;
+  message: string;
 }
 
 const initialErrors: error = {
   isError: false,
-  message: '',
-}
+  message: "",
+};
 
 const Login: FC = () => {
-  const route = useRouter()
-  const { authState, authLogin } = useAuthContext()
-  const [password, setPassword] = React.useState('')
-  const [error, setError] = React.useState<error>(initialErrors)
-  const [phoneNumber, setPhoneNumber] = React.useState('')
+  const route = useRouter();
+  const { authState, authLogin } = useAuthContext();
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState<error>(initialErrors);
+  const [phoneNumber, setPhoneNumber] = React.useState("");
   const [LoginState, setLoginStates] = React.useState<LoginStates>(
-    LoginStates.PHONE_STATE,
-  )
+    LoginStates.PHONE_STATE
+  );
 
   const back = () => {
-    setLoginStates(LoginStates.PHONE_STATE)
-    setError(initialErrors)
-  }
+    setLoginStates(LoginStates.PHONE_STATE);
+    setError(initialErrors);
+  };
 
   const login = async () => {
     if (isPasswordValid(password)) {
       if (authState.errors && authState.errors.length > 0) {
-        console.log(authState.errors)
+        console.log(authState.errors);
         setError({
           isError: true,
           message: authState.errors![0].message,
-        })
-      } else setError(initialErrors)
+        });
+      } else setError(initialErrors);
 
-      await authLogin(phoneNumber, password)
+      await authLogin(phoneNumber, password);
     } else {
       setError({
         isError: true,
         message:
-          'Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character',
-      })
+          "Password must be at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character",
+      });
     }
-  }
+  };
   const next = () => {
     if (isPhoneNumberValid(phoneNumber)) {
-      setError(initialErrors)
-      setLoginStates(LoginStates.PASSWORD_STATE)
+      setError(initialErrors);
+      setLoginStates(LoginStates.PASSWORD_STATE);
     } else {
       setError({
         isError: true,
-        message: 'Please enter a valid phone number',
-      })
+        message: "Please enter a valid phone number",
+      });
     }
-  }
-
+  };
 
   useEffect(() => {
     if (authState.isAuthenticated) {
-      setError(initialErrors)
-      route.push('/')
+      setError(initialErrors);
+      route.push("/");
     }
 
     if (
@@ -86,18 +89,18 @@ const Login: FC = () => {
       setError({
         isError: true,
         message: authState.errors![0].message,
-      })
+      });
     }
-  }, [authState])
+  }, [authState]);
 
   return (
     <>
-      <div className={styles['container']}>
-        <div className={styles['container__blur']}>
-          <Logo alt="" className={styles['logo']} />
+      <div className={styles["container"]}>
+        <div className={styles["container__blur"]}>
+          <Logo alt="" className={styles["logo"]} />
           <LoginTextAnimation
             isVisible={LoginState === LoginStates.PHONE_STATE}
-            className={styles['welcome__container']}
+            className={styles["welcome__container"]}
           >
             Welcome !
             <p>
@@ -107,23 +110,23 @@ const Login: FC = () => {
           <LoginTextAnimation
             initial={loginAnimationVariantsName.TEXT_HIDDEN}
             isVisible={LoginState === LoginStates.PASSWORD_STATE}
-            className={styles['welcome__container']}
+            className={styles["welcome__container"]}
           >
             <p>We need your password to start</p>
           </LoginTextAnimation>
-          <div className={styles['horizontal-line']}></div>
-          <div className={styles['input__container']}>
+          <div className={styles["horizontal-line"]}></div>
+          <div className={styles["input__container"]}>
             <LoginInputAnimation
               isVisible={LoginState === LoginStates.PHONE_STATE}
               type="text"
               placeholder="Phone"
-              className={styles['input']}
+              className={styles["input"]}
               onChange={(event) => {
-                setPhoneNumber(event.target.value)
-                setError(initialErrors)
+                setPhoneNumber(event.target.value);
+                setError(initialErrors);
               }}
               onKeyPress={(event) => {
-                event.key === 'Enter' && next()
+                event.key === "Enter" && next();
               }}
             ></LoginInputAnimation>
             <LoginInputAnimation
@@ -131,76 +134,67 @@ const Login: FC = () => {
               initial={loginAnimationVariantsName.INPUT_HIDDEN}
               type="password"
               placeholder="Password"
-              className={styles['input']}
+              className={styles["input"]}
               onChange={(event) => {
-                setPassword(event.target.value)
-                setError(initialErrors)
+                setPassword(event.target.value);
+                setError(initialErrors);
               }}
               onKeyPress={(event) => {
-                event.key === 'Enter' && login()
+                event.key === "Enter" && login();
               }}
             ></LoginInputAnimation>
           </div>
           <LoginErrorAnimation
             initial={loginAnimationVariantsName.ERROR_HIDDEN}
             isVisible={error.isError}
-            className={styles['error']}
+            className={styles["error"]}
           >
             {error.message}
           </LoginErrorAnimation>
-          <div className={styles['link']}>
+          <div className={styles["link"]}>
             <a href="/register">
               Don’t have an account ? <span>Register now</span>
             </a>
             <a href="/forgot-password">Forgot your password ?</a>
           </div>
-          <div className={styles['bottom-nav-bar']}>
+          <div className={styles["bottom-nav-bar"]}>
             <LoginNavBarAnimation
               isVisible={LoginState === LoginStates.PHONE_STATE}
-              className={styles['bottom-nav-bar__container']}
+              className={styles["bottom-nav-bar__container"]}
             >
               <button
-                className={styles['confirm-btn']}
+                className={styles["confirm-btn"]}
                 onClick={() => {
-                  next()
+                  next();
                 }}
               >
                 {authState.isFetching ? (
                   <Loading />
                 ) : (
-                  <>
-                    <p>Next</p>
-                    <ArrowToRight
-                      alt="logo"
-                      width="20px"
-                      height="20px"
-                      fill="white"
-                    />
-                  </>
+                  <NextBtn alt="next-btn" width="130px" height="55px" />
                 )}
               </button>
             </LoginNavBarAnimation>
             <LoginNavBarAnimation
               initial={loginAnimationVariantsName.NAV_BAR_HIDDEN}
               isVisible={LoginState === LoginStates.PASSWORD_STATE}
-              className={styles['bottom-nav-bar__container']}
+              className={styles["bottom-nav-bar__container"]}
             >
               <button
-                className={styles['bottom-nav-bar__back-btn']}
+                className={styles["bottom-nav-bar__back-btn"]}
                 onClick={() => {
-                  back()
+                  back();
                 }}
               >
                 Go back
               </button>
-              <div className={styles['verticle-line']}> </div>
+              <div className={styles["verticle-line"]}> </div>
               <button
-                className={styles['confirm-btn']}
+                className={styles["login-btn"]}
                 onClick={() => {
-                  login()
+                  login();
                 }}
               >
-                {}
                 {authState.isFetching ? <Loading /> : <p>Start</p>}
               </button>
             </LoginNavBarAnimation>
@@ -208,15 +202,15 @@ const Login: FC = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
 
 const Loading: FC = () => {
   return (
-    <div className={styles['loading']}>
-      <div className={styles['lds-spinner']}>
+    <div className={styles["loading"]}>
+      <div className={styles["lds-spinner"]}>
         <div></div>
         <div></div>
         <div></div>
@@ -231,5 +225,5 @@ const Loading: FC = () => {
         <div></div>
       </div>
     </div>
-  )
-}
+  );
+};

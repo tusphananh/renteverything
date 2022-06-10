@@ -271,13 +271,17 @@ $closeBtnSize: 24px;
 }
 
 .itemContainer {
-    @extend .grey-glassmorphism-4;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    height: fit-content;
+
+}
+
+.itemLayout {
+    @extend .grey-glassmorphism-4;
     width: 100%;
     padding: 20px;
     overflow: hidden;
+    height: fit-content;
 
     &:hover {
         cursor: pointer;
@@ -302,4 +306,9 @@ $closeBtnSize: 24px;
     background-color: rgba($color: $grey-color-500, $alpha: .2);
     margin-top: 30px;
     align-self: start;
+}
+
+.deleteBtn.deleteBtn {
+    width: 100%;
+    margin-top: 10px;
 }

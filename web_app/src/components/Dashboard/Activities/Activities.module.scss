@@ -181,14 +181,14 @@ $item-height: 72px;
 
 .activities-extended__btn {
 
-    width: 95%;
+    width: 80%;
     height: 38px;
     outline: none;
     border: none;
     border-radius: 5px;
-    margin-bottom: 20px;
     background-color: rgba($color: $grey-color-600, $alpha: .05);
     transition: .2;
+    margin: 0 20px 20px 20px;
 
     &:hover {
         cursor: pointer;
@@ -213,6 +213,10 @@ $item-height: 72px;
 
 .pending {
     color: $orange-color-400;
+}
+
+.in-progress {
+    color: $blue-color-500;
 }
 
 .activities-right__text {

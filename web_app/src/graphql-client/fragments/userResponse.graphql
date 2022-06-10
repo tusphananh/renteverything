@@ -6,6 +6,7 @@ fragment UserResponseFragment on User {
   balance
   createdAt
   updatedAt
+  isVerified
   items {
     ...ItemResponseFragment
   }

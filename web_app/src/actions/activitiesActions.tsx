@@ -9,79 +9,91 @@ import {
   MessageMaybe,
   RemoveProvideActivityAction,
   RemoveRentActivityAction,
-  SetChatSocketAction
-} from '../constants/ActivitiesConstants'
-import { getSocket } from '../libs/socket'
+  SetChatSocketAction,
+  UpdateActivityAction,
+} from "../constants/ActivitiesConstants";
+import { getSocket } from "../libs/socket";
 
 export const addProvideActivity = (
-  activity: ActivityMaybe,
+  activity: ActivityMaybe
 ): AddProvideActivityAction => ({
   type: ActivitiesTypes.ADD_PROVIDE_ACTIVITY,
   payload: {
     activity,
   },
-})
+});
 
 export const addProvideActivities = (
-  activities: ActivityMaybe[],
+  activities: ActivityMaybe[]
 ): AddProvideActivitiesAction => ({
   type: ActivitiesTypes.ADD_PROVIDE_ACTIVITIES,
   payload: {
     activities,
   },
-})
+});
 
 export const removeProvideActivity = (
-  activityId: string,
+  activityId: string
 ): RemoveProvideActivityAction => ({
   type: ActivitiesTypes.REMOVE_PROVIDE_ACTIVITY,
   payload: {
     activityId,
   },
-})
+});
 
 export const addRentActivity = (
-  activity: ActivityMaybe,
+  activity: ActivityMaybe
 ): AddRentActivityAction => ({
   type: ActivitiesTypes.ADD_RENT_ACTIVITY,
   payload: {
     activity,
   },
-})
+});
 
 export const addRentActivities = (
-  activities: ActivityMaybe[],
+  activities: ActivityMaybe[]
 ): AddRentActivitiesAction => ({
   type: ActivitiesTypes.ADD_RENT_ACTIVITIES,
   payload: {
     activities,
   },
-})
+});
 
 export const removeRentActivity = (
-  activityId: string,
+  activityId: string
 ): RemoveRentActivityAction => ({
   type: ActivitiesTypes.REMOVE_RENT_ACTIVITY,
   payload: {
     activityId,
   },
-})
+});
 
 export const addMessage = (message?: MessageMaybe): AddMessageAction => ({
   type: ActivitiesTypes.ADD_MESSAGE,
   payload: {
     message,
   },
-})
+});
 
 export const setChatSocket = (): SetChatSocketAction => {
-  const url = `${process.env.NEXT_PUBLIC_CHAT_SOCKET_URL}`
-  console.log(url)
-  const socket = getSocket(url)
+  const url = `${process.env.NEXT_PUBLIC_CHAT_SOCKET_URL}`;
+  console.log(url);
+  const socket = getSocket(url);
   return {
     type: ActivitiesTypes.SET_CHAT_SOCKET,
     payload: {
       socket: socket,
     },
-  }
-}
+  };
+};
+
+export const updateActivity = (
+  activity: ActivityMaybe
+): UpdateActivityAction => {
+  return {
+    type: ActivitiesTypes.UPDATE_ACTIVITY,
+    payload: {
+      activity: activity,
+    },
+  };
+};

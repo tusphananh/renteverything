@@ -1,23 +1,28 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion'
-import React, { Fragment, useEffect } from 'react'
-import { variants } from '../../../animations/VariantAnimations'
-import { FilterType, ItemMaybe, SortType } from '../../../constants/ItemsConstants'
-import { ConfirmInputValues } from '../../../constants/SearchConstants'
-import { useAuthContext } from '../../../contexts/authContext'
-import { filterItem } from '../../../utils/filter'
-import styles from './Items.module.scss'
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AnimatePresence, AnimateSharedLayout, motion } from "framer-motion";
+import React, { Fragment, useEffect } from "react";
+import { variants } from "../../../animations/VariantAnimations";
+import {
+  FilterType,
+  ItemMaybe,
+  SortType,
+} from "../../../constants/ItemsConstants";
+import { ConfirmInputValues } from "../../../constants/SearchConstants";
+import { useAuthContext } from "../../../contexts/authContext";
+import { filterItem } from "../../../utils/filter";
+import styles from "./Items.module.scss";
+import common from "../../../styles/common.module.scss";
 
 function Items() {
-  const [addItemBoardVisible, setAddItemBoardVisible] = React.useState(false)
-  const { authState } = useAuthContext()
+  const [addItemBoardVisible, setAddItemBoardVisible] = React.useState(false);
+  const { authState } = useAuthContext();
   const [filteredItems, setFilteredItems] = React.useState<ItemMaybe[]>(
-    authState.user!.items,
-  )
+    authState.user!.items
+  );
   useEffect(() => {
-    setFilteredItems(authState.user!.items)
-  }, [authState.user])
+    setFilteredItems(authState.user!.items);
+  }, [authState.user]);
 
   return (
     <motion.div className={styles.itemsTabContainer}>
@@ -31,33 +36,33 @@ function Items() {
       <div className={styles.devider} />
       <ItemBoard itemFiltered={filteredItems} />
     </motion.div>
-  )
+  );
 }
 
 const SearchBar: React.FC<{
-  setItemFiltered: React.Dispatch<React.SetStateAction<ItemMaybe[]>>
-  setAddItemBoardVisible: React.Dispatch<React.SetStateAction<boolean>>
+  setItemFiltered: React.Dispatch<React.SetStateAction<ItemMaybe[]>>;
+  setAddItemBoardVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ setAddItemBoardVisible, setItemFiltered }) => {
-  const [filterExtended, setFilterExtended] = React.useState(false)
-  const [sortExtended, setSortExtended] = React.useState(false)
+  const [filterExtended, setFilterExtended] = React.useState(false);
+  const [sortExtended, setSortExtended] = React.useState(false);
   const [filterType, setFilterType] = React.useState<FilterType>(
-    FilterType.NAME,
-  )
-  const [sortType, setSortType] = React.useState<SortType>(SortType.ASC)
-  const [searchValue, setSearchValue] = React.useState('')
-  const { authState } = useAuthContext()
+    FilterType.NAME
+  );
+  const [sortType, setSortType] = React.useState<SortType>(SortType.ASC);
+  const [searchValue, setSearchValue] = React.useState("");
+  const { authState } = useAuthContext();
   useEffect(() => {
     // if search value equal '' or '    '
-    if (searchValue.trim() === '') {
-      const filteredByInput = authState.user!.items
-      setItemFiltered(filterItem(filteredByInput, filterType, sortType))
+    if (searchValue.trim() === "") {
+      const filteredByInput = authState.user!.items;
+      setItemFiltered(filterItem(filteredByInput, filterType, sortType));
     } else {
       const filteredByInput = authState.user!.items.filter((item) => {
-        return item.name.includes(searchValue)
-      })
-      setItemFiltered(filterItem(filteredByInput, filterType, sortType))
+        return item.name.includes(searchValue);
+      });
+      setItemFiltered(filterItem(filteredByInput, filterType, sortType));
     }
-  }, [searchValue, filterType, sortType])
+  }, [searchValue, filterType, sortType]);
 
   return (
     <AnimateSharedLayout>
@@ -100,7 +105,7 @@ const SearchBar: React.FC<{
                         {key}
                       </motion.div>
                     </AnimatePresence>
-                  )
+                  );
                 })
               ) : (
                 <motion.p
@@ -146,7 +151,7 @@ const SearchBar: React.FC<{
                         {key}
                       </motion.div>
                     </AnimatePresence>
-                  )
+                  );
                 })
               ) : (
                 <motion.p
@@ -173,13 +178,13 @@ const SearchBar: React.FC<{
         </motion.div>
       </AnimatePresence>
     </AnimateSharedLayout>
-  )
-}
+  );
+};
 const AddItemBoard: React.FC<{
-  setAddItemBoardVisible: React.Dispatch<React.SetStateAction<boolean>>
+  setAddItemBoardVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ setAddItemBoardVisible }) => {
-  const [inputValue, setInputValue] = React.useState<ConfirmInputValues>()
-  const { addItem } = useAuthContext()
+  const [inputValue, setInputValue] = React.useState<ConfirmInputValues>();
+  const { addItem } = useAuthContext();
   const confirm = () => {
     inputValue?.name &&
       inputValue?.price &&
@@ -189,10 +194,10 @@ const AddItemBoard: React.FC<{
         inputValue?.name,
         inputValue?.price,
         inputValue?.realValue,
-        inputValue?.description,
-      )
-    setAddItemBoardVisible(false)
-  }
+        inputValue?.description
+      );
+    setAddItemBoardVisible(false);
+  };
 
   return (
     <motion.div
@@ -201,10 +206,10 @@ const AddItemBoard: React.FC<{
       initial="zoomInital"
       animate="zoomVisible"
       exit="zoomExit"
-      className={styles['addItemBoardLayout']}
+      className={styles["addItemBoardLayout"]}
     >
-      <motion.div layout className={styles['addItemBoard']}>
-        <div className={styles['addItemBoardHeader']}>
+      <motion.div layout className={styles["addItemBoard"]}>
+        <div className={styles["addItemBoardHeader"]}>
           <p>Add new item</p>
           <button
             onClick={() => setAddItemBoardVisible(false)}
@@ -213,18 +218,18 @@ const AddItemBoard: React.FC<{
             <FontAwesomeIcon icon={faPlus} />
           </button>
         </div>
-        <div className={styles['itemInformaitonContainer']}>
-          <div className={styles['itemInputContainer']}>
+        <div className={styles["itemInformaitonContainer"]}>
+          <div className={styles["itemInputContainer"]}>
             <p>Name</p>
             <input
               type="text"
               placeholder="Max 5 words"
               onChange={(e) => {
-                setInputValue({ ...inputValue, name: e.target.value })
+                setInputValue({ ...inputValue, name: e.target.value });
               }}
             />
           </div>
-          <div className={styles['itemInputContainer']}>
+          <div className={styles["itemInputContainer"]}>
             <p>Pricing</p>
             <input
               type="text"
@@ -233,11 +238,11 @@ const AddItemBoard: React.FC<{
                 setInputValue({
                   ...inputValue,
                   price: parseFloat(e.target.value),
-                })
+                });
               }}
             />
           </div>
-          <div className={styles['itemInputContainer']}>
+          <div className={styles["itemInputContainer"]}>
             <p>Real value</p>
             <input
               type="text"
@@ -246,11 +251,11 @@ const AddItemBoard: React.FC<{
                 setInputValue({
                   ...inputValue,
                   realValue: parseFloat(e.target.value),
-                })
+                });
               }}
             />
           </div>
-          <div className={styles['itemInputContainer']}>
+          <div className={styles["itemInputContainer"]}>
             <p>Description</p>
             <input
               type="text"
@@ -259,25 +264,25 @@ const AddItemBoard: React.FC<{
                 setInputValue({
                   ...inputValue,
                   description: e.target.value,
-                })
+                });
               }}
             />
           </div>
         </div>
         <button
-          className={styles['itemAddBtn']}
+          className={styles["itemAddBtn"]}
           onClick={() => {
-            confirm()
+            confirm();
           }}
         >
           <p>Confirm</p>
         </button>
       </motion.div>
     </motion.div>
-  )
-}
+  );
+};
 const ItemBoard: React.FC<{
-  itemFiltered: ItemMaybe[]
+  itemFiltered: ItemMaybe[];
 }> = ({ itemFiltered }) => {
   return (
     <AnimateSharedLayout>
@@ -289,11 +294,12 @@ const ItemBoard: React.FC<{
         </motion.div>
       </AnimatePresence>
     </AnimateSharedLayout>
-  )
-}
+  );
+};
 
 const ItemCard: React.FC<{ item: ItemMaybe }> = ({ item }) => {
-  const [extendCard, setExtendCard] = React.useState(false)
+  const [extendCard, setExtendCard] = React.useState(false);
+  const { deleteItem } = useAuthContext();
   return (
     <motion.div
       layout
@@ -301,42 +307,53 @@ const ItemCard: React.FC<{ item: ItemMaybe }> = ({ item }) => {
       initial="initial"
       animate="visible"
       exit="exit"
-      className={styles.itemContainer}
+      className={styles.itemLayout}
       onClick={() => setExtendCard(!extendCard)}
     >
-      <motion.p layout className={styles.itemInfoLeft}>
-        Name
-      </motion.p>
-      <motion.p layout className={styles.itemInfoRight}>
-        {item.name}
-      </motion.p>
+      <motion.div layout className={styles.itemContainer}>
+        <motion.p layout className={styles.itemInfoLeft}>
+          Name
+        </motion.p>
+        <motion.p layout className={styles.itemInfoRight}>
+          {item.name}
+        </motion.p>
+      </motion.div>
 
       {extendCard && (
         <Fragment>
-          <motion.p layout className={styles.itemInfoLeft}>
-            Price
-          </motion.p>
-          <motion.p layout className={styles.itemInfoRight}>
-            {item.price}
-          </motion.p>
+          <motion.div layout className={styles.itemContainer}>
+            <motion.p layout className={styles.itemInfoLeft}>
+              Price
+            </motion.p>
+            <motion.p layout className={styles.itemInfoRight}>
+              {item.price}
+            </motion.p>
 
-          <motion.p layout className={styles.itemInfoLeft}>
-            Real value
-          </motion.p>
-          <motion.p layout className={styles.itemInfoRight}>
-            {item.realValue}
-          </motion.p>
+            <motion.p layout className={styles.itemInfoLeft}>
+              Real value
+            </motion.p>
+            <motion.p layout className={styles.itemInfoRight}>
+              {item.realValue}
+            </motion.p>
 
-          <motion.p layout className={styles.itemInfoLeft}>
-            Description
-          </motion.p>
-          <motion.p layout className={styles.itemInfoRight}>
-            {item.description}
-          </motion.p>
+            <motion.p layout className={styles.itemInfoLeft}>
+              Description
+            </motion.p>
+            <motion.p layout className={styles.itemInfoRight}>
+              {item.description}
+            </motion.p>
+          </motion.div>
+          <motion.button
+            onClick={() => deleteItem(parseInt(item.id))}
+            layout
+            className={common.deleteBtn + " " + styles.deleteBtn}
+          >
+            Delete
+          </motion.button>
         </Fragment>
       )}
     </motion.div>
-  )
-}
+  );
+};
 
-export default Items
+export default Items;

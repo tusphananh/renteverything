@@ -192,7 +192,7 @@ $item-height: 100px;
 }
 
 .search-panel__search-btn {
-    grid-area: searchBtn;
+
     color: $glass-white-20;
     transition: .2s;
     background-color: transparent;
@@ -384,7 +384,6 @@ $item-height: 100px;
     overflow-y: auto;
     overflow-x: hidden;
     border-radius: 10px;
-    border: 1px solid $glass-white-10;
 
     &::-webkit-scrollbar {
         width: 1px;
@@ -497,4 +496,11 @@ $item-height: 100px;
 .result-extended__btn-decline {
     @extend .result-extended__btn;
     color: $red-color-500;
+}
+
+.search-container {
+    grid-area: searchBtn;
+    @extend .flex-center-column;
+    width: 100%;
+
 }

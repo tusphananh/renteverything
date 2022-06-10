@@ -1,4 +1,5 @@
 import {
+  UpdateBalanceAction,
   AddItemAction,
   AddItemsAction,
   AuthCheckSessionFailureAction,
@@ -103,4 +104,11 @@ export const deleteItemAction = (item: ItemMaybe): DeleteItemAction => ({
 
 export const logoutAction = (): LogoutAction => ({
   type: AuthTypes.LOGOUT,
+});
+
+export const updateBalanceAction = (balance: number): UpdateBalanceAction => ({
+  type: AuthTypes.UPDATE_BALANCE,
+  payload: {
+    balance,
+  },
 });

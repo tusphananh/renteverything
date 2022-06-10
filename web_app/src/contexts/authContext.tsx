@@ -8,6 +8,7 @@ import React, {
   useReducer,
 } from "react";
 import {
+  updateBalanceAction,
   addItemAction,
   checkSessionFailure,
   checkSessionSuccess,
@@ -23,12 +24,14 @@ import {
 } from "../actions/authActions";
 import { AuthAction, AuthState } from "../constants/AuthConstant";
 import {
+  useAddBalanceMutation,
   useAddItemMutation,
   useCheckSessionLazyQuery,
   useDeleteItemMutation,
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
+  useSubtractBalanceMutation,
 } from "../graphql-generated/graphql";
 import AuthReducer from "../reducers/authReducer";
 
@@ -71,6 +74,8 @@ export const AuthContext = createContext<{
   deleteItem: (id: number) => void;
   authLogin: (phone: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  topUp: (amount: number) => Promise<void>;
+  subtractBalance: (amount: number) => Promise<void>;
 }>({
   authState: initialState,
   authDispatch: () => undefined,
@@ -79,10 +84,28 @@ export const AuthContext = createContext<{
   addItem: () => {},
   deleteItem: () => {},
   logout: async () => {},
+  topUp: async () => {},
+  subtractBalance: async () => {},
 });
 
 export const AuthProvider: FC = ({ children }) => {
   const [authState, authDispatch] = useReducer(AuthReducer, initialState);
+  const [topUpMutation] = useAddBalanceMutation({
+    onCompleted: (data) => {
+      const response = data?.addBalance;
+      if (response?.success) {
+        authDispatch(updateBalanceAction(response.data!.balance));
+      }
+    },
+  });
+  const [subtractBalanceMutation] = useSubtractBalanceMutation({
+    onCompleted: (data) => {
+      const response = data?.subtractBalance;
+      if (response?.success) {
+        authDispatch(updateBalanceAction(response.data!.balance));
+      }
+    },
+  });
   const [checkSession] = useCheckSessionLazyQuery({
     onCompleted: (data) => {
       const response = data?.checkSession;
@@ -151,6 +174,22 @@ export const AuthProvider: FC = ({ children }) => {
     await logoutQuery();
   };
 
+  const topUp = async (amount: number) => {
+    await topUpMutation({
+      variables: {
+        amount,
+      },
+    });
+  };
+
+  const subtractBalance = async (amount: number) => {
+    await subtractBalanceMutation({
+      variables: {
+        amount,
+      },
+    });
+  };
+
   const authRegsiter = async (
     phone: string,
     firstName: string,
@@ -211,6 +250,8 @@ export const AuthProvider: FC = ({ children }) => {
     addItem,
     deleteItem,
     logout,
+    topUp,
+    subtractBalance,
   };
 
   return (

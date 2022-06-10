@@ -1,40 +1,47 @@
-import Image from 'next/image'
-import { FC, useEffect, useState } from 'react'
+import Image from "next/image";
+import { FC, useEffect, useState } from "react";
 import {
   useGetImageIdLazyQuery,
-  useUploadIdImageMutation
-} from '../../graphql-generated/graphql'
-import styles from './VerifyAccountTab.module.scss'
+  useUploadIdImageMutation,
+} from "../../graphql-generated/graphql";
+import styles from "./VerifyAccountTab.module.scss";
 const VerifyAccountTab: FC = () => {
-  const [frontSideFile, setFrontSideFile] = useState<File>()
-  const [backSideFile, setBackSideFile] = useState<File>()
-  const [frontPreview, setFrontPreview] = useState<string>()
-  const [backPreview, setBackPreview] = useState<string>()
-  const [uploadIdImageMutation] = useUploadIdImageMutation()
-  const [getImageId] = useGetImageIdLazyQuery({
+  const [frontSideFile, setFrontSideFile] = useState<File>();
+  const [backSideFile, setBackSideFile] = useState<File>();
+  const [frontPreview, setFrontPreview] = useState<string>();
+  const [backPreview, setBackPreview] = useState<string>();
+  const [uploadIdImageMutation] = useUploadIdImageMutation();
+  const [getImageId, { client }] = useGetImageIdLazyQuery({
     onCompleted: (data) => {
-      console.log(data)
+      console.log(client?.cache.extract().ROOT_QUERY.getImageId.data);
       if (data.getImageId?.success) {
         setFrontPreview(
-          `data:image/*;base64,${data.getImageId.data?.frontSide}`,
-        )
-        setBackPreview(`data:image/*;base64,${data.getImageId.data?.backSide}`)
+          `data:image/*;base64,${data.getImageId.data?.frontSide}`
+        );
+        setBackPreview(`data:image/*;base64,${data.getImageId.data?.backSide}`);
       }
     },
-  })
+  });
   useEffect(() => {
-    getImageId()
-  }, [])
+    const front =
+      client?.cache?.extract()?.ROOT_QUERY?.getImageId?.data?.frontSide;
+    const back =
+      client?.cache?.extract()?.ROOT_QUERY?.getImageId?.data?.backSide;
+    if (front && back) {
+      setFrontPreview(`data:image/*;base64,${front}`);
+      setBackPreview(`data:image/*;base64,${back}`);
+    } else getImageId();
+  });
   useEffect(() => {
     if (frontSideFile) {
-      const objectUrl = URL.createObjectURL(frontSideFile)
-      setFrontPreview(objectUrl)
+      const objectUrl = URL.createObjectURL(frontSideFile);
+      setFrontPreview(objectUrl);
     }
     if (backSideFile) {
-      const objectUrl = URL.createObjectURL(backSideFile)
-      setBackPreview(objectUrl)
+      const objectUrl = URL.createObjectURL(backSideFile);
+      setBackPreview(objectUrl);
     }
-  }, [frontSideFile, backSideFile])
+  }, [frontSideFile, backSideFile]);
 
   const uploadIdImage = async () => {
     frontSideFile &&
@@ -44,15 +51,15 @@ const VerifyAccountTab: FC = () => {
           frontSide: frontSideFile,
           backSide: backSideFile,
         },
-      })
-  }
+      });
+  };
   return (
     <div className={styles.verifyAccountTab}>
       <label className={styles.uploadContainer}>
         <input
           accept="image/*"
           onChange={(e) => {
-            setFrontSideFile(e.target.files?.[0])
+            setFrontSideFile(e.target.files?.[0]);
           }}
           type="file"
           className={styles.inputFile}
@@ -64,7 +71,7 @@ const VerifyAccountTab: FC = () => {
         <input
           accept="image/*"
           onChange={(e) => {
-            setBackSideFile(e.target.files?.[0])
+            setBackSideFile(e.target.files?.[0]);
           }}
           type="file"
           className={styles.inputFile}
@@ -75,13 +82,13 @@ const VerifyAccountTab: FC = () => {
       <button
         className={styles.verifyButton}
         onClick={() => {
-          uploadIdImage()
+          uploadIdImage();
         }}
       >
         Verify Now
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default VerifyAccountTab
+export default VerifyAccountTab;
