@@ -28,7 +28,7 @@ export const redisSession = async () => {
         secure: COOKIE_SECURE, // if true only transmit cookie over https
         httpOnly: true, // if true prevent client side JS from reading the cookie
         maxAge: maxAge, // session max age in miliseconds
-        sameSite: false // if true cookie will be sent only over https
+        sameSite: 'none' // if true cookie will be sent only over https
       },
     });
 

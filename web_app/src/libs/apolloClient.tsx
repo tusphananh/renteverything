@@ -21,8 +21,6 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
       ...init,
       headers: {
         ...init.headers,
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true",
         // here we pass the cookie along for each request
         Cookie: headers?.cookie ?? "",
       },
