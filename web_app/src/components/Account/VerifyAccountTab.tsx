@@ -31,7 +31,7 @@ const VerifyAccountTab: FC = () => {
       setFrontPreview(`data:image/*;base64,${front}`);
       setBackPreview(`data:image/*;base64,${back}`);
     } else getImageId();
-  });
+  }, []);
   useEffect(() => {
     if (frontSideFile) {
       const objectUrl = URL.createObjectURL(frontSideFile);
