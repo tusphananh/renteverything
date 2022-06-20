@@ -9,7 +9,11 @@ import Chat from "./Chat";
 import User from "./User";
 
 @ObjectType()
-@Entity()
+@Entity('message', {
+    orderBy: {
+        createdAt: 'ASC'
+    }
+})
 export default class Message extends BaseEntity {
     @Field(() => ID)
     @PrimaryColumn()
