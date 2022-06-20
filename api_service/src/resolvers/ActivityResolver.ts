@@ -148,6 +148,13 @@ export class ActivityResolver {
                 },
             });
 
+            // Sort message in chat by createdAt
+            activities.forEach(activity => {
+                activity.chat.messages = activity.chat.messages.sort((a, b) => {
+                    return a.createdAt.getTime() - b.createdAt.getTime();
+                });
+            });
+
             return {
                 code: 200,
                 success: true,
@@ -192,6 +199,13 @@ export class ActivityResolver {
                 provider: {
                     id: userId,
                 },
+            });
+
+            // Sort message in chat by createdAt
+            activities.forEach(activity => {
+                activity.chat.messages = activity.chat.messages.sort((a, b) => {
+                    return a.createdAt.getTime() - b.createdAt.getTime();
+                });
             });
 
             return {
