@@ -5,7 +5,11 @@ import {
 import Message from "./Message";
 
 @ObjectType()
-@Entity()
+@Entity("chat", {
+    orderBy: {
+        createdAt: 'ASC'
+    }
+})
 export default class Chat extends BaseEntity {
     @Field(() => ID)
     @PrimaryGeneratedColumn()
